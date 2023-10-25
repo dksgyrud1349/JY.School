@@ -32,7 +32,7 @@ function sendOk() {
 		return;
 	}
 
-	f.action = "${pageContext.request.contextPath}/";
+	f.action = "${pageContext.request.contextPath}/member/pwd_ok.do";
 	f.submit();
 }
 </script>
@@ -41,7 +41,7 @@ function sendOk() {
 <body>
 
 <header>
-    <jsp:include page="/WEB-INF/views/layout/header.jsp"/>
+    <jsp:include page="/WEB-INF/views/layout/header.jsp"></jsp:include>
 </header>
 	
 <main>
@@ -63,7 +63,7 @@ function sendOk() {
 								value="${sessionScope.member.userId}">
 						</div>
 						<div class="row">
-							<input name="userPwd" type="password" class="form-control" autocomplete="off" placeholder="패스워드">
+							<input name="userPwd" type="password" class="form-control" placeholder="패스워드">
 						</div>
 						<div>
 							<button type="button" class="btnConfirm" onclick="sendOk();">확인</button>
@@ -81,7 +81,7 @@ function sendOk() {
 </main>
 
 <footer>
-    <jsp:include page="/WEB-INF/views/layout/footer.jsp"/>
+    <jsp:include page="/WEB-INF/views/layout/footer.jsp"></jsp:include>
 </footer>
 
 <jsp:include page="/WEB-INF/views/layout/staticFooter.jsp"/>

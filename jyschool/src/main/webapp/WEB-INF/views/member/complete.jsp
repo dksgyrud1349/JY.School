@@ -18,10 +18,10 @@
     border: 1px solid #e2eefd;
     padding: 50px 20px;
     transition: all ease-in-out 0.3s;
-    background: #ffffff;
+    background: #fff;
     border-radius: 4px;
 }
-.info-continer .info-box:hover { border-color: #ffffff; box-shadow: 0px 0 25px 0 rgba(16, 110, 234, 0.1); }
+.info-continer .info-box:hover { border-color: #fff; box-shadow: 0px 0 25px 0 rgba(16, 110, 234, 0.1); }
 .info-continer .info-message { padding: 5px 10px 20px; font-size: 15px; }
 .info-continer .info-footer { padding: 5px 10px; }
 </style>
@@ -30,7 +30,7 @@
 <body>
 
 <header>
-    <jsp:include page="/WEB-INF/views/layout/header.jsp"/>
+    <jsp:include page="/WEB-INF/views/layout/header.jsp"></jsp:include>
 </header>
 	
 <main>
@@ -54,7 +54,7 @@
 </main>
 
 <footer>
-    <jsp:include page="/WEB-INF/views/layout/footer.jsp"/>
+    <jsp:include page="/WEB-INF/views/layout/footer.jsp"></jsp:include>
 </footer>
 
 <jsp:include page="/WEB-INF/views/layout/staticFooter.jsp"/>

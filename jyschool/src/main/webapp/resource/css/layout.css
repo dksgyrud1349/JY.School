@@ -53,8 +53,9 @@ nav {
 	display: flex;
 	justify-content: center;
 	position: relative;
+	background-color: #592EFC;
 	/* background: linear-gradient(90deg, #051937, #004d7a, #008793, #00bf72, #a8eb12); */
-	background: linear-gradient(90deg, #051937, #004d7a, #008793, #004d7a, #051937);
+	
 }
 
 nav ul, nav li {
@@ -144,6 +145,7 @@ nav ul, nav li {
 	    max-width: 1140px;
 	}
 }
+
 
 /* body-container */
 .body-container {

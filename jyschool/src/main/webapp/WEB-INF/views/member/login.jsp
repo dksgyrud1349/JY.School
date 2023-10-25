@@ -21,6 +21,7 @@
 .members-message p { color: #023b6d; }
 
 .text-center { text-align: center; }
+
 </style>
 
 <script type="text/javascript">
@@ -50,7 +51,7 @@ function sendLogin() {
 <body>
 
 <header>
-    <jsp:include page="/WEB-INF/views/layout/header.jsp"/>
+    <jsp:include page="/WEB-INF/views/layout/header.jsp"></jsp:include>
 </header>
 	
 <main>
@@ -95,7 +96,7 @@ function sendLogin() {
 </main>
 
 <footer>
-    <jsp:include page="/WEB-INF/views/layout/footer.jsp"/>
+    <jsp:include page="/WEB-INF/views/layout/footer.jsp"></jsp:include>
 </footer>
 
 <jsp:include page="/WEB-INF/views/layout/staticFooter.jsp"/>

@@ -7,9 +7,9 @@
 			&nbsp;
 		</div>
 		<div class="header-center">
-			<h1 class="logo"><a href="#">SPRING</a><span>.</span></h1>
+			<h1 class="logo"><a href="${pageContext.request.contextPath}/"><img src="http://localhost:9090/study5/img/l준영.png"  width="250" height="auto" alt="My Image" ></a></h1>
 		</div>
-		<div class="header-right">
+		<div class="header-right" >
             <c:if test="${empty sessionScope.member}">
                 <a href="${pageContext.request.contextPath}/member/login.do" title="로그인"><i class="fa-solid fa-arrow-right-to-bracket"></i></a>
 				&nbsp;
@@ -27,19 +27,25 @@
 		</div>
 	</div>
 
-	<nav>
-		<ul class="main-menu">
+	<nav style="background-color: #592EFC">
+		<ul class="main-menu" style="background-color: #592EFC">
 			<li><a href="${pageContext.request.contextPath}/">홈</a></li>
 			
-			<li><a href="#">회사소개</a></li>
+			<li><a href="#">준영스쿨 특징</a>
+			<ul class="sub-menu">
+					<li><a href="#" aria-label="submenu">준영스쿨이란</a></li>
+					<li><a href="#" aria-label="submenu">강사진 소개</a></li>
+				</ul>
+			</li>
+			
+			<li><a href="#">수강신청</a>
+			</li>
 			
 			<li><a href="#">커뮤니티</a>
 				<ul class="sub-menu">
-					<li><a href="#" aria-label="submenu">방명록</a></li>
-					<li><a href="#" aria-label="submenu">게시판</a></li>
-					<li><a href="#" aria-label="submenu">포토갤러리</a></li>
-					<li><a href="#" aria-label="submenu">채팅</a></li>
+					<li><a href='<c:url value="/bbs/list.do" />' aria-label="submenu">질문게시판</a></li>
 					<li><a href="#" aria-label="submenu">자료실</a></li>
+					<li><a href="#" aria-label="submenu">수강후기</a></li>
 				</ul>
 			</li>
 
@@ -64,11 +70,9 @@
 
 			<li><a href="#">마이페이지</a>
 				<ul class="sub-menu">
-					<li><a href="#" aria-label="submenu">포토앨범</a></li>
-					<li><a href="#" aria-label="submenu">일정관리</a></li>
-					<li><a href="#" aria-label="submenu">쪽지</a></li>
-					<li><a href="#" aria-label="submenu">이메일</a></li>
-					<li><a href="#" aria-label="submenu">정보수정</a></li>
+					<li><a href="${pageContext.request.contextPath}/member/pwd.do?mode=update" aria-label="submenu">정보수정</a></li>
+					<li><a href="#" aria-label="submenu">수강정보</a></li>
+					<li><a href="#" aria-label="submenu">구매내역</a></li>
 				</ul>
 			</li>
 
