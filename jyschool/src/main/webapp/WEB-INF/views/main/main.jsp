@@ -52,12 +52,12 @@ $(document).ready(function(){
 </div>
 	<div class="container body-container">
 	    <div class="inner-page mx-auto">
-			<img src="http://localhost:9090/study5/img/sec012.jpg" alt="My Image" width="1160px" height="auto">
+			<img src="http://localhost:9090/jyschool/img/sec012.jpg" alt="My Image" width="1160px" height="auto">
 	    </div>
 	</div>
 	<div class="container body-container">
 	    <div class="inner-page mx-auto">
-			<img src="http://localhost:9090/study5/img/intro.png" alt="My Image" >
+			<img src="http://localhost:9090/jyschool/img/intro.png" alt="My Image" >
 	    </div>
 	</div>
 

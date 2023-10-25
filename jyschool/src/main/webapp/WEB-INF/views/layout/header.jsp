@@ -7,7 +7,7 @@
 			&nbsp;
 		</div>
 		<div class="header-center">
-			<h1 class="logo"><a href="${pageContext.request.contextPath}/"><img src="http://localhost:9090/study5/img/l준영.png"  width="250" height="auto" alt="My Image" ></a></h1>
+			<h1 class="logo"><a href="${pageContext.request.contextPath}/"><img src="http://localhost:9090/jyschool/img/l준영.png"  width="250" height="auto" alt="My Image" ></a></h1>
 		</div>
 		<div class="header-right" >
             <c:if test="${empty sessionScope.member}">
