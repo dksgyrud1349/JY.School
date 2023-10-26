@@ -62,7 +62,7 @@ $(document).ready(function(){
 			
 			<li><a href="#">준영스쿨 특징</a>
 			<ul class="sub-menu">
-					<li><a href="#" aria-label="submenu">준영스쿨이란</a></li>
+					<li><a href='<c:url value="/sogae/sogae.do" />' aria-label="submenu">준영스쿨이란</a></li>
 					<li><a href="#" aria-label="submenu">강사진 소개</a></li>
 				</ul>
 			</li>
