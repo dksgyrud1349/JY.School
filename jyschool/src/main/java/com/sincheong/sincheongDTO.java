@@ -1,8 +1,8 @@
 package com.sincheong;
 
 public class sincheongDTO {
-	private int classNum;
-	private int classNum2;
+	private int classNum;  // 수강번호
+	private int classNum2;  // 강좌번호
 	private String userId;
 	private String startDate;
 	private String endDate;

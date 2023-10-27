@@ -48,7 +48,7 @@ function searchList() {
 			<table class="table">
 				<tr>
 					<td width="50%">
-						총 강의개수(현재 페이지/총 페이지)
+						${dataCount}(${page}/${total_page} 페이지)
 					</td>
 					<td align="right">&nbsp;</td>
 				</tr>
@@ -67,20 +67,24 @@ function searchList() {
 				</thead>
 				
 				<tbody>
+					<c:forEach var="dto" items="${list}" varStatus="status">
 						<tr>
-							<td>글번호</td>
+							<td>${dataCount - (page - 1) * size - status.index}</td>
 							<td class="left">
-								<a href="#">강좌 제목</a>
+								<c:forEach var="n" begin="1" end="2">&nbsp;&nbsp;</c:forEach>
+								<a href="#">${dto.className}</a>
 							</td>
-							<td>강사 이름</td>
-							<td>등록일</td>
-							<td>클릭수</td>
+							<td>${dto.username}</td>
+							<td>${dto.classDegree}</td>
+							<td>${dto.c_reg_date}</td>
+							<td>${dto.price }</td>
 						</tr>
+					</c:forEach>
 				</tbody>
 			</table>
 			
 			<div class="page-navigation">
-				1 2 3
+				${dataCount == 0 ? "등록된 강좌가 없습니다." : paging}
 			</div>
 			
 			<table class="table">

@@ -67,7 +67,7 @@ $(document).ready(function(){
 				</ul>
 			</li>
 			
-			<li><a href='<c:url value="/sugang/sugang.do"/>'>수강신청</a>
+			<li><a href='<c:url value="/sugang/list.do"/>'>수강신청</a>
 			</li>
 			
 			<li><a href="#">커뮤니티</a>
