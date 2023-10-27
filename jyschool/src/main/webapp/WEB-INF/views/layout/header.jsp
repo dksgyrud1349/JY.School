@@ -60,7 +60,7 @@ $(document).ready(function(){
 		<ul class="main-menu" style="background-color: #592EFC">
 			<li><a href="${pageContext.request.contextPath}/">홈</a></li>
 			
-			<li><a href="#">준영스쿨 특징</a>
+			<li><a href="#">준영스쿨</a>
 			<ul class="sub-menu">
 					<li><a href='<c:url value="/sogae/sogae.do" />' aria-label="submenu">준영스쿨이란</a></li>
 					<li><a href="#" aria-label="submenu">강사진 소개</a></li>
@@ -75,25 +75,15 @@ $(document).ready(function(){
 					<li><a href='<c:url value="/bbs/list.do" />' aria-label="submenu">질문게시판</a></li>
 					<li><a href="#" aria-label="submenu">자료실</a></li>
 					<li><a href="#" aria-label="submenu">수강후기</a></li>
+					<li><a href="#" aria-label="submenu">궁금게시판</a></li>
 				</ul>
 			</li>
 
-			<li><a href="#">스터디룸</a>
-				<ul class="sub-menu">
-					<li><a href="#" aria-label="submenu">프로그래밍</a></li>
-					<li><a href="#" aria-label="submenu">데이터베이스</a></li>
-					<li><a href="#" aria-label="submenu">웹프로그래밍</a></li>
-					<li><a href="#" aria-label="submenu">질문과 답변</a></li>
-				</ul>
-			</li>
-
+		
 			<li><a href="#">고객센터</a>
 				<ul class="sub-menu">
-					<li><a href="#" aria-label="submenu">자주하는 질문</a></li>
 					<li><a href="#" aria-label="submenu">공지사항</a></li>
 					<li><a href="#" aria-label="submenu">질문과 답변</a></li>
-					<li><a href="#" aria-label="submenu">1:1 문의</a></li>
-					<li><a href="#" aria-label="submenu">이벤트</a></li>
 				</ul>
 			</li>
 
