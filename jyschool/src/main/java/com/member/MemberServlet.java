@@ -131,7 +131,7 @@ public class MemberServlet extends MyServlet {
 			dto.setUserPwd(req.getParameter("userPwd"));
 			dto.setUserName(req.getParameter("userName"));
 
-			dto.setBirth(req.getParameter("birth"));
+			dto.setUserBirth(req.getParameter("birth"));
 			String email1 = req.getParameter("email1");
 			String email2 = req.getParameter("email2");
 			dto.setEmail(email1 + "@" + email2);
@@ -274,7 +274,7 @@ public class MemberServlet extends MyServlet {
 			dto.setUserPwd(req.getParameter("userPwd"));
 			dto.setUserName(req.getParameter("userName"));
 
-			dto.setBirth(req.getParameter("birth"));
+			dto.setUserBirth(req.getParameter("birth"));
 			
 			String email1 = req.getParameter("email1");
 			String email2 = req.getParameter("email2");

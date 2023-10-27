@@ -18,9 +18,9 @@ public class MemberDAO {
 		String sql;
 		
 		try {
-			sql = " SELECT userId, userName, userPwd, register_date, modify_date "
-					+ " FROM member1"
-					+ " WHERE userId = ? AND userPwd = ? AND enabled = 1";
+			sql = " SELECT userId, userName, userPwd"
+					+ " FROM member"
+					+ " WHERE userId = ? AND userPwd = ?";
 			
 			pstmt = conn.prepareStatement(sql);
 			
@@ -35,8 +35,6 @@ public class MemberDAO {
 				dto.setUserId(rs.getString("userId"));
 				dto.setUserPwd(rs.getString("userPwd"));
 				dto.setUserName(rs.getString("userName"));
-				dto.setRegister_date(rs.getString("register_date"));
-				dto.setModify_date(rs.getString("modify_date"));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -55,54 +53,38 @@ public class MemberDAO {
 		try {
 			conn.setAutoCommit(false);
 			
-			sql = "INSERT INTO member1(userId, userPwd, userName, enabled, register_date, modify_date) VALUES (?, ?, ?, 1, SYSDATE, SYSDATE)";
+			sql = "INSERT INTO member(userId, userPwd, userName, userbirth, tel, zip, add1, add2, email, emailchk, teachchk ) "
+					+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 			pstmt = conn.prepareStatement(sql);
 			
 			pstmt.setString(1, dto.getUserId());
 			pstmt.setString(2, dto.getUserPwd());
 			pstmt.setString(3, dto.getUserName());
-			
+			pstmt.setString(4, dto.getUserBirth());
+			pstmt.setString(5, dto.getTel());
+			pstmt.setString(6, dto.getZip());
+			pstmt.setString(7, dto.getAddr1());
+			pstmt.setString(8, dto.getAddr2());
+			pstmt.setString(9, dto.getEmail());
+			pstmt.setInt(10, dto.getEmailChk());
+			pstmt.setInt(11, dto.getTeachChk());
 			pstmt.executeUpdate();
 			
 			pstmt.close();
 			pstmt = null;
 			
-			sql = "INSERT INTO member2(userId, birth, email, tel, zip, addr1, addr2) VALUES (?, TO_DATE(?,'YYYY-MM-DD'), ?, ?, ?, ?, ?)";
-			// to date는 오라클에 날짜를 넣는 인서트 업데이트등등
+			if(dto.getTeachChk() == 1) {
+			sql = "INSERT INTO teacher (userId, edu, tecrecode, tecimg) VALUES (?, ?, ?, ?)";
 			pstmt=conn.prepareStatement(sql);
 			
 			pstmt.setString(1, dto.getUserId());
-			pstmt.setString(2, dto.getBirth());
-			pstmt.setString(3, dto.getEmail());
-			pstmt.setString(4, dto.getTel());
-			pstmt.setString(5, dto.getZip());
-			pstmt.setString(6, dto.getAddr1());
-			pstmt.setString(7, dto.getAddr2());
+			pstmt.setString(2, dto.getEdu());
+			pstmt.setString(3, dto.getTecRecord());
+			pstmt.setString(4, dto.getTecImg());
 			
 			pstmt.executeUpdate();
+			}
 			
-			/*
-		    sql = "INSERT ALL "
-		    	+ " INTO member1(userId, userPwd, userName, enabled, register_date, modify_date) VALUES(?, ?, ?, 1, SYSDATE, SYSDATE) "
-		    	+ " INTO member2(userId, birth, email, tel, zip, addr1, addr2) VALUES (?, TO_DATE(?,'YYYY-MM-DD'), ?, ?, ?, ?, ?) "
-		    	+ " SELECT * FROM dual";
-		    
-		    pstmt = conn.prepareStatement(sql);
-		    
-			pstmt.setString(1, dto.getUserId());
-			pstmt.setString(2, dto.getUserPwd());
-			pstmt.setString(3, dto.getUserName());            
-		    
-			pstmt.setString(4, dto.getUserId());
-			pstmt.setString(5, dto.getBirth());
-			pstmt.setString(6, dto.getEmail());
-			pstmt.setString(7, dto.getTel());
-			pstmt.setString(8, dto.getZip());
-			pstmt.setString(9, dto.getAddr1());
-			pstmt.setString(10, dto.getAddr2());
-			
-			pstmt.executeUpdate();
-		*/			
 			conn.commit(); // 오토 커밋 껐으니까 수동으로 돌려야함
 
 		} catch (SQLException e) {
@@ -126,16 +108,15 @@ public class MemberDAO {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		StringBuilder sb = new StringBuilder();
-		
 		try {
-			sb.append("SELECT m1.userId, userName, userPwd,");
-			sb.append("      enabled, register_date, modify_date,");
-			sb.append("      TO_CHAR(birth, 'YYYY-MM-DD') birth, ");
-			sb.append("      email, tel,");
-			sb.append("      zip, addr1, addr2");
-			sb.append("  FROM member1 m1");
-			sb.append("  LEFT OUTER JOIN member2 m2 ON m1.userId=m2.userId ");
-			sb.append("  WHERE m1.userId = ?");
+			sb.append("SELECT m.userId, userName, userPwd,");
+			sb.append("     TO_CHAR(birth, 'YYYY-MM-DD') userbirth, ,");
+			sb.append("   tel,    ");
+			sb.append("    zip, add1, add2, email, ");
+			sb.append("     emailchk, teachchk");
+			sb.append("  FROM member m");
+			sb.append("  LEFT OUTER JOIN teacher t ON m.userId=t.userId ");
+			sb.append("  WHERE m.userId = ?");
 			
 			pstmt = conn.prepareStatement(sb.toString());
 			
@@ -149,10 +130,7 @@ public class MemberDAO {
 				dto.setUserId(rs.getString("userId"));
 				dto.setUserPwd(rs.getString("userPwd"));
 				dto.setUserName(rs.getString("userName"));
-				dto.setEnabled(rs.getInt("enabled"));
-				dto.setRegister_date(rs.getString("register_date"));
-				dto.setModify_date(rs.getString("modify_date"));
-				dto.setBirth(rs.getString("birth"));
+				dto.setUserBirth(rs.getString("userbirth"));
 				dto.setTel(rs.getString("tel"));
 				if(dto.getTel() != null) { // 전화번호가 없는 경우가 있기에
 					String[] ss = dto.getTel().split("-");
@@ -203,7 +181,7 @@ public class MemberDAO {
 			sql = "UPDATE member2 SET birth=TO_DATE(?,'YYYY-MM-DD'), email=?, tel=?, zip=?, addr1=?, addr2=? WHERE userId=?";
 			pstmt = conn.prepareStatement(sql);
 			
-			pstmt.setString(1, dto.getBirth());
+			pstmt.setString(1, dto.getUserBirth());
 			pstmt.setString(2, dto.getEmail());
 			pstmt.setString(3, dto.getTel());
 			pstmt.setString(4, dto.getZip());

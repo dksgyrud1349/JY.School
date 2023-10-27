@@ -4,8 +4,7 @@ public class MemberDTO {
 	private String userId;
 	private String userName;
 	private String userPwd;
-	private String register_date;
-	private String modify_date;
+
 	private String email;
 	private String email1;
 	private String email2;
@@ -13,11 +12,17 @@ public class MemberDTO {
 	private String tel1;
 	private String tel2;
 	private String tel3;
-	private String birth;
+	private String userBirth;
 	private String zip;
 	private String addr1;
 	private String addr2;
-	private int enabled;
+	private int emailChk;
+	private int teachChk;
+	
+	private String tecImg;
+	private String edu;
+	private String tecRecord;
+	
 	
 	public String getUserId() {
 		return userId;
@@ -36,18 +41,6 @@ public class MemberDTO {
 	}
 	public void setUserPwd(String userPwd) {
 		this.userPwd = userPwd;
-	}
-	public String getRegister_date() {
-		return register_date;
-	}
-	public void setRegister_date(String register_date) {
-		this.register_date = register_date;
-	}
-	public String getModify_date() {
-		return modify_date;
-	}
-	public void setModify_date(String modify_date) {
-		this.modify_date = modify_date;
 	}
 	public String getEmail() {
 		return email;
@@ -91,11 +84,11 @@ public class MemberDTO {
 	public void setTel3(String tel3) {
 		this.tel3 = tel3;
 	}
-	public String getBirth() {
-		return birth;
+	public String getUserBirth() {
+		return userBirth;
 	}
-	public void setBirth(String birth) {
-		this.birth = birth;
+	public void setUserBirth(String userBirth) {
+		this.userBirth = userBirth;
 	}
 	public String getZip() {
 		return zip;
@@ -115,10 +108,36 @@ public class MemberDTO {
 	public void setAddr2(String addr2) {
 		this.addr2 = addr2;
 	}
-	public int getEnabled() {
-		return enabled;
+	public int getEmailChk() {
+		return emailChk;
 	}
-	public void setEnabled(int enabled) {
-		this.enabled = enabled;
+	public void setEmailChk(int emailChk) {
+		this.emailChk = emailChk;
 	}
+	public int getTeachChk() {
+		return teachChk;
+	}
+	public void setTeachChk(int teachChk) {
+		this.teachChk = teachChk;
+	}
+	
+	public String getTecImg() {
+		return tecImg;
+	}
+	public void setTecImg(String tecImg) {
+		this.tecImg = tecImg;
+	}
+	public String getEdu() {
+		return edu;
+	}
+	public void setEdu(String edu) {
+		this.edu = edu;
+	}
+	public String getTecRecord() {
+		return tecRecord;
+	}
+	public void setTecRecord(String tecRecord) {
+		this.tecRecord = tecRecord;
+	}
+	
 }
