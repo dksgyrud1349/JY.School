@@ -27,5 +27,4 @@ public class sincheongServlet extends MyServlet {
 	protected void sinCheongform(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		forward(req, resp, "/WEB-INF/views/sugang/list.jsp");
 	}
-
 }
