@@ -71,9 +71,9 @@
 	    	
 	    	<ul class="list-content">
 	    		<c:forEach var="dto" items="${list}">
-	    			<li class="card" onclick="location.href='${articleUrl}&num=${dto.num}';">
-	    				<img src="${pageContext.request.contextPath}/uploads/photo/${dto.imageFilename}">
-	    				<p class="card-title">${dto.subject}</p>
+	    			<li class="card">
+	    				<img src="${pageContext.request.contextPath}/uploads/photo/${dto.tecImg}">
+	    				<p class="card-title">${dto.userName}</p>
 	    			</li>
 	    		</c:forEach>
 	    	</ul>

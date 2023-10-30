@@ -45,9 +45,10 @@ private Connection conn= DBConn.getConnection();
 		String sql;
 		
 		try {
-			sql = "select tecimg, edu, tecrecode "
-					+ " from member where = teachChk = 1 "
-					+ "order by num desc offset ? rows fetch first ? rows only ";
+			sql = "select username, tecimg, edu, TECRECORD "
+					+ " from teacher t join member m on t.userid=m.userid "
+					+ "where m.TEACHCHK = 1 "
+					+ "order by username desc offset ? rows fetch first ? rows only ";
 			
 			pstmt = conn.prepareStatement(sql);
 			
@@ -59,9 +60,10 @@ private Connection conn= DBConn.getConnection();
 			while(rs.next()) {
 				MemberDTO dto = new MemberDTO();
 				
+				dto.setUserName(rs.getString("username"));
 				dto.setTecImg(rs.getString("tecimg"));
 				dto.setEdu(rs.getString("edu"));
-				dto.setTecRecord(rs.getString("subject"));
+				dto.setTecRecord(rs.getString("TECRECORD"));
 				
 				list.add(dto);
 			}

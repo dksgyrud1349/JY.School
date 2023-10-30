@@ -24,12 +24,12 @@
 
 	<div class="container body-container">
 	    <div class="inner-page mx-auto">
-			<img src="http://localhost:9090/jyschool/img/sec012.jpg" alt="My Image" width="1160px" height="auto">
+			<img src="${pageContext.request.contextPath}/img/sec012.jpg" alt="My Image" width="1160px" height="auto">
 	    </div>
 	</div>
 	<div class="container body-container">
 	    <div class="inner-page mx-auto">
-			<img src="http://localhost:9090/jyschool/img/intro.png" alt="My Image" >
+			<img src="${pageContext.request.contextPath}/img/intro.png" alt="My Image" >
 	    </div>
 	</div>
 
