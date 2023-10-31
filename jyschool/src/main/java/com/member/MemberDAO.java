@@ -53,7 +53,7 @@ public class MemberDAO {
 		try {
 			conn.setAutoCommit(false);
 			
-			sql = "INSERT INTO member(userId, userPwd, userName, userbirth, tel, zip, add1, add2, email, emailchk, teachchk ) "
+			sql = "INSERT INTO member(userId, userPwd, userName, userbirth, tel, zip, add1, add2, useremail, emailchk, teachchk ) "
 					+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 			pstmt = conn.prepareStatement(sql);
 			
@@ -74,7 +74,7 @@ public class MemberDAO {
 			pstmt = null;
 			
 			if(dto.getTeachChk() == 1) {
-			sql = "INSERT INTO teacher (userId, edu, tecrecode, tecimg) VALUES (?, ?, ?, ?)";
+			sql = "INSERT INTO teacher (userId, edu, TECRECORD, tecimg) VALUES (?, ?, ?, ?)";
 			pstmt=conn.prepareStatement(sql);
 			
 			pstmt.setString(1, dto.getUserId());

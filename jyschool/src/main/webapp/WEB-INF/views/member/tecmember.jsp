@@ -102,7 +102,7 @@ function memberOk() {
         return;
     }
 
-   	f.action = "${pageContext.request.contextPath}/member/${mode}_ok.do";
+   	f.action = "${pageContext.request.contextPath}/member/teacher_ok.do";
     f.submit();
 }
 
@@ -147,7 +147,7 @@ function changeEmail() {
 								style="width: 50%;" 
 								${mode=="update" ? "readonly ":""}>
 						</p>
-						<c:if test="${mode=='member'}">
+						<c:if test="${mode=='teacher'}">
 							<p class="help-block">아이디는 5~10자 이내이며, 첫글자는 영문자로 시작해야 합니다.</p>
 						</c:if>
 					</td>
@@ -273,7 +273,7 @@ function changeEmail() {
 			</table>
 			
 			<table class="table">
-				<c:if test="${mode=='member'}">
+				<c:if test="${mode=='teacher'}">
 					<tr>
 						<td align="center">
 							<span>
@@ -287,10 +287,10 @@ function changeEmail() {
 						
 				<tr>
 					<td align="center">
-					    <button type="button" class="btn" name="btnOk" onclick="memberOk();"> ${mode=="member"?"회원가입":"정보수정"} </button>
+					    <button type="button" class="btn" name="btnOk" onclick="memberOk();"> ${mode=="teacher"?"회원가입":"정보수정"} </button>
 					    <button type="reset" class="btn"> 다시입력 </button>
 					    <button type="button" class="btn" 
-					    	onclick="javascript:location.href='${pageContext.request.contextPath}/';"> ${mode=="member"?"가입취소":"수정취소"} </button>
+					    	onclick="javascript:location.href='${pageContext.request.contextPath}/';"> ${mode=="teacher"?"가입취소":"수정취소"} </button>
 					</td>
 				</tr>
 				
