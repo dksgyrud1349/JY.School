@@ -9,7 +9,29 @@ public class LectureDTO {
 	private String c_reg_date;  // 등록일 
 	private String userId;  // 아이디(강사)
 	private String username;  // 강사 이름
+	private String teachchk;
 	
+	private String imageFilename1;
+	private String imageFilename2;
+	
+	public String getImageFilename1() {
+		return imageFilename1;
+	}
+	public void setImageFilename1(String imageFilename1) {
+		this.imageFilename1 = imageFilename1;
+	}
+	public String getImageFilename2() {
+		return imageFilename2;
+	}
+	public void setImageFilename2(String imageFilename2) {
+		this.imageFilename2 = imageFilename2;
+	}
+	public String getTeachchk() {
+		return teachchk;
+	}
+	public void setTeachchk(String teachchk) {
+		this.teachchk = teachchk;
+	}
 	public String getUsername() {
 		return username;
 	}
