@@ -59,6 +59,17 @@ public class sincheongServlet extends MyServlet {
 		} else if (uri.indexOf("insert.do") != -1) {
 			// 강좌 등록 폼
 			insertLectureForm(req, resp);
+		} else if(uri.indexOf("update.do") != -1) {
+			// 강좌 수정
+			updateLectureForm(req, resp);
+			
+		} else if(uri.indexOf("update_ok.do") != -1) {
+			// 강좌 수정 완료
+			updateLectureSubmit(req, resp);
+			
+		} else if(uri.indexOf("delete.do") != -1) {
+			// 강좌 삭제
+			deleteLectureForm(req, resp);
 		}
 	}
 
@@ -292,4 +303,53 @@ public class sincheongServlet extends MyServlet {
 
 		return null;
 	}
+	
+	// 수정
+	   protected void updateLectureForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		   LectureDAO dao = new LectureDAO();
+		   String cp = req.getContextPath();
+		 
+		   String page = req.getParameter("page");
+		   String classNum = req.getParameter("classNum");
+		   
+		   HttpSession session = req.getSession();
+		   SessionInfo info = (SessionInfo)session.getAttribute("member");
+		   
+		   /*
+		   if(req.getMethod().equalsIgnoreCase("GET")){
+			      resp.sendRedirect(cp + "/sugang/list.do");
+			      return;
+			   }
+			*/
+		   
+		   try {
+			
+			   if(dao.findByTeacher(info.getUserId()) != null) {
+				   // 게시물을 작성한 강사님 id 가져옴
+				   LectureDTO dto = dao.findByTeacher(info.getUserId());
+				   
+				   req.setAttribute("dto", dto);
+				   req.setAttribute("classNum", classNum);
+				   req.setAttribute("page", page);
+				   req.setAttribute("mode", "update");
+				 
+			   }else{
+				   resp.sendRedirect(cp + "/sugang/list.do?page=" + page);
+			   }
+			   forward(req, resp, "/WEB-INF/views/sugang/insertLecture.jsp?classNum="+classNum);
+	           return;
+			   
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		      resp.sendRedirect(cp + "/sugang/list.do?page="+page);
+	   }
+	   
+	   protected void updateLectureSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		   
+	   }
+	   
+	   protected void deleteLectureForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		   
+	   }
 }

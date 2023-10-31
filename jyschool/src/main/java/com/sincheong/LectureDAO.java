@@ -326,4 +326,42 @@ public class LectureDAO {
 		
 		return list;
 	}
+	
+	// 게시글 가져오기
+		public LectureDTO findById(Long classNum) {
+			LectureDTO dto = null;
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+			String sql;
+			
+			try {
+				sql = " SELECT userId, className, classDegree, price, classComment FROM lecture WHERE classNum2 = ?";
+				
+				pstmt = conn.prepareStatement(sql);
+				
+				pstmt.setLong(1, classNum);
+				
+				rs = pstmt.executeQuery();
+				
+				while(rs.next()) {
+					dto = new LectureDTO();
+					
+					dto.setClassNum(rs.getLong("classNum2"));
+					dto.setUserId(rs.getString("userId"));
+					dto.setClassName(rs.getString("className"));
+					dto.setClassDegree(rs.getString("classDegree"));
+					dto.setPrice(rs.getInt("price"));
+					dto.setClassComment(rs.getString("classComment"));
+					
+				}
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}finally {
+				DBUtil.close(rs);
+				DBUtil.close(pstmt);
+			}
+			
+			return dto;
+		}
 }
