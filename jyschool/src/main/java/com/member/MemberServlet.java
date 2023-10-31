@@ -184,6 +184,7 @@ public class MemberServlet extends MyUploadServlet {
 				dto.setTecImg(filename);
 			}
 			dto.setTeachChk(1);
+			dto.setTecRecord(req.getParameter("tecRecord"));
 
 			dao.insertMember(dto);
 			resp.sendRedirect(cp + "/");
