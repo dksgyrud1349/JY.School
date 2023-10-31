@@ -9,7 +9,7 @@ public class LectureDTO {
 	private String c_reg_date;  // 등록일 
 	private String userId;  // 아이디(강사)
 	private String username;  // 강사 이름
-
+	
 	public String getUsername() {
 		return username;
 	}
