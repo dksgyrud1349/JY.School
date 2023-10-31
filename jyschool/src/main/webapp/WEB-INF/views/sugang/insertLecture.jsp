@@ -91,7 +91,7 @@ function sendLecture() {
 	    </div>
 	    
 	    <div class="body-main mx-auto">
-			<form name="lectureForm" method="post">
+			<form name="lectureForm" enctype="multipart/form-data" method="post">
 				<table class="table table-border table-form">
 				
 					<tr> 
@@ -134,6 +134,20 @@ function sendLecture() {
 						<td>가격</td>
 						<td> 
 							<input type="text" name="price" maxlength="100" class="form-control" value="${dto.price}">
+						</td>
+					</tr>
+					
+					<tr> 
+						<td>강좌메인사진</td>
+						<td> 
+							<input type="file" name="selectFile1" accept="image/*" multiple class="form-control">
+						</td>
+					</tr>
+					
+					<tr> 
+						<td>강좌설명사진</td>
+						<td> 
+							<input type="file" name="selectFile2" accept="image/*" multiple class="form-control">
 						</td>
 					</tr>
 				</table>
