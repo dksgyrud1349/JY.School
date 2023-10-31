@@ -90,7 +90,7 @@ $(document).ready(function(){
 			<li><a href="#">마이페이지</a>
 				<ul class="sub-menu">
 					<li><a href="${pageContext.request.contextPath}/member/pwd.do?mode=update" aria-label="submenu">정보수정</a></li>
-					<li><a href="#" aria-label="submenu">수강정보</a></li>
+					<li><a href="${pageContext.request.contextPath}/enrolmentinfo/list.do" aria-label="submenu">수강정보</a></li>
 					<li><a href="#" aria-label="submenu">구매내역</a></li>
 				</ul>
 			</li>
