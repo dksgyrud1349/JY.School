@@ -417,7 +417,7 @@ public class ReferenceServlet extends MyUploadServlet {
 			dao.deleteReferFile("all", writeNum);
 			
 
-			// 게시글 삭제
+			// 게시글 삭제 
 			dao.deleteReference(writeNum);
 
 		} catch (Exception e) {
