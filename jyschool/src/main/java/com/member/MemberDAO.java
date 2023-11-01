@@ -54,7 +54,7 @@ public class MemberDAO {
 			conn.setAutoCommit(false);
 			
 			sql = "INSERT INTO member(userId, userPwd, userName, userbirth, tel, zip, add1, add2, useremail, emailchk, teachchk ) "
-					+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+					+ "VALUES (?, ?, ?, TO_DATE(?,'YY-MM-DD'), ?, ?, ?, ?, ?, ?, ?)";
 			pstmt = conn.prepareStatement(sql);
 			
 			pstmt.setString(1, dto.getUserId());
@@ -110,10 +110,10 @@ public class MemberDAO {
 		StringBuilder sb = new StringBuilder();
 		try {
 			sb.append("SELECT m.userId, userName, userPwd,");
-			sb.append("     TO_CHAR(birth, 'YYYY-MM-DD') userbirth, ,");
+			sb.append("     TO_CHAR(userbirth, 'YYYY-MM-DD') userbirth, ");
 			sb.append("   tel,    ");
-			sb.append("    zip, add1, add2, email, ");
-			sb.append("     emailchk, teachchk");
+			sb.append("    zip, add1, add2, useremail, ");
+			sb.append("     emailchk, teachchk, tecRecord, tecImg ");
 			sb.append("  FROM member m");
 			sb.append("  LEFT OUTER JOIN teacher t ON m.userId=t.userId ");
 			sb.append("  WHERE m.userId = ?");
@@ -140,7 +140,7 @@ public class MemberDAO {
 						dto.setTel3(ss[2]);
 					}
 				}
-				dto.setEmail(rs.getString("email"));
+				dto.setEmail(rs.getString("useremail"));
 				if(dto.getEmail() != null) { // 이메일이 없는 경우가 있기에
 					String[] ss = dto.getEmail().split("@");
 					if(ss.length == 2) {
@@ -149,8 +149,12 @@ public class MemberDAO {
 					}
 				}
 				dto.setZip(rs.getString("zip"));
-				dto.setAddr1(rs.getString("addr1"));
-				dto.setAddr2(rs.getString("addr2"));
+				dto.setAddr1(rs.getString("add1"));
+				dto.setAddr2(rs.getString("add2"));
+				dto.setTeachChk(rs.getInt("teachchk"));
+				dto.setEmailChk(rs.getInt("emailchk"));
+				dto.setTecImg(rs.getString("tecImg"));
+				dto.setTecRecord(rs.getString("tecRecord"));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -167,35 +171,51 @@ public class MemberDAO {
 		String sql;
 		
 		try {// 원래 오토커밋 끄고 다 해야함
-			sql = "UPDATE member1 SET userPwd=?, modify_date=SYSDATE  WHERE userId=?";
+			conn.setAutoCommit(false);
+			sql = "UPDATE member SET userPwd=?, userName=?, userbirth=TO_DATE(?,'YYYY-MM-DD'), tel=?, zip=?,"
+					+ " add1=?, add2=?, useremail=?, emailchk=?  WHERE userId=?";
 			pstmt = conn.prepareStatement(sql);
 			
 			pstmt.setString(1, dto.getUserPwd());
-			pstmt.setString(2, dto.getUserId());
-			
+			pstmt.setString(2, dto.getUserName());
+			pstmt.setString(3, dto.getUserBirth());
+			pstmt.setString(4, dto.getTel());
+			pstmt.setString(5, dto.getZip());
+			pstmt.setString(6, dto.getAddr1());
+			pstmt.setString(7, dto.getAddr2());
+			pstmt.setString(8, dto.getEmail());
+			pstmt.setInt(9, dto.getEmailChk());
+			pstmt.setString(10, dto.getUserId());
 			pstmt.executeUpdate();
 			
 			pstmt.close();
 			pstmt = null;
 			
-			sql = "UPDATE member2 SET birth=TO_DATE(?,'YYYY-MM-DD'), email=?, tel=?, zip=?, addr1=?, addr2=? WHERE userId=?";
-			pstmt = conn.prepareStatement(sql);
+			if(dto.getTeachChk() == 1) {
+			sql = "update teacher set  edu=?, TECRECORD=?, tecimg=? where userId=?";
+			pstmt=conn.prepareStatement(sql);
 			
-			pstmt.setString(1, dto.getUserBirth());
-			pstmt.setString(2, dto.getEmail());
-			pstmt.setString(3, dto.getTel());
-			pstmt.setString(4, dto.getZip());
-			pstmt.setString(5, dto.getAddr1());
-			pstmt.setString(6, dto.getAddr2());
-			pstmt.setString(7, dto.getUserId());
 			
+			pstmt.setString(1, dto.getEdu());
+			pstmt.setString(2, dto.getTecRecord());
+			pstmt.setString(3, dto.getTecImg());
+			pstmt.setString(4, dto.getUserId());
 			pstmt.executeUpdate();
+			}
+
+			conn.commit(); // 오토 커밋 껐으니까 수동으로 돌려야함
 
 		} catch (SQLException e) {
+			DBUtil.rollback(conn);
 			e.printStackTrace();
 			throw e;
 		} finally {
 			DBUtil.close(pstmt);
+			
+			try {
+				conn.setAutoCommit(true);
+			} catch (SQLException e2) {
+			}
 		}
 
 	}
