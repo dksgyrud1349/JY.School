@@ -92,6 +92,7 @@ $(document).ready(function(){
 					<li><a href="${pageContext.request.contextPath}/member/pwd.do?mode=update" aria-label="submenu">정보수정</a></li>
 					<li><a href="#" aria-label="submenu">수강정보</a></li>
 					<li><a href="#" aria-label="submenu">구매내역</a></li>
+					<li><a href='<c:url value="/sugangqna/list.do"/>' aria-label="submenu">강의 질문과 답변</a></li>
 				</ul>
 			</li>
 
