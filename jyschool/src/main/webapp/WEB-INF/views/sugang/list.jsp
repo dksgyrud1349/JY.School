@@ -71,8 +71,9 @@ function searchList() {
 						<tr>
 							<td>${dataCount - (page - 1) * size - status.index}</td>
 							<td class="left">
-								<c:forEach var="n" begin="1" end="2">&nbsp;&nbsp;</c:forEach>
-								<a href="#">${dto.className}</a>
+								<c:forEach var="n" begin="1" end="${dataCount}">&nbsp;&nbsp;</c:forEach>
+								<input type="hidden" name="classNum" value="${dto.classNum}">
+								<a href="${pageContext.request.contextPath}/sugang/list_ok.do?page=${page}&classNum=${dto.classNum}">${dto.className}</a>
 							</td>
 							<td>${dto.username}</td>
 							<td>${dto.classDegree}</td>
@@ -90,24 +91,27 @@ function searchList() {
 			<table class="table">
 				<tr>
 					<td width="100">
-						<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/board/list.do';" title="새로고침"><i class="fa-solid fa-arrow-rotate-right"></i></button>
+						<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/sugang/list.do';" title="새로고침"><i class="fa-solid fa-arrow-rotate-right"></i></button>
 					</td>
 					<td align="center">
-						<form name="searchForm" action="${pageContext.request.contextPath}/board/list.do" method="post">
+						<form name="searchForm" action="${pageContext.request.contextPath}/sugang/list.do" method="post">
 							<select name="schType" class="form-select">
 								<option value="all"      ${schType=="all"?"selected":"" }>제목+내용</option>
-								<option value="userName" ${schType=="userName"?"selected":"" }>작성자</option>
-								<option value="reg_date"  ${schType=="reg_date"?"selected":"" }>등록일</option>
-								<option value="subject"  ${schType=="subject"?"selected":"" }>제목</option>
-								<option value="content"  ${schType=="content"?"selected":"" }>내용</option>
+								<option value="userName" ${schType=="username"?"selected":"" }>강사</option>
+								<option value="c_reg_date"  ${schType=="c_reg_date"?"selected":"" }>등록일</option>
+								<option value="className"  ${schType=="className"?"selected":"" }>강좌이름</option>
 							</select>
 							<input type="text" name="kwd" value="${kwd}" class="form-control">
 							<button type="button" class="btn" onclick="searchList();">검색</button>
 						</form>
 					</td>
-					<td align="right" width="100">
-						<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/board/write.do';">글올리기</button>
-					</td>
+					<c:forEach var="tdto" items="${teacherList}">
+						<c:if test="${sessionScope.member.userId==tdto.userId}">
+							<td align="right" width="100">
+								<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/sugang/insert.do';">강좌업로드</button>
+							</td>
+						</c:if>
+					</c:forEach>
 				</tr>
 			</table>	
 	    </div>

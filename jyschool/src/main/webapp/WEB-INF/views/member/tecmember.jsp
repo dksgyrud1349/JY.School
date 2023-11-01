@@ -27,7 +27,7 @@
 .help-block, .block { margin-top: 5px; }
 .msg-box { text-align: center; color: blue; }
 </style>
-
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script type="text/javascript">
 function memberOk() {
 	const f = document.memberForm;
@@ -121,6 +121,41 @@ function changeEmail() {
         f.email1.focus();
     }
 }
+
+$(function(){
+    $(".schoolRemoveBtn").hide();
+    $(".licenseRemoveBtn").hide();
+    
+    $(".schoolAddBtn").click(function(){
+        $(".schoolRemoveBtn").show();
+        
+        // const p = $(this).parent().parent().find("div:first-child  :first").html();
+        // const p = $(this).parent().parent().find("div:first-child").children("p").html();
+        // $(this).parent().parent().find("div:first").append("<p>"+p+"</p>");
+        
+        // 자신의 html : 첫번째 p태그를 복제하여 div로 감싼후 div안의 html요소가져 오기
+        // const p = $(this).parent().parent().find("div:first-child  :first").clone().wrapAll("<div>").parent().html();
+        // $(this).parent().parent().find("div:first").append(p);
+
+        const p = $(this).parent().parent().find("div:first-child  :first").clone();
+        $(p).find("input").each(function(){
+        	$(this).val("");
+        });
+        $(this).parent().parent().find("div:first").append(p);
+    });
+    
+    $("body").on("click", ".schoolRemoveBtn", function(){
+        if($(this).closest("div").find("p").length<=1) { // closest("태그") : 가장가까운 부모태그
+            return;
+        }
+        
+        $(this).parent().remove();
+        
+        if($(".schoolRemoveBtn").closest("div").find("p").length<=1) {
+            $(".schoolRemoveBtn").hide();
+        }
+    });
+});
 
 </script>
 </head>
@@ -253,6 +288,7 @@ function changeEmail() {
 					</td>
 				</tr>
 				
+				
 				<tr>
 						<td>이미지</td>
 						<td> 
@@ -269,9 +305,15 @@ function changeEmail() {
 								</td>
 					
 					</c:if>
+					<tr> 
+						<td valign="top">학력/경력 사항</td>
+						<td> 
+							<textarea name="TECRECORD" class="form-control">${dto.TECRECORD}</textarea>
+						</td>
+					</tr>
 				
 			</table>
-			
+
 			<table class="table">
 				<c:if test="${mode=='teacher'}">
 					<tr>
@@ -300,6 +342,7 @@ function changeEmail() {
 					</td>
 				</tr>
 			</table>
+			
 			</form>
 	    </div>
 	</div>
