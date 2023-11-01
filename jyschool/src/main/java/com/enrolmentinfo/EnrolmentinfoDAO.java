@@ -199,7 +199,7 @@ public class EnrolmentinfoDAO {
 
 	    return list;
 	}
-	
+	// 게시글 가져오기
 	  public EnrolmentinfoDTO findById(long classNum) {
 	      EnrolmentinfoDTO dto = null;
 	      PreparedStatement pstmt = null;
