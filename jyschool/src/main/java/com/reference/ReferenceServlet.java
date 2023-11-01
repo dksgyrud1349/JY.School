@@ -417,7 +417,7 @@ public class ReferenceServlet extends MyUploadServlet {
 			dao.deleteReferFile("all", writeNum);
 			
 
-			// 게시글 삭제 
+			// 게시글 삭제
 			dao.deleteReference(writeNum);
 
 		} catch (Exception e) {
@@ -458,16 +458,16 @@ public class ReferenceServlet extends MyUploadServlet {
 	
 			ReferenceDAO dao = new ReferenceDAO();
 			
-			/*
+			
 			// 파일 삭제
-			for (int i = 0; i < nums.length; i++) {
-				List<NoticeDTO> listFile = dao.listNoticeFile(writeNums[i]);
-				for (NoticeDTO vo : listFile) {
-					FileManager.doFiledelete(pathname, vo.getSaveFilename());
+			for (int i = 0; i < writeNums.length; i++) {
+				List<ReferenceDTO> listFile = dao.listReferFile(writeNums[i]);
+				for (ReferenceDTO vo : listFile) {
+					FileManager.doFiledelete(pathname, vo.getSaveFile());
 				}
-				dao.deleteNoticeFile("all", writeNums[i]);
+				dao.deleteReferFile("all", writeNums[i]);
 			}
-			*/
+			
 			
 			// 게시글 삭제
 			dao.deleteReferenceList(writeNums);
@@ -498,7 +498,7 @@ public class ReferenceServlet extends MyUploadServlet {
 
 		try {
 			long writeNum = Long.parseLong(req.getParameter("writeNum"));
-			long referfileNum = Long.parseLong(req.getParameter("fileNum"));
+			long referfileNum = Long.parseLong(req.getParameter("referfileNum"));
 			ReferenceDTO dto = dao.findByFileId(referfileNum);
 			if (dto != null) {
 				// 파일삭제
