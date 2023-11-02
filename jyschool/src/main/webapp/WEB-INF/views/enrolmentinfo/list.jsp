@@ -67,7 +67,8 @@ function searchList() {
 				<tbody>
 					<c:forEach var="dto" items="${list}" varStatus="status">
 						<tr>
-							<td>${dto.className }</td>
+							<td class="center">
+								<a href="${pageContext.request.contextPath}/sugang/list_ok.do?page=${page}&classNum=${dto.classNum}">${dto.className}</a>
 							<td>${dto.startDate}</td>
 							<td>${dto.endDate}</td>
 							<td>${dto.classNum2 }</td>

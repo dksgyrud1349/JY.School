@@ -159,7 +159,7 @@ public class EnrolmentinfoDAO {
 	            sb.append(" AND INSTR(" + schType + ", ?) >= 1");
 	        }
 
-	        sb.append(" ORDER BY c1.classNum DESC ");
+	        sb.append(" ORDER BY e1.classNum DESC ");
 	        sb.append(" OFFSET ? ROWS FETCH NEXT ? ROWS ONLY ");
 
 	        pstmt = conn.prepareStatement(sb.toString());

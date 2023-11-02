@@ -41,7 +41,7 @@ function searchList() {
 <main>
 	<div class="container body-container">
 	    <div class="body-title">
-			<h2><i class="fas fa-chalkboard-teacher"></i> 수강정보 </h2>
+			<h2><i class="fas fa-chalkboard-teacher"></i> 구매내역 </h2>
 	    </div>
 	    
 	    <div class="body-main mx-auto">
@@ -58,19 +58,19 @@ function searchList() {
 				<thead>
 					<tr>
 						<th class="userId">과목명</th>
+						<th class="price">가격</th>
 						<th class="startDate">강의시작일자</th>
-						<th class="endDate">강의만료일자</th>
-						<th class="classNum2">강좌번호</th>
+						<th class="endDate">강의종료일자</th>
 					</tr>
 				</thead>
 				
 				<tbody>
 					<c:forEach var="dto" items="${list}" varStatus="status">
 						<tr>
-							<td>${dto.className }</td>
+							<td>${dto.userId }</td>
+							<td>${dto.price }</td>
 							<td>${dto.startDate}</td>
 							<td>${dto.endDate}</td>
-							<td>${dto.classNum2 }</td>
 						</tr>
 					</c:forEach>
 				</tbody>
@@ -83,7 +83,7 @@ function searchList() {
 			<table class="table">
 				<tr>
 					<td width="100">
-						<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/enrolmentinfo/list.do';" title="새로고침"><i class="fa-solid fa-arrow-rotate-right"></i></button>
+						<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/buyinfo/list.do';" title="새로고침"><i class="fa-solid fa-arrow-rotate-right"></i></button>
 					</td>
 					<td align="center">
 						<form name="searchForm" action="${pageContext.request.contextPath}/enrolmentinfo/list.do" method="post">

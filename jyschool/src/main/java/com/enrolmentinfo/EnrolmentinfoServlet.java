@@ -24,6 +24,7 @@ public class EnrolmentinfoServlet extends MyServlet  {
 		
 		HttpSession session = req.getSession();
 		SessionInfo info = (SessionInfo)session.getAttribute("member");
+		
 		if(info == null) {
 			forward(req,resp, "/WEB-INF/views/member/login.jsp");
 			return;
@@ -81,7 +82,6 @@ public class EnrolmentinfoServlet extends MyServlet  {
 			if(current_page > total_page) {
 				current_page = total_page;
 			}
-			
 			
 			// 게시물 가져오기
 			int offset = (current_page - 1) * size;
