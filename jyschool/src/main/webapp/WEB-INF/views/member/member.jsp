@@ -60,7 +60,7 @@ function memberOk() {
         return;
     }
 
-    str = f.birth.value;
+    str = f.userBirth.value;
     if( !str ) {
         alert("생년월일를 입력하세요. ");
         f.birth.focus();
@@ -183,7 +183,7 @@ function changeEmail() {
 				<tr>
 					<td>생년월일</td>
 					<td>
-						<input type="date" name="birth" class="form-control" value="${dto.birth}" style="width: 50%;">
+						<input type="date" name="userBirth" class="form-control" value="${dto.userBirth}" style="width: 50%;">
 					</td>
 				</tr>
 			

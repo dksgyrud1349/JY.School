@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
+import com.util.FileManager;
 import com.util.MyUploadServlet;
 
 @WebServlet("/member/*")
@@ -53,6 +54,8 @@ public class MemberServlet extends MyUploadServlet {
 			pwdSubmit(req, resp);
 		} else if (uri.indexOf("update_ok.do") != -1) {
 			updateSubmit(req, resp);
+		} else if (uri.indexOf("updatetec_ok.do") != -1) {
+			teaupdateSubmit(req, resp);
 		} else if (uri.indexOf("userIdCheck.do") != -1) {
 			userIdCheck(req, resp);
 		}
@@ -162,7 +165,7 @@ public class MemberServlet extends MyUploadServlet {
 			dto.setUserPwd(req.getParameter("userPwd"));
 			dto.setUserName(req.getParameter("userName"));
 
-			dto.setUserBirth(req.getParameter("birth"));
+			dto.setUserBirth(req.getParameter("userBirth"));
 			String email1 = req.getParameter("email1");
 			String email2 = req.getParameter("email2");
 			dto.setEmail(email1 + "@" + email2);
@@ -176,7 +179,7 @@ public class MemberServlet extends MyUploadServlet {
 			dto.setAddr1(req.getParameter("addr1"));
 			dto.setAddr2(req.getParameter("addr2"));
 			String filename;
-			Part p = req.getPart("selectFile");
+			Part p = req.getPart("tecImg");
 			Map<String, String> map = doFileUpload(p, pathname);
 			if(map != null) {
 				filename = map.get("saveFilename");
@@ -208,7 +211,7 @@ public class MemberServlet extends MyUploadServlet {
 		req.setAttribute("mode", "teacher");
 		req.setAttribute("message", message);
 		
-		forward(req, resp, "/WEB-INF/views/member/member.jsp");
+		forward(req, resp, "/WEB-INF/views/member/tecmember.jsp");
 	}
 
 	protected void memberSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -228,7 +231,7 @@ public class MemberServlet extends MyUploadServlet {
 			dto.setUserPwd(req.getParameter("userPwd"));
 			dto.setUserName(req.getParameter("userName"));
 
-			dto.setUserBirth(req.getParameter("birth"));
+			dto.setUserBirth(req.getParameter("userBirth"));
 			String email1 = req.getParameter("email1");
 			String email2 = req.getParameter("email2");
 			dto.setEmail(email1 + "@" + email2);
@@ -334,11 +337,19 @@ public class MemberServlet extends MyUploadServlet {
 			}
 
 			// 회원정보수정 - 회원수정폼으로 이동
+			if(dto.getTeachChk()==0) {
 			req.setAttribute("title", "회원 정보 수정");
 			req.setAttribute("dto", dto);
 			req.setAttribute("mode", "update");
 			forward(req, resp, "/WEB-INF/views/member/member.jsp");
 			return;
+			} else if(dto.getTeachChk()==1) {
+				req.setAttribute("title", "강사 정보 수정");
+				req.setAttribute("dto", dto);
+				req.setAttribute("mode", "update");
+				forward(req, resp, "/WEB-INF/views/member/tecmember.jsp");
+				return;
+			}
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -371,7 +382,7 @@ public class MemberServlet extends MyUploadServlet {
 			dto.setUserPwd(req.getParameter("userPwd"));
 			dto.setUserName(req.getParameter("userName"));
 
-			dto.setUserBirth(req.getParameter("birth"));
+			dto.setUserBirth(req.getParameter("userBirth"));
 			
 			String email1 = req.getParameter("email1");
 			String email2 = req.getParameter("email2");
@@ -385,6 +396,68 @@ public class MemberServlet extends MyUploadServlet {
 			dto.setZip(req.getParameter("zip"));
 			dto.setAddr1(req.getParameter("addr1"));
 			dto.setAddr2(req.getParameter("addr2"));
+			
+			dao.updateMember(dto);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		resp.sendRedirect(cp + "/");
+	}
+	
+	protected void teaupdateSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// 회원정보 수정 완료
+		MemberDAO dao = new MemberDAO();
+		HttpSession session = req.getSession();
+
+		String cp = req.getContextPath();
+		if (req.getMethod().equalsIgnoreCase("GET")) {
+			resp.sendRedirect(cp + "/");
+			return;
+		}
+
+		try {
+			SessionInfo info = (SessionInfo) session.getAttribute("member");
+			if (info == null) { // 로그아웃 된 경우
+				resp.sendRedirect(cp + "/member/login.do");
+				return;
+			}
+
+			MemberDTO dto = new MemberDTO();
+
+			dto.setUserId(req.getParameter("userId"));
+			dto.setUserPwd(req.getParameter("userPwd"));
+			dto.setUserName(req.getParameter("userName"));
+
+			dto.setUserBirth(req.getParameter("userBirth"));
+			
+			String email1 = req.getParameter("email1");
+			String email2 = req.getParameter("email2");
+			dto.setEmail(email1 + "@" + email2);
+
+			String tel1 = req.getParameter("tel1");
+			String tel2 = req.getParameter("tel2");
+			String tel3 = req.getParameter("tel3");
+			dto.setTel(tel1 + "-" + tel2 + "-" + tel3);
+
+			dto.setZip(req.getParameter("zip"));
+			dto.setAddr1(req.getParameter("addr1"));
+			dto.setAddr2(req.getParameter("addr2"));
+			dto.setTecRecord(req.getParameter("tecRecord"));
+			String imageFilename = req.getParameter("tecimg");
+			dto.setTecImg(imageFilename);
+			dto.setTeachChk(1);
+			
+			Part p = req.getPart("tecImg");
+			Map<String, String> map = doFileUpload(p, pathname);
+			if(map != null) {
+				String filename = map.get("saveFilename");
+				
+				// 기존 파일 제거
+				FileManager.doFiledelete(pathname, imageFilename);
+				
+				dto.setTecImg(filename);
+			}
 
 			dao.updateMember(dto);
 		} catch (Exception e) {

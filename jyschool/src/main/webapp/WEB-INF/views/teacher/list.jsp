@@ -123,18 +123,11 @@
 		<div class="container body-container">
 			<div class="body-title">
 				<h2>
-					<i class="far fa-image"></i> 포토 갤러리
+					<i class="far fa-image"></i> 강사진 소개
 				</h2>
 			</div>
 
-			<div class="body-main mx-auto">
-				<div class="list-header">
-					<span class="list-header-left">${dataCount}개
-						(${page}/${total_page} 페이지)</span> <span class="list-header-right">
-						<button type="button" class="btn"
-							onclick="location.href='${pageContext.request.contextPath}/photo/write.do';">사진올리기</button>
-					</span>
-				</div>
+			
 
 				<ul class="list-content">
 					<c:forEach var="dto" items="${list}">

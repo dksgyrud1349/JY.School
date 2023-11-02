@@ -60,7 +60,7 @@ function memberOk() {
         return;
     }
 
-    str = f.birth.value;
+    str = f.userBirth.value;
     if( !str ) {
         alert("생년월일를 입력하세요. ");
         f.birth.focus();
@@ -102,7 +102,7 @@ function memberOk() {
         return;
     }
 
-   	f.action = "${pageContext.request.contextPath}/member/teacher_ok.do";
+   	f.action = "${pageContext.request.contextPath}/member/${mode}tec_ok.do";
     f.submit();
 }
 
@@ -218,7 +218,7 @@ $(function(){
 				<tr>
 					<td>생년월일</td>
 					<td>
-						<input type="date" name="birth" class="form-control" value="${dto.birth}" style="width: 50%;">
+						<input type="date" name="userBirth" class="form-control" value="${dto.userBirth}" style="width: 50%;">
 					</td>
 				</tr>
 			
@@ -292,7 +292,7 @@ $(function(){
 				<tr>
 						<td>이미지</td>
 						<td> 
-							<input type="file" name="selectFile" accept="image/*" class="form-control">
+							<input type="file" name="tecImg" accept="image/*" class="form-control">
 						</td>
 					</tr>
 					
@@ -300,7 +300,7 @@ $(function(){
 						<tr>
 							<td>등록이미지</td>
 							<td>
-								<img src="<c:url value='/uploads/photo/${dto.imageFilename}'/>" class="img">
+								<img src="<c:url value='/uploads/photo/${dto.tecImg}'/>" class="img">
 								<span class="info">(새로운 이미지를 등록하면 기존 이미지는 삭제됩니다.)</span>
 								</td>
 					
@@ -308,7 +308,7 @@ $(function(){
 					<tr> 
 						<td valign="top">학력/경력 사항</td>
 						<td> 
-							<textarea name="TECRECORD" class="form-control">${dto.TECRECORD}</textarea>
+							<textarea name="tecRecord" class="form-control">${dto.tecRecord}</textarea>
 						</td>
 					</tr>
 				
