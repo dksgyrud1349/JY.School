@@ -24,8 +24,8 @@ public class BuyinfoDAO {
 		try {
 			sql = "SELECT COUNT(*) FROM buyinfo WHERE userId=? "
 					+ " FROM enrolment e1 "
-					+ " JOIN lecture l1 ON e1.classNum = l1.classNum "
-					+ " JOIN member m1 ON l1.userid = m1.userid "
+					+ " JOIN buyinfo b2 ON e1.classNum = b2.classNum "
+					+ " JOIN member m1 ON b2.userid = m1.userid "
 					+ " WHERE e1.userid = ? ";
 					
 			pstmt = conn.prepareStatement(sql);
@@ -68,7 +68,6 @@ public class BuyinfoDAO {
 		} catch (Exception e) {
 			
 		}
-		
 		
 		return result;
 	}
@@ -131,7 +130,7 @@ public class BuyinfoDAO {
 	    	sb.append(" JOIN enrolment e1 ON e1.classNum = b2.classNum ");
 	    	sb.append(" WHERE b2.userId=? ");
 	    	 if (schType.equals("all")) {
-	    		 sb.append(" AND (INSTR(b2.classNum, ?) >= 1 OR INSTR(b2.userId, ?) >= 1)");
+	    		 sb.append(" AND (INSTR(b2.classNum, ?) >= 1 OR INSTR(b2.userId, ?) >= 1) ");
 	    	 } else if (schType.equals("reg_date")) {
 		         kwd = kwd.replaceAll("(\\-|\\/|\\.)", "");
 		         sb.append(" AND TO_CHAR(l1.c_reg_date, 'YYYYMMDD') = ? ");
@@ -166,8 +165,6 @@ public class BuyinfoDAO {
 					dto.setUserId(rs.getString("userId"));
 					dto.setClassNum(rs.getLong("classNum"));
 					dto.setClassNum2(rs.getLong("classNum2"));
-					
-				
 					
 		        }
 		 

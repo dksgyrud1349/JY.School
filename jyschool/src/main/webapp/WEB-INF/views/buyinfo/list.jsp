@@ -67,6 +67,7 @@ function searchList() {
 				<tbody>
 					<c:forEach var="dto" items="${list}" varStatus="status">
 						<tr>
+							
 							<td>${dto.userId }</td>
 							<td>${dto.price }</td>
 							<td>${dto.startDate}</td>
