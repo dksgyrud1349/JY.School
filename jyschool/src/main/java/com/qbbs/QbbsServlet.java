@@ -1,4 +1,4 @@
-/*package com.qbbs;
+package com.qbbs;
 
 import java.io.IOException;
 import java.net.URLDecoder;
@@ -6,6 +6,8 @@ import java.net.URLEncoder;
 import java.util.List;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -14,6 +16,8 @@ import com.member.SessionInfo;
 import com.util.MyServlet;
 import com.util.MyUtil;
 
+@MultipartConfig
+@WebServlet("/qbbs/*")
 public class QbbsServlet extends MyServlet{
 	private static final long serialVersionUID = 1L;
 
@@ -26,8 +30,8 @@ public class QbbsServlet extends MyServlet{
 		SessionInfo info = (SessionInfo) session.getAttribute("member");
 
 		if (info == null) {
-			forward(req, resp, "redirect:/WEB-INF/views/qbbs/login.do");
-			//viewPage(req, resp, "redirect:/member/login.do");
+			//forward(req, resp, "/WEB-INF/views/member/login.do");
+			viewPage(req, resp, "redirect:/member/login.do");	// 이거 해주고 header 만져줘야 화면출력됨
 			return;
 		}
 		
@@ -107,7 +111,7 @@ public class QbbsServlet extends MyServlet{
 
 			// 페이징 처리
 			String cp = req.getContextPath();
-			String listUrl = cp + "/qbbs/list.do";
+			String listUrl = cp + "/qbbs/list.do?size=" + size;
 			String articleUrl = cp + "/qbbs/article.do?page=" + current_page;
 			if (query.length() != 0) {
 				listUrl += "?" + query;
@@ -131,16 +135,16 @@ public class QbbsServlet extends MyServlet{
 		}
 
 		// JSP로 포워딩
-		forward(req, resp, "WEB-INF/views/qbbs/list.jsp");
-		//viewPage(req, resp, "qna/list.jsp");
+		//forward(req, resp, "WEB-INF/views/qbbs/list.jsp");
+		viewPage(req, resp, "qbbs/list.jsp");
 	}
 	
 	
 	protected void writeForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 글쓰기 폼
 		req.setAttribute("mode", "write");
-		forward(req, resp, "/WEB-INF/views/qbbs/write.jsp");
-		//viewPage(req, resp, "qbbs/write.jsp");
+		//forward(req, resp, "/WEB-INF/views/qbbs/write.jsp");
+		viewPage(req, resp, "qbbs/write.jsp");
 		
 	}
 	
@@ -152,8 +156,8 @@ public class QbbsServlet extends MyServlet{
 		SessionInfo info = (SessionInfo) session.getAttribute("member");
 		
 		if (req.getMethod().equalsIgnoreCase("GET")) {
-			forward(req, resp, "redirect:/WEB-INF/views/qbbs/list.do");
-		//	viewPage(req, resp, "redirect:/qbbs/list.do");
+			//forward(req, resp, "redirect:/WEB-INF/views/qbbs/list.do");
+			viewPage(req, resp, "redirect:/qbbs/list.do");
 			return;
 		}
 		
@@ -174,8 +178,8 @@ public class QbbsServlet extends MyServlet{
 			e.printStackTrace();	
 		}
 		
-		forward(req, resp, "redirect:/WEB-INF/views/qbbs/list.do");
-		//viewPage(req, resp, "redirect:/qbbs/list.do");
+		//forward(req, resp, "/WEB-INF/views/qbbs/list.do");
+		viewPage(req, resp, "redirect:/qbbs/list.do");
 	}
 	
 	protected void article(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -203,15 +207,15 @@ public class QbbsServlet extends MyServlet{
 			// 게시물 가져오기
 			QbbsDTO dto = dao.findById(num);
 			if (dto == null) {
-				forward(req, resp, "redirect:/WEB-INF/views/qbbs/list.do?" + query);
-				//viewPage(req, resp, "redirect:/qbbs/list.do?" + query);
+				//forward(req, resp, "redirect:/WEB-INF/views/qbbs/list.do?" + query);
+				viewPage(req, resp, "redirect:/qbbs/list.do?" + query);
 				return;
 			}
 			
 			if( dto.getSecret() == 1) {		// 게시글쓴사람도 아니고 관리자도 아니면 글을 보게만든다.
 				if(dto.getUserId().equals(info.getUserId()) && ! info.getUserId().equals("admin")) {
-					forward(req, resp, "redirect:/WEB-INF/views/qbbs/list.do?" + query);
-					//viewPage(req, resp, "redirect:/qbbs/list.do?" + query);
+					//forward(req, resp, "/WEB-INF/views/qbbs/list.do?" + query);
+					viewPage(req, resp, "redirect:/qbbs/list.do?" + query);
 					return;
 				}
 			}
@@ -233,14 +237,14 @@ public class QbbsServlet extends MyServlet{
 			req.setAttribute("nextDto", nextDto);
 
 			// 포워딩
-			forward(req, resp, "/WEB-INF/views/qbbs/article.jsp");
-		//	viewPage(req, resp, "qbbs/article.jsp");
+			//forward(req, resp, "/WEB-INF/views/qbbs/article.jsp");
+			viewPage(req, resp, "qbbs/article.jsp");
 			return;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		forward(req, resp, "redirect:/WEB-INF/views/qbbs/list.do" + query);
-		//viewPage(req, resp, "redirect:/qbbs/list.do" + query);
+		//forward(req, resp, "/WEB-INF/views/qbbs/list.do" + query);
+		viewPage(req, resp, "redirect:/qbbs/list.do" + query);
 	}
 	
 	protected void updateForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -252,19 +256,19 @@ public class QbbsServlet extends MyServlet{
 		String page = req.getParameter("page");
 		
 		try {
-			long num = Long.parseLong(req.getParameter("writeNum"));
+			long writeNum = Long.parseLong(req.getParameter("writeNum"));
 			QbbsDTO dto = dao.findById(writeNum);
 
 			if (dto == null) {
-				forward(req, resp, "redirect:/WEB-INF/views/qbbs/list.do?page=" + page);
-				//viewPage(req, resp, "redirect:/qbbs/list.do?page=" + page);
+				//forward(req, resp, "redirect:/WEB-INF/views/qbbs/list.do?page=" + page);
+				viewPage(req, resp, "redirect:/qbbs/list.do?page=" + page);
 				return;
 			}
 
 			// 게시물을 올린 사용자가 아니면
 			if (! dto.getUserId().equals(info.getUserId())) {
-				forward(req, resp, "redirect:/WEB-INF/views/qbbs/list.do?page=" + page);
-				//viewPage(req, resp, "redirect:/qbbs/list.do?page=" + page);
+				//forward(req, resp, "/WEB-INF/views/qbbs/list.do?page=" + page);
+				viewPage(req, resp, "redirect:/qbbs/list.do?page=" + page);
 				return;
 			}
 
@@ -272,14 +276,14 @@ public class QbbsServlet extends MyServlet{
 			req.setAttribute("page", page);
 			req.setAttribute("mode", "update");
 			
-			forward(req, resp, "/WEB-INF/views/qbbs/write.jsp");
-			//viewPage(req, resp, "qbbs/write.jsp");
+			//forward(req, resp, "/WEB-INF/views/qbbs/write.jsp");
+			viewPage(req, resp, "qbbs/write.jsp");
 			return;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		forward(req, resp, "redirect:/WEB-INF/views/qbbs/list.do?page=" + page);
-		//viewPage(req, resp, "redirect:/qbbs/list.do?page=" + page);
+		//forward(req, resp, "/WEB-INF/views/qbbs/list.do?page=" + page);
+		viewPage(req, resp, "redirect:/qbbs/list.do?page=" + page);
 	}
 	
 	protected void updateSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -289,8 +293,8 @@ public class QbbsServlet extends MyServlet{
 		SessionInfo info = (SessionInfo) session.getAttribute("member");
 		
 		if (req.getMethod().equalsIgnoreCase("GET")) {
-			forward(req, resp, "redirect:/WEB-INF/views/qbbs/list.do");
-			//viewPage(req, resp, "redirect:/qbbs/list.do");
+			//forward(req, resp, "/WEB-INF/views/qbbs/list.do");
+			viewPage(req, resp, "redirect:/qbbs/list.do");
 			return;
 		}
 		
@@ -309,8 +313,8 @@ public class QbbsServlet extends MyServlet{
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		forward(req, resp, "redirect:/WEB-INF/views/qbbs/list.do?page=" + page);
-		//viewPage(req, resp, "redirect:/qbbs/list.do?page=" + page);
+		//forward(req, resp, "/WEB-INF/views/qbbs/list.do?page=" + page);
+		viewPage(req, resp, "redirect:/qbbs/list.do?page=" + page);
 	}
 	
 	protected void answerSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -320,14 +324,14 @@ public class QbbsServlet extends MyServlet{
 		SessionInfo info = (SessionInfo) session.getAttribute("member");
 		
 		if (req.getMethod().equalsIgnoreCase("GET")) {
-			forward(req, resp, "redirect:/WEB-INF/views/qbbs/list.do");
-			//viewPage(req, resp, "redirect:/qbbs/list.do");
+			//forward(req, resp, "/WEB-INF/views/qbbs/list.do");
+			viewPage(req, resp, "redirect:/qbbs/list.do");
 			return;
 		}
 		
 		if (! info.getUserId().equals("admin")) {
-			forward(req, resp, "redirect:/WEB-INF/views/qbbs/list.do");
-			//viewPage(req, resp, "redirect:/qbbs/list.do");
+			//forward(req, resp, "/WEB-INF/views/qbbs/list.do");
+			viewPage(req, resp, "redirect:/qbbs/list.do");
 			return;
 		}
 		
@@ -343,8 +347,8 @@ public class QbbsServlet extends MyServlet{
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		forward(req, resp, "redirect:/WEB-INF/views/qbbs/list.do?page=" + page);
-		//viewPage(req, resp, "redirect:/qbbs/list.do?page=" + page);
+		//forward(req, resp, "/WEB-INF/views/qbbs/list.do?page=" + page);
+		viewPage(req, resp, "redirect:/qbbs/list.do?page=" + page);
 	}
 	
 	protected void delete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -385,9 +389,8 @@ public class QbbsServlet extends MyServlet{
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		forward(req, resp, "redirect:/WEB-INF/views/qbbs/list.do?" + query);
-		//viewPage(req, resp, "redirect:/qbbs/list.do?" + query);
+		//forward(req, resp, "/WEB-INF/views/qbbs/list.do?" + query);
+		viewPage(req, resp, "redirect:/qbbs/list.do?" + query);
 	}
 	
 }
-*/

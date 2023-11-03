@@ -7,7 +7,7 @@ public class QbbsDTO {
 	private String content;	// 질문내용
 	private String writeDate;	// 작성일자
 	private String comment;	// 답글
-	private String reg_Date;// 답글등록일(답변날짜)
+	private String reg_date;// 답글등록일(답변날짜)
 	private String userId;	// 아이디
 	
 	private String userName;
@@ -52,11 +52,11 @@ public class QbbsDTO {
 	public void setComment(String comment) {
 		this.comment = comment;
 	}
-	public String getReg_Date() {
-		return reg_Date;
+	public String getReg_date() {
+		return reg_date;
 	}
-	public void setReg_Date(String reg_Date) {
-		this.reg_Date = reg_Date;
+	public void setReg_date(String reg_date) {
+		this.reg_date = reg_date;
 	}
 	public String getUserId() {
 		return userId;

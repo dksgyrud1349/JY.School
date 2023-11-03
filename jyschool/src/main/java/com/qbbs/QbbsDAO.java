@@ -107,7 +107,7 @@ public class QbbsDAO {
 		StringBuilder sb = new StringBuilder();
 			
 		try {
-			sb.append(" SELECT writeNum, title, content, writeDate, comment, q.userId ");
+			sb.append(" SELECT writeNum, secret, title, q.userId, userName, answerId, ");
 			sb.append("  TO_CHAR(reg_date, 'YYYY-MM-DD') reg_date ");
 			sb.append(" FROM qbbs q ");
 			sb.append(" JOIN member m ON q.userId = m.userId ");
@@ -124,12 +124,12 @@ public class QbbsDAO {
 			while (rs.next()) {
 				QbbsDTO dto = new QbbsDTO();
 				dto.setWriteNum(rs.getLong("writeNum"));
-				dto.setTitle(rs.getString("secret"));
-				dto.setContent(rs.getString("content"));
-				dto.setWriteDate(rs.getString("writeDate"));
-				dto.setComment(rs.getString("comment"));
+				dto.setSecret(rs.getInt("secret"));
+				dto.setTitle(rs.getString("title"));
 				dto.setUserId(rs.getString("userId"));
-				dto.setReg_Date(rs.getString("reg_date"));
+				dto.setUserName(rs.getString("userName"));
+				dto.setAnswerId(rs.getString("answerId"));
+				dto.setReg_date(rs.getString("reg_date"));
 
 				list.add(dto);
 			}
@@ -177,7 +177,7 @@ public class QbbsDAO {
 				dto.setWriteDate(rs.getString("writeDate"));
 				dto.setComment(rs.getString("comment"));
 				dto.setUserId(rs.getString("userId"));
-				dto.setReg_Date(rs.getString("reg_date"));
+				dto.setReg_date(rs.getString("reg_date"));
 
 				list.add(dto);
 			}
@@ -220,7 +220,7 @@ public class QbbsDAO {
 				dto.setUserId(rs.getString("userId"));
 				dto.setWriteDate(rs.getString("writeDate"));
 				dto.setComment(rs.getString("comment"));
-				dto.setReg_Date(rs.getString("reg_Date"));
+				dto.setReg_date(rs.getString("reg_date"));
 				dto.setAnswerId(rs.getString("answerId"));
 				dto.setAnswerName(rs.getString("answerName"));
 				dto.setAnswer(rs.getString("answer"));

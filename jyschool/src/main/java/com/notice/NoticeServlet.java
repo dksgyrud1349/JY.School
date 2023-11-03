@@ -41,6 +41,7 @@ import com.util.MyUtil;
  * DAO의 insert를 잘못만졌더니 --> 글올리기-등록하기가 눌리지않았다.
  * getAttribute: 속성 가져올떄 // setAttribute: 속성 설정할때
  * not null = insert 할때 꼭 있어야함
+ * viewPage(req, resp, "redirect:/member/login.jsp");	// 이거아니면 forward 해주고 header 만져줘야 화면출력됨
  * */
 
 @MultipartConfig
