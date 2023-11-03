@@ -23,7 +23,7 @@
 	<meta name="apple-mobile-web-app-title" content="시원스쿨 기초영어">
 	<meta name="viewport" content="width=1200">
 	<meta name="referrer" content="no-referrer-when-downgrade" />
-	<title>시원스쿨 영어 공식 사이트 | 영어는 역시 시원스쿨</title>
+	<title>준영스쿨 코딩 공식 사이트 | 코딩은 역시 준영스쿨</title>
 
 	<link href="//siwon-cdn.siwonschool.com/pc/www/header/favicon.ico" rel="shortcut icon">
 	<link rel="canonical" href="http://www.siwonschool.com">

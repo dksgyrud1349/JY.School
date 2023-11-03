@@ -8,7 +8,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>spring</title>
+<title>준영스쿨 코딩 공식 사이트 | 코딩은 역시 준영스쿨</title>
 
 <jsp:include page="/WEB-INF/views/layout/staticHeader.jsp"/>
 
