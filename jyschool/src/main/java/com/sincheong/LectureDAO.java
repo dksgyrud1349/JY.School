@@ -69,28 +69,26 @@ public class LectureDAO {
 	}
 	
 	// 강좌 수정(관리자)
-	public void updateLecture(LectureDTO dto, String userId) throws SQLException{
+	public void updateLecture(LectureDTO dto) throws SQLException{
 		PreparedStatement pstmt = null;
 		String sql;
 		
 		try {
-			if(userId.equals("admin")) {
-				LectureDTO ldto = findByTeacher(userId);
-				if(ldto != null) {  // 강사이면
-					sql = "UPDATE LECTURE SET CLASSNAME = ?, PRICE = ?, CLASSCOMMENT = ?, CLASSDEGREE = ?, USERID = '" + ldto.getUserId() + "' WHERE classNum2 = ?";
+					sql = "UPDATE lecture SET className = ?, price = ?, classComment = ?, "
+							+ " classDegree = ?, c_reg_date = SYSDATE, imageFileName1 = ?, imageFileName2 = ?"
+							+ " WHERE classNum2 = ?";
 					pstmt = conn.prepareStatement(sql);
 					
 					pstmt.setString(1, dto.getClassName());
 					pstmt.setInt(2, dto.getPrice());
 					pstmt.setString(3, dto.getClassComment());
 					pstmt.setString(4, dto.getClassDegree());
-					pstmt.setLong(5, dto.getClassNum());
+					pstmt.setString(5, dto.getImageFilename1());
+					pstmt.setString(6, dto.getImageFilename2());
+					pstmt.setLong(7, dto.getClassNum());
 					
 					pstmt.executeUpdate();
 					
-				}
-				
-			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -99,20 +97,20 @@ public class LectureDAO {
 	}
 	
 	// 강좌 삭제(관리자)
-	public void deleteLecture(long num, String userId) throws SQLException{
+	public void deleteLecture(long classNum) throws SQLException{
 		PreparedStatement pstmt = null;
 		String sql;
 		
 		try {
-			if(userId.equals("admin")) {  // 관리자만 삭제할 수 있다.
-				sql = "DELETE FROM lecture WHERE num = ?";
+				sql = "DELETE FROM lecture WHERE classNum2 = ?";
 				pstmt = conn.prepareStatement(sql);
-				pstmt.setLong(1, num);
+				
+				pstmt.setLong(1, classNum);
 				pstmt.executeUpdate();
-			}
 			
 		} catch (Exception e) {
 			e.printStackTrace();
+			throw e;
 		} finally {
 			DBUtil.close(pstmt);
 		}
@@ -236,7 +234,7 @@ public class LectureDAO {
 					+ "JOIN member m ON t.userid = m.userid"
 					+ " ORDER BY classNum2 DESC "
 					+ " OFFSET ? ROWS FETCH FIRST ? ROWS ONLY ";
-			
+
 			pstmt = conn.prepareStatement(sql);
 			
 			pstmt.setInt(1, offset);
@@ -335,7 +333,7 @@ public class LectureDAO {
 			String sql;
 			
 			try {
-				sql = " SELECT userId, className, classDegree, price, classComment FROM lecture WHERE classNum2 = ?";
+				sql = " SELECT classNum2, userId, className, classDegree, price, classComment, imageFileName1, imageFileName2 FROM lecture WHERE classNum2 = ?";
 				
 				pstmt = conn.prepareStatement(sql);
 				
@@ -352,6 +350,8 @@ public class LectureDAO {
 					dto.setClassDegree(rs.getString("classDegree"));
 					dto.setPrice(rs.getInt("price"));
 					dto.setClassComment(rs.getString("classComment"));
+					dto.setImageFilename1(rs.getString("imageFileName1"));
+					dto.setImageFilename2(rs.getString("imageFileName2"));
 					
 				}
 				
@@ -362,6 +362,35 @@ public class LectureDAO {
 				DBUtil.close(pstmt);
 			}
 			
+			return dto;
+		}
+		
+		public LectureDTO findByTeacher2(String userId) {
+			LectureDTO dto = null;
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+			String sql;
+			
+			try {
+				
+				sql = " SELECT userId FROM teacher WHERE userId = ?";
+				
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, userId);
+				
+				rs = pstmt.executeQuery();
+				
+				while(rs.next()) {
+					dto = new LectureDTO();
+					dto.setUserId(rs.getString("userid"));
+				}
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}finally {
+				DBUtil.close(rs);
+				DBUtil.close(pstmt);
+			}
 			return dto;
 		}
 }

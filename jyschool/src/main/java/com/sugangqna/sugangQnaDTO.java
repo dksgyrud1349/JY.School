@@ -3,9 +3,11 @@ package com.sugangqna;
 public class sugangQnaDTO {
 	private long q_num;  // 질문번호
 	private String q_title;  // 질문제목
-	private String q_userId;  // 작성자
+	private String q_userId;  // 작성자 아이디
+	private String q_userName;  // 작성자 이름
+	
 	private String q_date;  // 질문일자
-	private String result;  // 결과
+	private String result_state;  // 답변 여부
 	private String q_content;  // 질문내용
 	
 	private String a_title;  // 답변제목
@@ -20,6 +22,23 @@ public class sugangQnaDTO {
 	private String endDate;    // 끝 날짜
 	private String teacherName;  // 강사 이름
 	private long lectureNumber;  // 강좌 번호
+
+	
+	public String getQ_userName() {
+		return q_userName;
+	}
+
+	public void setQ_userName(String q_userName) {
+		this.q_userName = q_userName;
+	}
+
+	public String getResult_state() {
+		return result_state;
+	}
+
+	public void setResult_state(String result_state) {
+		this.result_state = result_state;
+	}
 
 	public String getClassName() {
 		return className;
@@ -91,14 +110,6 @@ public class sugangQnaDTO {
 
 	public void setQ_date(String q_date) {
 		this.q_date = q_date;
-	}
-
-	public String getResult() {
-		return result;
-	}
-
-	public void setResult(String result) {
-		this.result = result;
 	}
 
 	public String getQ_content() {

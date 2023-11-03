@@ -23,7 +23,7 @@
 .table-list .subject { color: #787878; }
 .table-list .name { width: 100px; color: #787878; }
 .table-list .date { width: 100px; color: #787878; }
-.table-list .hit { width: 70px; color: #787878; }
+.table-list .answer { width: 70px; color: #787878; }
 </style>
 <script type="text/javascript">
 function searchList() {
@@ -41,14 +41,14 @@ function searchList() {
 <main>
 	<div class="container body-container">
 	    <div class="body-title">
-			<h2><i class="fas fa-chalkboard-teacher"></i> 구매내역 </h2>
+			<h2><i class="fa-solid fa-person-circle-question"></i> ${className} - 질문과 답변 </h2>
 	    </div>
 	    
 	    <div class="body-main mx-auto">
 			<table class="table">
 				<tr>
 					<td width="50%">
-						${dataCount}(${page}/${total_page} 페이지)
+						${dataCount}개(${page}/${total_page} 페이지)
 					</td>
 					<td align="right">&nbsp;</td>
 				</tr>
@@ -57,52 +57,51 @@ function searchList() {
 			<table class="table table-border table-list">
 				<thead>
 					<tr>
-						<th class="userId">과목명</th>
-						<th class="price">가격</th>
-						<th class="startDate">강의시작일자</th>
-						<th class="endDate">강의종료일자</th>
+						<th class="num">번호</th>
+						<th class="subject">제목</th>
+						<th class="name">작성자</th>
+						<th class="date">질문일자</th>
+						<th class="answer">답변여부</th>
 					</tr>
 				</thead>
 				
 				<tbody>
 					<c:forEach var="dto" items="${list}" varStatus="status">
 						<tr>
-							
-							<td>${dto.userId }</td>
-							<td>${dto.price }</td>
-							<td>${dto.startDate}</td>
-							<td>${dto.endDate}</td>
+							<td>${dataCount - (page-1) * size - status.index}</td>
+							<td class="left">
+								<a href="${pageContext.request.contextPath}/sugangqna/article.do?classNum=${classNum}&q_num=${dto.q_num}">${dto.q_title}</a>				
+							</td>
+							<td>${dto.q_userName}</td>
+							<td>${dto.q_date}</td>
+							<td>${dto.result_state}</td>
 						</tr>
 					</c:forEach>
 				</tbody>
 			</table>
 			
 			<div class="page-navigation">
-				${dataCount == 0 ? "등록된 강좌가 없습니다." : paging}
+				${dataCount == 0 ? "등록된 게시물이 없습니다." : paging}
 			</div>
 			
 			<table class="table">
 				<tr>
 					<td width="100">
-						<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/buyinfo/list.do';" title="새로고침"><i class="fa-solid fa-arrow-rotate-right"></i></button>
-					</td>
-					<td align="center">
-						<form name="searchForm" action="${pageContext.request.contextPath}/enrolmentinfo/list.do" method="post">
-							<select name="schType" class="form-select">
-								<option value="all"      ${schType=="all"?"selected":"" }>제목+내용</option>
-								<option value="userName" ${schType=="userName"?"selected":"" }>작성자</option>
-								<option value="reg_date"  ${schType=="reg_date"?"selected":"" }>등록일</option>
-								<option value="subject"  ${schType=="subject"?"selected":"" }>제목</option>
-								<option value="content"  ${schType=="content"?"selected":"" }>내용</option>
-							</select>
-							<input type="text" name="kwd" value="${kwd}" class="form-control">
-							<button type="button" class="btn" onclick="searchList();">검색</button>
-						</form>
+						<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/sugangqna/list_ok.do?classNum=${classNum}';" title="새로고침"><i class="fa-solid fa-arrow-rotate-right"></i></button>
 					</td>
 					<td align="right" width="100">
+						<c:choose>
+							<c:when test="${sessionScope.member.userId == 'admin' }">
+							
+							</c:when>
+							<c:otherwise>
+								<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/sugangqna/write.do?classNum=${classNum}';">질문등록</button>
+							</c:otherwise>
+						</c:choose>
 					</td>
 				</tr>
-			</table>	
+			</table>
+
 	    </div>
 	</div>
 </main>

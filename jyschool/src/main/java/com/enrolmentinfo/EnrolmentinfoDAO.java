@@ -19,7 +19,7 @@ public class EnrolmentinfoDAO {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		String sql;
-		
+		 
 		try {
 			sql = "SELECT COUNT(*) FROM enrolment WHERE userId=? ";
 			

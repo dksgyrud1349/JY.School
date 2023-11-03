@@ -73,7 +73,7 @@ function sendLecture() {
         return;
     }
 
-    f.action = "${pageContext.request.contextPath}/sugang/insert_ok.do";
+    f.action = "${pageContext.request.contextPath}/sugang/${mode}_ok.do";
     f.submit();
 }
 </script>
@@ -158,6 +158,9 @@ function sendLecture() {
 							<button type="button" class="btn" onclick="sendLecture();">${mode=='update'?'수정완료':'등록완료'}</button>
 							<button type="reset" class="btn">다시입력</button>
 							<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/sugang/list.do';">${mode=='update'?'수정취소':'등록취소'}</button>
+						<c:if test="${mode =='update'}">
+							<input type="hidden" name="page" value="${page}">
+						</c:if>
 						</td>
 					</tr>
 				</table>

@@ -6,6 +6,7 @@ import java.net.URLEncoder;
 import java.util.List;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,6 +16,7 @@ import com.member.SessionInfo;
 import com.util.MyServlet;
 import com.util.MyUtil;
 
+@MultipartConfig
 @WebServlet("/bbs/*")
 public class BoardServlet extends MyServlet{
 	private static final long serialVersionUID = 1L;
@@ -147,7 +149,7 @@ public class BoardServlet extends MyServlet{
 	protected void writeForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 글쓰기 폼
 		req.setAttribute("mode", "write");
-		forward(req,resp,"/WEB-INF/views/bbs/write.jsp");
+		forward(req,resp,"/WEB-INF/views/bbs/write.jsp"); //forward 메서드를 호출하여 "/WEB-INF/views/bbs/write.jsp"로 전달
 	}
 	
 	protected void writeSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -200,7 +202,7 @@ public class BoardServlet extends MyServlet{
 				query += "&schType=" + schType + "&kwd="
 						+ URLEncoder.encode(kwd,"utf-8");
 			}
-			
+			// 조회수
 			dao.updateHitcount(num);
 			
 			BoardDTO dto = dao.findById(num);
@@ -266,6 +268,7 @@ public class BoardServlet extends MyServlet{
 			req.setAttribute("page", page);
 			req.setAttribute("mode", "update");
 			
+			// 포워딩
 			forward(req,resp, "/WEB-INF/views/bbs/write.jsp");
 			return;
 			
@@ -274,7 +277,7 @@ public class BoardServlet extends MyServlet{
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+		// 예외가 발생하면 list.do로
 		resp.sendRedirect(cp + "/bbs/list.do?page="+page);
 	}
 	
