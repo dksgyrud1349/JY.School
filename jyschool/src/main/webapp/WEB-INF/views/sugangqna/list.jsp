@@ -70,7 +70,7 @@ function searchList() {
 						<tr>
 							<td>${dataCount - (page-1) * size - status.index}</td>
 							<td class="left">
-								<a href="#">${dto.className}</a>
+								<a href="${pageContext.request.contextPath}/sugangqna/list_ok.do?classNum=${dto.classNum}">${dto.className}</a>
 							</td>
 							<td>${dto.teacherName}</td>
 							<td>${dto.startDate}</td>

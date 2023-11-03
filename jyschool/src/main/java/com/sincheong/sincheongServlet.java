@@ -59,6 +59,7 @@ public class sincheongServlet extends MyServlet {
 		} else if (uri.indexOf("insert.do") != -1) {
 			// 강좌 등록 폼
 			insertLectureForm(req, resp);
+			
 		} else if(uri.indexOf("update.do") != -1) {
 			// 강좌 수정
 			updateLectureForm(req, resp);
@@ -70,6 +71,14 @@ public class sincheongServlet extends MyServlet {
 		} else if(uri.indexOf("delete.do") != -1) {
 			// 강좌 삭제
 			deleteLectureForm(req, resp);
+			
+		} else if(uri.indexOf("delete_ok.do") != -1) {
+			// 강좌 삭제
+			deleteLectureSubmit(req, resp);
+			
+		} else if(uri.indexOf("sincheong.do") != -1) {
+			// 수강신청
+			sincheongForm(req, resp);
 		}
 	}
 
@@ -163,12 +172,14 @@ public class sincheongServlet extends MyServlet {
 	protected void listSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
 		sincheongDAO dao = new sincheongDAO();
+		LectureDAO dao2 = new LectureDAO();
 		String cp = req.getContextPath();
 		String page = req.getParameter("page");
 
 		try {
 
 			long classNum = Long.parseLong(req.getParameter("classNum"));
+			List<LectureDTO> teacherList = dao2.teacherList();
 
 			LectureDTO dto = dao.pickLecture(classNum);
 			if (dto == null) {
@@ -177,6 +188,8 @@ public class sincheongServlet extends MyServlet {
 			}
 
 			req.setAttribute("dto", dto);
+			req.setAttribute("page", page);
+			req.setAttribute("teacherList", teacherList);
 
 			forward(req, resp, "/WEB-INF/views/sugang/sincheong.jsp");
 			return;
@@ -310,10 +323,11 @@ public class sincheongServlet extends MyServlet {
 		   String cp = req.getContextPath();
 		 
 		   String page = req.getParameter("page");
-		   String classNum = req.getParameter("classNum");
+		   long classNum = Long.parseLong(req.getParameter("classNum"));
 		   
 		   HttpSession session = req.getSession();
 		   SessionInfo info = (SessionInfo)session.getAttribute("member");
+		   List<LectureDTO> teacherList = dao.teacherList();
 		   
 		   /*
 		   if(req.getMethod().equalsIgnoreCase("GET")){
@@ -326,12 +340,13 @@ public class sincheongServlet extends MyServlet {
 			
 			   if(dao.findByTeacher(info.getUserId()) != null) {
 				   // 게시물을 작성한 강사님 id 가져옴
-				   LectureDTO dto = dao.findByTeacher(info.getUserId());
+				   LectureDTO dto = dao.findById(classNum);
 				   
 				   req.setAttribute("dto", dto);
 				   req.setAttribute("classNum", classNum);
 				   req.setAttribute("page", page);
 				   req.setAttribute("mode", "update");
+				   req.setAttribute("teacherList", teacherList);
 				 
 			   }else{
 				   resp.sendRedirect(cp + "/sugang/list.do?page=" + page);
@@ -346,10 +361,115 @@ public class sincheongServlet extends MyServlet {
 	   }
 	   
 	   protected void updateLectureSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		   LectureDAO dao = new LectureDAO();
+		   String cp = req.getContextPath();
+		   String page = req.getParameter("page");
 		   
+		   try {
+			LectureDTO dto = new LectureDTO();
+			
+			dto.setClassNum(Long.parseLong(req.getParameter("classNum")));
+			dto.setUserId(req.getParameter("userId"));
+			dto.setClassName(req.getParameter("className"));
+			dto.setPrice(Integer.parseInt(req.getParameter("price")));
+			dto.setClassComment(req.getParameter("classComment"));
+			dto.setClassDegree(req.getParameter("classDegree"));
+			dto.setImageFilename1(req.getParameter("imageFilename1"));
+			dto.setImageFilename2(req.getParameter("imageFilename2"));
+			
+			dao.updateLecture(dto);
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		   
+		   resp.sendRedirect(cp + "/sugang/list.do?page="+page);
 	   }
 	   
 	   protected void deleteLectureForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		   LectureDAO dao = new LectureDAO();
+		   String cp = req.getContextPath();
 		   
+		   HttpSession session = req.getSession();
+		   SessionInfo info = (SessionInfo)session.getAttribute("member");
+		   
+		   String page = req.getParameter("page");
+		   List<LectureDTO> teacherList = dao.teacherList();
+		   
+		   try {
+			   long classNum = Long.parseLong(req.getParameter("classNum"));
+			   
+			   if(dao.findByTeacher(info.getUserId()) != null) {
+				   // 게시물을 작성한 강사님 id 가져옴
+				   LectureDTO dto = dao.findById(classNum);
+				   
+				   req.setAttribute("dto", dto);
+				   req.setAttribute("page", page);
+				   req.setAttribute("teacherList", teacherList);
+			   
+			   } else {
+				   resp.sendRedirect(cp + "/sugang/list.do?page=" + page);
+			   }
+			   
+			   forward(req, resp, "/WEB-INF/views/sugang/sincheong.jsp?classNum="+classNum);
+	           return;
+	           
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		   resp.sendRedirect(cp + "/sugang/list.do?page="+page);
 	   }
+	   
+	   protected void deleteLectureSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		   LectureDAO dao = new LectureDAO();
+		   String cp = req.getContextPath();
+		   String page = req.getParameter("page");
+		   
+		   try {
+			
+			   long classNum = Long.parseLong(req.getParameter("classNum"));
+
+			   dao.deleteLecture(classNum);
+			   
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		   
+		   resp.sendRedirect(cp + "/sugang/list.do?page="+page);
+	   }
+	   
+	   protected void sincheongForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		   sincheongDAO dao2 = new sincheongDAO();
+		   LectureDAO dao = new LectureDAO();
+		   String cp = req.getContextPath();
+		   // long classNum2 = Long.parseLong(req.getParameter("classNum2"));	// 강좌번호
+		   String rtnCode = "";
+		   
+		   HttpSession session = req.getSession();
+		   SessionInfo info = (SessionInfo)session.getAttribute("member");
+		   
+		   try {
+			   String page      = req.getParameter("page");
+			   String classNum2 = req.getParameter("classNum2");
+			   // 강사와 관리자가 아니면
+			   
+			   if(dao.findByTeacher2(info.getUserId()) == null && !"admin".equals(info.getUserId())) {
+				   sincheongDTO dto2 = new sincheongDTO();
+
+				   dto2.setUserId(info.getUserId());
+				   dto2.setClassNum2(Long.parseLong(classNum2));
+				   
+				   dao2.insertLecture(dto2);
+				   rtnCode = "S";
+			   } else {
+				   resp.sendRedirect(cp + "/sugang/list.do?page="+page);
+				   return;
+			   } 
+			} catch (Exception e) {
+				rtnCode = "F";
+				e.printStackTrace();
+			}
+			   resp.sendRedirect(cp + "/main.do?rtnCode=" + rtnCode);
+		   }
 }

@@ -46,7 +46,7 @@ public class MemberServlet extends MyUploadServlet {
 			teacherForm(req, resp);
 		} else if (uri.indexOf("member_ok.do") != -1) {
 			memberSubmit(req, resp);
-		} else if (uri.indexOf("teacher_ok.do") != -1) {
+		} else if (uri.indexOf("teachertec_ok.do") != -1) {
 			teacherSubmit(req, resp);
 		} else if (uri.indexOf("pwd.do") != -1) {
 			pwdForm(req, resp);
