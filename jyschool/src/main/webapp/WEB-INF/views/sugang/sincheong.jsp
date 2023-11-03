@@ -60,7 +60,8 @@
 	    <div class="body-main mx-auto">
 			<table class="table">
 				<tr>
-	    			<td class="box"><img src = "rupi.jpg" class="img"></td>
+	    			<td>ffff</td>
+	    			<img src="<c:url value='/uploads/lecturephoto/${dto.imageFilename1}'/>">
 					<td align="left">&nbsp;</td>
 				</tr>
 			</table>
@@ -86,6 +87,7 @@
 						<th class="price">가격</th>
 						<td>${dto.price}</td>
 						<input type="hidden" name="classNum" value="${dto.classNum}">
+						<input type="hidden" name="classNum2" value="${dto2.classNum2}">
 					</tr>
 				
 			</table>
@@ -93,10 +95,10 @@
 			<table class="table table-border table-list table-content">
 				<tr>
 					<th class="content" style="border-top: 2px solid gray;"> 상세 설명 </th>
-					<th style="border-top: 2px solid gray; background: white;">ddddd</th>
+					<th style="border-top: 2px solid gray; background: white;">상세 설명란</th>
 				</tr>
 				<tr>
-					<td> 이미지로 대체 </td>
+					<td colspan="2" style="text-align: center;">ddddd</td>
 
 				</tr>
 			</table>
@@ -106,14 +108,18 @@
 					<td width="100">
 						<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/sugang/list.do';" title="이전으로">강좌목록 <i class="fa-solid fa-arrow-rotate-right"></i></button>
 					</td>
-					<td width="100" style="float: right; margin-right: -85px;">
-						<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/sugang/update.do';" title="수정">수정하기</button>
-						<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/sugang/list.do';" title="삭제">삭제하기</button>
-					</td>
+						<td width="100" style="float: right; margin-right: -85px;">
+								<c:if test="${sessionScope.member.userId==dto.userId}">
+									<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/sugang/update.do?classNum=${dto.classNum}&page=${page}';" title="수정">수정하기</button>
+									<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/sugang/delete.do?classNum=${dto.classNum}&page=${page}';" title="삭제">삭제하기</button>
+								</c:if>
+								
+									<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/sugang/sincheong.do?classNum2=${dto.classNum}&page=${page}';" title="신청">신청하기</button>
+								
+						</td>
 					<td align="right" width="100">
-
-					</td>
-				</tr>
+						</td>
+					</tr>
 			</table>	
 	    </div>
 	</div>
