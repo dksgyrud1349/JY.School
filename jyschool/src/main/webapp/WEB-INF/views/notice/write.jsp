@@ -120,7 +120,7 @@ function sendOk() {
 								<td> 
 									<p>
 										<a href="javascript:deleteFile('${vo.noticeFileNum}');"><i class="far fa-trash-alt"></i></a>
-										${vo.clientFilename} <!-- @@@@@@@@ -->
+										${vo.clientFile} <!-- @@@@@@@@ -->
 									</p>
 								</td>
 							</tr>

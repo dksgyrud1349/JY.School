@@ -1,4 +1,4 @@
-package com.qbbs;
+/*package com.qbbs;
 
 import java.io.IOException;
 import java.net.URLDecoder;
@@ -253,7 +253,7 @@ public class QbbsServlet extends MyServlet{
 		
 		try {
 			long num = Long.parseLong(req.getParameter("writeNum"));
-		//	QbbsDTO dto = dao.findById(writeNum);
+			QbbsDTO dto = dao.findById(writeNum);
 
 			if (dto == null) {
 				forward(req, resp, "redirect:/WEB-INF/views/qbbs/list.do?page=" + page);
@@ -390,3 +390,4 @@ public class QbbsServlet extends MyServlet{
 	}
 	
 }
+*/

@@ -349,16 +349,16 @@ public class NoticeServlet extends MyUploadServlet {
 		String size = req.getParameter("size");
 		
 		try {
-			long refernum = Long.parseLong(req.getParameter("referNum"));
+			long referNum = Long.parseLong(req.getParameter("referNum"));
 			
-			NoticeDTO dto = dao.findById(refernum);
+			NoticeDTO dto = dao.findById(referNum);
 			if (dto == null) {
 				resp.sendRedirect(cp + "/notice/list.do?page=" + page + "&size=" + size);
 				return;
 			}
 			
 			// 파일
-			List<NoticeDTO> listFile = dao.listNoticeFile(refernum);
+			List<NoticeDTO> listFile = dao.listNoticeFile(referNum);
 			
 			req.setAttribute("dto", dto);
 			req.setAttribute("listFile", listFile);
