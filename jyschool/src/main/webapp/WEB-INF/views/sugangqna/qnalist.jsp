@@ -23,7 +23,7 @@
 .table-list .subject { color: #787878; }
 .table-list .name { width: 100px; color: #787878; }
 .table-list .date { width: 100px; color: #787878; }
-.table-list .hit { width: 70px; color: #787878; }
+.table-list .answer { width: 70px; color: #787878; }
 </style>
 <script type="text/javascript">
 function searchList() {
@@ -41,7 +41,7 @@ function searchList() {
 <main>
 	<div class="container body-container">
 	    <div class="body-title">
-			<h2><i class="fa-regular fa-square"></i> 수강신청 강좌 목록 </h2>
+			<h2><i class="fa-solid fa-person-circle-question"></i> ${className} - 질문과 답변 </h2>
 	    </div>
 	    
 	    <div class="body-main mx-auto">
@@ -58,10 +58,10 @@ function searchList() {
 				<thead>
 					<tr>
 						<th class="num">번호</th>
-						<th class="subject">강좌이름</th>
-						<th class="name">강사</th>
-						<th class="date1">시작날짜</th>
-						<th class="date2">종료날짜</th>
+						<th class="subject">제목</th>
+						<th class="name">작성자</th>
+						<th class="date">질문일자</th>
+						<th class="answer">답변여부</th>
 					</tr>
 				</thead>
 				
@@ -70,11 +70,11 @@ function searchList() {
 						<tr>
 							<td>${dataCount - (page-1) * size - status.index}</td>
 							<td class="left">
-								<a href="${pageContext.request.contextPath}/sugangqna/list_ok.do?classNum=${dto.classNum}">${dto.className}</a>
+								<a href="${pageContext.request.contextPath}/sugangqna/article.do?classNum=${classNum}&q_num=${dto.q_num}">${dto.q_title}</a>				
 							</td>
-							<td>${dto.teacherName}</td>
-							<td>${dto.startDate}</td>
-							<td>${dto.endDate}</td>
+							<td>${dto.q_userName}</td>
+							<td>${dto.q_date}</td>
+							<td>${dto.result_state}</td>
 						</tr>
 					</c:forEach>
 				</tbody>
@@ -83,6 +83,25 @@ function searchList() {
 			<div class="page-navigation">
 				${dataCount == 0 ? "등록된 게시물이 없습니다." : paging}
 			</div>
+			
+			<table class="table">
+				<tr>
+					<td width="100">
+						<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/sugangqna/list_ok.do?classNum=${classNum}';" title="새로고침"><i class="fa-solid fa-arrow-rotate-right"></i></button>
+					</td>
+					<td align="right" width="100">
+						<c:choose>
+							<c:when test="${sessionScope.member.userId == 'admin' }">
+							
+							</c:when>
+							<c:otherwise>
+								<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/sugangqna/write.do?classNum=${classNum}';">질문등록</button>
+							</c:otherwise>
+						</c:choose>
+					</td>
+				</tr>
+			</table>
+
 	    </div>
 	</div>
 </main>
