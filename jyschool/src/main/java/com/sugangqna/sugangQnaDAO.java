@@ -39,6 +39,33 @@ public class sugangQnaDAO {
 		}
 		return result;
 	}
+	
+	// 강사 본인이 수업하고 있는 강좌 데이터 개수
+	public int teachDataCount(String teacher) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql;
+		
+		try {
+			sql = "select count(*)\r\n"
+					+ "from lecture\r\n"
+					+ "where userid = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, teacher);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				result = rs.getInt(1);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			DBUtil.close(rs);
+			DBUtil.close(pstmt);
+		}
+		return result;
+	}
 
 	// 데이터 개수
 	public int dataCount(String userId) {
@@ -111,6 +138,49 @@ public class sugangQnaDAO {
 					+ "JOIN member m ON le.userid = m.userid\r\n" + "ORDER BY le.classNum2 DESC";
 
 			pstmt = conn.prepareStatement(sql);
+
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				sugangQnaDTO dto = new sugangQnaDTO();
+				dto.setClassName(rs.getString("classname")); // 강좌 이름
+				dto.setStartDate(rs.getString("startdate")); // 시작 날짜
+				dto.setEndDate(rs.getString("enddate")); // 종료 날짜
+				dto.setTeacherName(rs.getString("username")); // 강사 이름
+				dto.setLectureNumber(rs.getLong("classNum2")); // 강좌 번호
+				dto.setClassNum(rs.getLong("classnum")); // 수강 번호
+				dto.setQ_userId(rs.getString("userid")); // 학생 아이디
+
+				listSugangLecture.add(dto);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			DBUtil.close(rs);
+			DBUtil.close(pstmt);
+		}
+
+		return listSugangLecture;
+	}
+	
+	public List<sugangQnaDTO> listSugangLecture2(int offset, int size, String teacher) {
+		List<sugangQnaDTO> listSugangLecture = new ArrayList<sugangQnaDTO>();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql;
+
+		try {
+			sql = "select le.classname, TO_CHAR(startdate, 'YYYY-MM-DD') startdate, TO_CHAR(enddate, 'YYYY-MM-DD') enddate, m.username, le.classNum2, en.classnum, en.userid\r\n"
+					+ "from enrolment en\r\n"
+					+ "join lecture le on en.classNum2 = le.classNum2\r\n"
+					+ "join member m on le.userid = m.userid\r\n"
+					+ "where le.userid = ?\r\n"
+					+ "order by le.classnum2 desc";
+
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, teacher);
 
 			rs = pstmt.executeQuery();
 
@@ -352,10 +422,12 @@ public class sugangQnaDAO {
 
 		try {
 			sql = "select q_num, q_content, TO_CHAR(q_date, 'YYYY-MM-DD') q_date, en.classNum, q_title, q_userId, result_state, le.classname, me.username\r\n"
-					+ "from qna q\r\n" + "join enrolment en on q.classNum = en.classNum\r\n"
+					+ "from qna q\r\n"
+					+ "join enrolment en on q.classNum = en.classNum\r\n"
 					+ "join lecture le on en.classNum2 = le.classNum2\r\n"
-					+ "join member me on en.userid = me.userid\r\n" + "WHERE en.classnum = ?\r\n"
-					+ "ORDER BY q_num desc OFFSET ? ROWS FETCH FIRST ? ROWS ONLY";
+					+ "join member me on q_userId = me.userId\r\n"
+					+ "WHERE en.classnum = ? "
+					+ " ORDER BY q_num desc OFFSET ? ROWS FETCH FIRST ? ROWS ONLY ";
 
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setLong(1, classNum);
@@ -416,6 +488,58 @@ public class sugangQnaDAO {
 			DBUtil.close(pstmt);
 		}
 
+		return dto;
+	}
+	
+	// info.getuserid로 선생님 여부 확인
+	public sugangQnaDTO isTeacher(String teacher) {
+		sugangQnaDTO dto = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql;
+		try {
+			sql = "select userId\r\n"
+					+ "from lecture\r\n"
+					+ "where userId = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, teacher);
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				dto = new sugangQnaDTO();
+				dto.setT_userId(rs.getString("userId"));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			DBUtil.close(rs);
+			DBUtil.close(pstmt);
+		}
+		return dto;
+	}
+	
+	// 답변 여부
+	public sugangQnaDTO isAnswer(long q_num) {
+		sugangQnaDTO dto = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql;
+		try {
+			sql = "select result_state\r\n"
+					+ "from qna\r\n"
+					+ "where q_num = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setLong(1, q_num);
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				dto = new sugangQnaDTO();
+				dto.setResult_state(rs.getString("result_state"));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			DBUtil.close(rs);
+			DBUtil.close(pstmt);
+		}
 		return dto;
 	}
 }

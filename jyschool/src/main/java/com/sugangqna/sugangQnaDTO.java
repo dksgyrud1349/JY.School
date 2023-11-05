@@ -22,8 +22,17 @@ public class sugangQnaDTO {
 	private String endDate;    // 끝 날짜
 	private String teacherName;  // 강사 이름
 	private long lectureNumber;  // 강좌 번호
-
 	
+	private String t_userId;  // 강사 아이디
+
+	public String getT_userId() {
+		return t_userId;
+	}
+
+	public void setT_userId(String t_userId) {
+		this.t_userId = t_userId;
+	}
+
 	public String getQ_userName() {
 		return q_userName;
 	}
