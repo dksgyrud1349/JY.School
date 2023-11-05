@@ -11,6 +11,17 @@ public class LectureDTO {
 	private String username;  // 강사 이름
 	private String teachchk;
 	
+	private long classNum2; // 강좌 번호 받아오기
+
+	
+	public long getClassNum2() {
+		return classNum2;
+	}
+	public void setClassNum2(long classNum2) {
+		this.classNum2 = classNum2;
+	}
+	
+	
 	private String imageFilename1;
 	private String imageFilename2;
 	
