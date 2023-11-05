@@ -48,7 +48,7 @@ public class BuyinfoServlet extends MyServlet {
 		if(info == null) {
 			forward(req, resp, "/WEB-INF/views/member/login.jsp");
 			return;
-		}
+		}  
 		try {
 			String page = req.getParameter("page");
 			int current_page = 1;
@@ -59,7 +59,7 @@ public class BuyinfoServlet extends MyServlet {
 			// 데이터 개수
 			int dataCount = dao.dataCount(info.getUserId());
 			
-			int size = 5;
+			int size = 10;
 			int total_page = util.pageCount(dataCount, size);
 			
 			if(current_page > total_page) {

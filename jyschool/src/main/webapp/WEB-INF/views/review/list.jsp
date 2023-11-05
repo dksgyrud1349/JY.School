@@ -7,15 +7,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>spring</title>
-
 <jsp:include page="/WEB-INF/views/layout/staticHeader.jsp"/>
-
 <style type="text/css">
 .body-main {
 	max-width: 700px;
 }
 
-.table-list thead > tr:first-child{ background: #f8f8f8; }
+.table-list thead > tr:first-child { background: #f8f8f8; }
 .table-list th, .table-list td { text-align: center; }
 .table-list .left { text-align: left; padding-left: 5px; }
 
@@ -41,15 +39,13 @@ function searchList() {
 <main>
 	<div class="container body-container">
 	    <div class="body-title">
-			<h2><i class="fas fa-chalkboard-teacher"></i> 수강정보 </h2>
+			<h2><i class="fa-regular fa-square"></i> 게시판 </h2>
 	    </div>
 	    
 	    <div class="body-main mx-auto">
 			<table class="table">
 				<tr>
-					<td width="50%">
-						${dataCount}(${page}/${total_page} 페이지)
-					</td>
+					<td width="50%">${dataCount}개(${page}/${total_page} 페이지)</td>
 					<td align="right">&nbsp;</td>
 				</tr>
 			</table>
@@ -57,41 +53,57 @@ function searchList() {
 			<table class="table table-border table-list">
 				<thead>
 					<tr>
-						<th class="userId">과목명</th>
-						<th class="startDate">강의시작일자</th>
-						<th class="endDate">강의만료일자</th>
-						<th class="classNum2">강좌번호</th>
+						<th class="num">번호</th>
+						<th class="subject">제목</th>
+						<th class="name">작성자</th>
+						<th class="date">작성일</th>
+						<th class="hit">조회수</th>
 					</tr>
 				</thead>
 				
 				<tbody>
-					<c:forEach var="dto" items="${list}" varStatus="status">
-						<tr>
-							<td class="center">
-								<a href="${pageContext.request.contextPath}/sugang/list_ok.do?page=${page}&classNum=${dto.classNum}">${dto.className}</a>
-							<td>${dto.startDate}</td>
-							<td>${dto.endDate}</td>
-							<td>${dto.classNum2 }</td>
-						</tr>
-					</c:forEach>
-				</tbody>
+ 			<c:forEach var="dto" items="${list}" varStatus="status">
+				<tr>
+					<td>${dataCount - (page-1) * size - status.index }</td>
+					<td><a href="${articleUrl}&num=${dto.num}">${dto.subject}</a></td>
+					<td>${dto.userName}</td>
+					<td>${dto.reg_date}</td>
+					<td>${dto.hitCount}</td>
+				</tr>
+			</c:forEach>
+				<tbody>
+				
 			</table>
 			
 			<div class="page-navigation">
-				${dataCount == 0 ? "등록된 강좌가 없습니다." : paging}
+				${dataCount == 0? "등록된 게시글이 없습니다." : paging }
 			</div>
 			
 			<table class="table">
 				<tr>
 					<td width="100">
-						<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/enrolmentinfo/list.do';" title="새로고침"><i class="fa-solid fa-arrow-rotate-right"></i></button>
+						<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/bbs/list.do';" title="새로고침"><i class="fa-solid fa-arrow-rotate-right"></i></button>
 					</td>
-					
+					<td align="center">
+						<form name="searchForm" action="" method="post">
+							<select name="schType" class="form-select">
+								<option value="all">제목+내용</option>
+								<option value="userName">작성자</option>
+								<option value="reg_date">등록일</option>
+								<option value="subject">제목</option>
+								<option value="content">내용</option>
+							</select>
+							<input type="text" name="kwd" value="" class="form-control">
+							<button type="button" class="btn" onclick="searchList();">검색</button>
+						</form>
+					</td>
 					<td align="right" width="100">
+						<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/bbs/write.do';">글올리기</button>
 					</td>
 				</tr>
-			</table>	
-	    </div>
+			</table>
+		
+		</div>
 	</div>
 </main>
 

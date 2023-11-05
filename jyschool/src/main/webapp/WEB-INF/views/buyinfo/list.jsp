@@ -57,21 +57,26 @@ function searchList() {
 			<table class="table table-border table-list">
 				<thead>
 					<tr>
-						<th class="userId">과목명</th>
-						<th class="price">가격</th>
+						<th class="classNum2">강좌번호</th>
+						<th class="className">강좌이름</th>
 						<th class="startDate">강의시작일자</th>
 						<th class="endDate">강의종료일자</th>
+						<th class="payDate">결제일자</th>
+						<th class="price">가격</th>
+						<th class="allpay">결제금액</th>
 					</tr>
 				</thead>
 				
 				<tbody>
 					<c:forEach var="dto" items="${list}" varStatus="status">
 						<tr>
-							
-							<td>${dto.userId }</td>
-							<td>${dto.price }</td>
-							<td>${dto.startDate}</td>
-							<td>${dto.endDate}</td>
+							<td>${dto.classNum2 }</td>
+							<td>${dto.className }</td>
+							<td>${dto.startDate }</td>
+							<td>${dto.endDate }</td>
+							<td>${dto.payDate }</td>
+							<td>${dto.price}</td>
+							<td>${dto.allpay}</td>
 						</tr>
 					</c:forEach>
 				</tbody>
@@ -80,29 +85,6 @@ function searchList() {
 			<div class="page-navigation">
 				${dataCount == 0 ? "등록된 강좌가 없습니다." : paging}
 			</div>
-			
-			<table class="table">
-				<tr>
-					<td width="100">
-						<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/buyinfo/list.do';" title="새로고침"><i class="fa-solid fa-arrow-rotate-right"></i></button>
-					</td>
-					<td align="center">
-						<form name="searchForm" action="${pageContext.request.contextPath}/enrolmentinfo/list.do" method="post">
-							<select name="schType" class="form-select">
-								<option value="all"      ${schType=="all"?"selected":"" }>제목+내용</option>
-								<option value="userName" ${schType=="userName"?"selected":"" }>작성자</option>
-								<option value="reg_date"  ${schType=="reg_date"?"selected":"" }>등록일</option>
-								<option value="subject"  ${schType=="subject"?"selected":"" }>제목</option>
-								<option value="content"  ${schType=="content"?"selected":"" }>내용</option>
-							</select>
-							<input type="text" name="kwd" value="${kwd}" class="form-control">
-							<button type="button" class="btn" onclick="searchList();">검색</button>
-						</form>
-					</td>
-					<td align="right" width="100">
-					</td>
-				</tr>
-			</table>	
 	    </div>
 	</div>
 </main>
