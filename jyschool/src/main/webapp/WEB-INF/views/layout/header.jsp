@@ -82,8 +82,8 @@ $(document).ready(function(){
 		
 			<li><a href="#">고객센터</a>
 				<ul class="sub-menu">
-					<li><a href="#" aria-label="submenu">공지사항</a></li>
-					<li><a href="#" aria-label="submenu">질문과 답변</a></li>
+					<li><a href="${pageContext.request.contextPath}/notice/list.do" aria-label="submenu" aria-label="submenu">공지사항</a></li>
+					<li><a href='<c:url value="/qbbs/list.do" />' aria-label="submenu">질문과 답변</a></li>
 				</ul>
 			</li>
 
