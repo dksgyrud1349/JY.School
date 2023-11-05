@@ -37,7 +37,7 @@ function deleteBoard(){
 <main>
 	<div class="container body-container">
 	    <div class="body-title">
-			<h2><i class="fa-regular fa-square"></i> 게시판 </h2>
+			<h2><i class="fa-regular fa-square"></i> 수강후기 </h2>
 	    </div>
 	    
 	    <div class="body-main mx-auto">
