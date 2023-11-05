@@ -80,6 +80,9 @@ function sendqna() {
 								<c:when test="${sessionScope.member.userId == 'admin'}">
 									<input type="text" name="q_title" maxlength="100" class="form-control" value="${dto.q_title}" readonly>
 								</c:when>
+								<c:when test="${sessionScope.member.userId == teacher.t_userId}">
+									<input type="text" name="q_title" maxlength="100" class="form-control" value="${dto.q_title}" readonly>
+								</c:when>
 								<c:otherwise>
 									<input type="text" name="q_title" maxlength="100" class="form-control" value="${dto.q_title}">
 								</c:otherwise>
@@ -100,6 +103,9 @@ function sendqna() {
 								<c:when test="${sessionScope.member.userId == 'admin'}">
 									<textarea name="q_content" class="form-control" readonly>${dto.q_content}</textarea>
 								</c:when>
+								<c:when test="${sessionScope.member.userId == teacher.t_userId}">
+									<textarea name="q_content" class="form-control" readonly>${dto.q_content}</textarea>
+								</c:when>
 								<c:otherwise>
 									<textarea name="q_content" class="form-control">${dto.q_content}</textarea>
 								</c:otherwise>
@@ -107,27 +113,51 @@ function sendqna() {
 						</td>
 					</tr>
 					
-					<c:if test="${sessionScope.member.userId == 'admin' }">
-						<tr> 
-							<td>제&nbsp;&nbsp;&nbsp;&nbsp;목</td>
-							<td>
-								<input type="text" name="a_title" maxlength="100" class="form-control" value="${dto.a_title}">
-							</td>
-						</tr>
+					<c:choose>
+						<c:when test="${sessionScope.member.userId == 'admin'}">
+							<tr> 
+								<td>제&nbsp;&nbsp;&nbsp;&nbsp;목</td>
+								<td>
+									<input type="text" name="a_title" maxlength="100" class="form-control" value="${dto.a_title}">
+								</td>
+							</tr>
 					
-						<tr> 
-							<td>작성자</td>
-							<td> 
-								<p>${sessionScope.member.userId}</p>
-							</td>
-						</tr>			
-						<tr> 
-							<td valign="top">내&nbsp;&nbsp;&nbsp;&nbsp;용</td>
-							<td>
-								<textarea name="a_content" class="form-control">${dto.a_content}</textarea>
-							</td>
-					</tr>
-					</c:if>
+							<tr> 
+								<td>작성자</td>
+								<td> 
+									<p>${sessionScope.member.userId}</p>
+								</td>
+							</tr>			
+							<tr> 
+								<td valign="top">내&nbsp;&nbsp;&nbsp;&nbsp;용</td>
+								<td>
+									<textarea name="a_content" class="form-control">${dto.a_content}</textarea>
+								</td>
+							</tr>
+						</c:when>
+						<c:when test="${sessionScope.member.userId == teacher.t_userId}">
+							<tr> 
+								<td>제&nbsp;&nbsp;&nbsp;&nbsp;목</td>
+								<td>
+									<input type="text" name="a_title" maxlength="100" class="form-control" value="${dto.a_title}">
+								</td>
+							</tr>
+					
+							<tr> 
+								<td>작성자</td>
+								<td> 
+									<p>${sessionScope.member.userId}</p>
+								</td>
+							</tr>			
+							<tr> 
+								<td valign="top">내&nbsp;&nbsp;&nbsp;&nbsp;용</td>
+								<td>
+									<textarea name="a_content" class="form-control">${dto.a_content}</textarea>
+								</td>
+							</tr>
+						</c:when>
+						<c:otherwise></c:otherwise>
+					</c:choose>
 				</table>
 					
 				<table class="table">

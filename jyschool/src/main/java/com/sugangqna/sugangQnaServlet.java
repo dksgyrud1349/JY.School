@@ -89,45 +89,86 @@ public class sugangQnaServlet extends MyServlet {
 		}
 
 		try {
+			// 수강생
 			if (!info.getUserId().equals("admin")) {
-				String page = req.getParameter("page");
-				int current_page = 1;
-				if (page != null) {
-					current_page = Integer.parseInt(page);
+				sugangQnaDTO teacher = dao.isTeacher(info.getUserId());
+				if (teacher == null) {
+					String page = req.getParameter("page");
+					int current_page = 1;
+					if (page != null) {
+						current_page = Integer.parseInt(page);
+					}
+
+					// 데이터 개수
+					int dataCount = dao.dataCount(info.getUserId());
+
+					int size = 5;
+					int total_page = util.pageCount(dataCount, size);
+
+					if (current_page > total_page) {
+						current_page = total_page;
+					}
+
+					// 게시물 가져오기
+					int offset = (current_page - 1) * size;
+					if (offset < 0) {
+						offset = 0;
+					}
+
+					List<sugangQnaDTO> list = dao.listsugangQna(offset, size, info.getUserId());
+
+					// 페이징 처리
+					String listUrl = cp + "/sugangqna/list.do";
+					String paging = util.paging(current_page, total_page, listUrl);
+
+					// 포워딩할 JSP에 전달할 속성
+					req.setAttribute("list", list); // 로그인한 아이디가 수강신청한 강좌
+					req.setAttribute("page", current_page);
+					req.setAttribute("total_page", total_page);
+					req.setAttribute("dataCount", dataCount);
+					req.setAttribute("size", size);
+					req.setAttribute("paging", paging);
+				} else {
+					// 강사
+					String page = req.getParameter("page");
+					int current_page = 1;
+					if (page != null) {
+						current_page = Integer.parseInt(page);
+					}
+
+					// 데이터 개수
+					int dataCount = dao.teachDataCount(info.getUserId());
+
+					int size = 5;
+					int total_page = util.pageCount(dataCount, size);
+
+					if (current_page > total_page) {
+						current_page = total_page;
+					}
+
+					// 게시물 가져오기
+					int offset = (current_page - 1) * size;
+					if (offset < 0) {
+						offset = 0;
+					}
+
+					List<sugangQnaDTO> list = dao.listSugangLecture2(offset, size, info.getUserId());
+
+					// 페이징 처리
+					String listUrl = cp + "/sugangqna/list.do";
+					String paging = util.paging(current_page, total_page, listUrl);
+
+					// 포워딩할 JSP에 전달할 속성
+					req.setAttribute("list", list);
+					req.setAttribute("page", current_page);
+					req.setAttribute("total_page", total_page);
+					req.setAttribute("dataCount", dataCount);
+					req.setAttribute("size", size);
+					req.setAttribute("paging", paging);
 				}
 
-				// 데이터 개수
-				int dataCount = dao.dataCount(info.getUserId());
-
-				int size = 5;
-				int total_page = util.pageCount(dataCount, size);
-
-				if (current_page > total_page) {
-					current_page = total_page;
-				}
-
-				// 게시물 가져오기
-				int offset = (current_page - 1) * size;
-				if (offset < 0) {
-					offset = 0;
-				}
-
-				List<sugangQnaDTO> list = dao.listsugangQna(offset, size, info.getUserId());
-
-				// 페이징 처리
-				String listUrl = cp + "/sugangqna/list.do";
-				String paging = util.paging(current_page, total_page, listUrl);
-
-				// 포워딩할 JSP에 전달할 속성
-				req.setAttribute("list", list); // 로그인한 아이디가 수강신청한 강좌
-				req.setAttribute("page", current_page);
-				req.setAttribute("total_page", total_page);
-				req.setAttribute("dataCount", dataCount);
-				req.setAttribute("size", size);
-				req.setAttribute("paging", paging);
-
-			} else {
-
+			} else if (info.getUserId().equals("admin")) {
+				// 관리자
 				String page = req.getParameter("page");
 				int current_page = 1;
 				if (page != null) {
@@ -233,7 +274,7 @@ public class sugangQnaServlet extends MyServlet {
 	protected void writeForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 글쓰기 폼
 		long classNum = Long.parseLong(req.getParameter("classNum"));
-
+		
 		req.setAttribute("classNum", classNum);
 		req.setAttribute("mode", "write");
 
@@ -277,6 +318,9 @@ public class sugangQnaServlet extends MyServlet {
 	protected void article(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 게시판 글 보기
 		sugangQnaDAO dao = new sugangQnaDAO();
+		
+		HttpSession session = req.getSession();
+		SessionInfo info = (SessionInfo)session.getAttribute("member");
 
 		String cp = req.getContextPath();
 
@@ -285,13 +329,17 @@ public class sugangQnaServlet extends MyServlet {
 
 		try {
 			sugangQnaDTO dto = dao.findByQuestion(q_num);
-
+			sugangQnaDTO teacher = dao.isTeacher(info.getUserId());
+			sugangQnaDTO result = dao.isAnswer(q_num);
+			
 			if (dto == null) {
 				resp.sendRedirect(cp + "/sugangqna/list.do?classNum=" + classNum);
 				return;
 			}
 
 			// JSP로 전달할 속성
+			req.setAttribute("result", result);
+			req.setAttribute("teacher", teacher);
 			req.setAttribute("classNum", classNum);
 			req.setAttribute("dto", dto);
 			req.setAttribute("q_num", q_num);
@@ -369,9 +417,10 @@ public class sugangQnaServlet extends MyServlet {
 				resp.sendRedirect(cp + "/sugangqna/list_ok.do?classNum=" + classNum);
 				return;
 			}
-
+			
+			sugangQnaDTO teacher = dao.isTeacher(info.getUserId());
 			// 관리자가 아니면
-			if (!info.getUserId().equals("admin")) {
+			if (!info.getUserId().equals("admin") && teacher.getT_userId() == null) {
 				resp.sendRedirect(cp + "/sugangqna/list_ok.do?classNum=" + classNum);
 				return;
 			}
@@ -380,6 +429,7 @@ public class sugangQnaServlet extends MyServlet {
 			req.setAttribute("q_num", q_num);
 			req.setAttribute("dto", dto); // q_num, q_title, q_userId, q_date, q_content, m.username
 			req.setAttribute("mode", "answer");
+			req.setAttribute("teacher", teacher);
 
 			forward(req, resp, "/WEB-INF/views/sugangqna/write.jsp");
 			return;
@@ -408,7 +458,7 @@ public class sugangQnaServlet extends MyServlet {
 			dto.setA_content(req.getParameter("a_content"));
 			dto.setA_userId(info.getUserId());
 			dto.setQ_num(q_num);
-			
+
 			dao.answer(dto, "O");
 
 		} catch (Exception e) {
@@ -416,7 +466,6 @@ public class sugangQnaServlet extends MyServlet {
 		}
 		resp.sendRedirect(cp + "/sugangqna/article.do?classNum=" + classNum + "&q_num=" + q_num);
 	}
-
 
 	protected void updateSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 수정 완료
@@ -479,26 +528,28 @@ public class sugangQnaServlet extends MyServlet {
 		}
 		resp.sendRedirect(cp + "/sugangqna/list_ok.do?classNum=" + classNum);
 	}
-	
+
 	protected void deleteAnswer(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		sugangQnaDAO dao = new sugangQnaDAO();
 		HttpSession session = req.getSession();
 		SessionInfo info = (SessionInfo) session.getAttribute("member");
-		
+
 		String cp = req.getContextPath();
-		
+
 		long q_num = Long.parseLong(req.getParameter("q_num"));
 		long classNum = Long.parseLong(req.getParameter("classNum"));
-		
+
 		try {
 			
-			if (!info.getUserId().equals("admin")) {
+			sugangQnaDTO teacher = dao.isTeacher(info.getUserId());
+			
+			if (!info.getUserId().equals("admin") && teacher.getT_userId() == null) {
 				resp.sendRedirect(cp + "/sugangqna/list_ok.do?classNum=" + classNum);
 				return;
 			}
-			
+
 			dao.deleteAnswer(q_num);
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

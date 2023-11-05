@@ -45,7 +45,7 @@
 		}
 	</script>
 </c:if>
-<c:if test="${sessionScope.member.userId == 'admin'}">
+<c:if test="${sessionScope.member.userId == 'admin' || sessionScope.member.userId == teacher.t_userId}">
 	<script type="text/javascript">
 		function deleteAnswer(){
 			if(confirm("답변을 삭제하시겠습니까? ")){
@@ -132,7 +132,7 @@
 								<c:when test="${sessionScope.member.userId == dto.q_userId}">
 									<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/sugangqna/update.do?classNum=${classNum}&q_num=${dto.q_num}';">수정하기</button>
 								</c:when>
-								<c:when test="${sessionScope.member.userId == 'admin'}">
+								<c:when test="${sessionScope.member.userId == teacher.t_userId || sessionScope.member.userId == 'admin'}">
 									<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/sugangqna/answer.do?classNum=${classNum}&q_num=${dto.q_num}';">답변</button>
 								</c:when>
 								<c:otherwise>
@@ -147,7 +147,7 @@
 									<button type="button" class="btn" disabled>게시글삭제하기</button>
 								</c:otherwise>
 							</c:choose>
-							<c:if test="${sessionScope.member.userId == 'admin'}">
+							<c:if test="${result.result_state == 'O' && sessionScope.member.userId == teacher.t_userId || sessionScope.member.userId == 'admin'}">
 								<button type="button" class="btn" onclick="deleteAnswer();">답변삭제</button>
 							</c:if>
 						</td>
