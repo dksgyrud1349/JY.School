@@ -5,15 +5,12 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>준영스쿨 코딩 공식 사이트 | 코딩은 역시 준영스쿨</title>
 <link rel="icon" href="data:;base64,iVBORw0KGgo=">
 <jsp:include page="/WEB-INF/views/layout/staticHeader.jsp"/>
 </head>
 <body>
 
-<header>
-    <jsp:include page="/WEB-INF/views/layout/header.jsp"/>
-</header>
 
 <div class="container body-container">
 	<div class="inner-page mx-auto">
