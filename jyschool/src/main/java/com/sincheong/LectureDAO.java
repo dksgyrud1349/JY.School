@@ -68,7 +68,7 @@ public class LectureDAO {
 		return list;
 	}
 	
-	// 강좌 수정(관리자)
+	// 강좌 수정(강사)
 	public void updateLecture(LectureDTO dto) throws SQLException{
 		PreparedStatement pstmt = null;
 		String sql;
@@ -96,13 +96,13 @@ public class LectureDAO {
 		}
 	}
 	
-	// 강좌 삭제(관리자)
-	public void deleteLecture(long classNum) throws SQLException{
+	// 강좌 삭제(강사)
+	public void deleteLecture(Long classNum) throws SQLException{
 		PreparedStatement pstmt = null;
 		String sql;
 		
 		try {
-				sql = "DELETE FROM lecture WHERE classNum2 = ?";
+				sql = "DELETE FROM lecture WHERE classNum2 = ? ";
 				pstmt = conn.prepareStatement(sql);
 				
 				pstmt.setLong(1, classNum);
@@ -241,7 +241,7 @@ public class LectureDAO {
 			pstmt.setInt(2, size);
 			
 			rs = pstmt.executeQuery();
-			
+
 			while(rs.next()) {
 				LectureDTO dto = new LectureDTO();
 				dto.setClassNum(rs.getLong("classNum2"));
@@ -373,7 +373,11 @@ public class LectureDAO {
 			
 			try {
 				
-				sql = " SELECT userId FROM teacher WHERE userId = ?";
+				// 수강 신청 목록에 강의 업로드한 강사 한명의 아이디
+				sql = " SELECT lec.userId, lec.classNum2"
+						+ " FROM teacher t"
+						+ " RIGHT JOIN lecture lec ON t.userId = lec.userId"
+						+ " WHERE lec.userId = ?";
 				
 				pstmt = conn.prepareStatement(sql);
 				pstmt.setString(1, userId);
@@ -383,6 +387,7 @@ public class LectureDAO {
 				while(rs.next()) {
 					dto = new LectureDTO();
 					dto.setUserId(rs.getString("userid"));
+					dto.setClassNum(rs.getLong("classNum2"));
 				}
 				
 			} catch (Exception e) {
@@ -393,4 +398,5 @@ public class LectureDAO {
 			}
 			return dto;
 		}
+		
 }

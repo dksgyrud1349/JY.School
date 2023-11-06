@@ -140,14 +140,14 @@ function sendLecture() {
 					<tr> 
 						<td>강좌메인사진</td>
 						<td> 
-							<input type="file" name="selectFile1" accept="image/*" multiple class="form-control">
+							<input type="file" name="selectFile1" accept="image/*" multiple class="form-control">${file.imageFilename1}
 						</td>
 					</tr>
 					
 					<tr> 
 						<td>강좌설명사진</td>
 						<td> 
-							<input type="file" name="selectFile2" accept="image/*" multiple class="form-control">
+							<input type="file" name="selectFile2" accept="image/*" multiple class="form-control">${file.imageFilename2}
 						</td>
 					</tr>
 				</table>
@@ -155,7 +155,7 @@ function sendLecture() {
 				<table class="table">
 					<tr> 
 						<td align="center">
-							<button type="button" class="btn" onclick="sendLecture();">${mode=='update'?'수정완료':'등록완료'}</button>
+							<button type="button" class="btn" onclick="sendLecture();">${mode=='update' ? '수정완료' : '등록완료'}</button>
 							<button type="reset" class="btn">다시입력</button>
 							<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/sugang/list.do';">${mode=='update'?'수정취소':'등록취소'}</button>
 						<c:if test="${mode =='update'}">

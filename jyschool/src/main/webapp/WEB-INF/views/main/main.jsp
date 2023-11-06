@@ -112,7 +112,21 @@
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
 <jsp:include page="/WEB-INF/views/layout/staticHeader.jsp"/>
-
+<%
+   String rtnCode = request.getParameter("rtnCode");
+   // System.out.println("============> " + rtnCode);
+%>
+<script type="text/javascript">
+   var code = "<%= rtnCode %>";
+   
+   if (code == "S") {
+      alert("수강신청이 완료되었습니다.");
+   } else if (code == "F") {
+      alert("수강신청에 실패하였습니다. 관리자에게 문의 부탁드립니다.");
+   }
+   
+   code = "";
+   </script>
 </head>
 <body>
 
@@ -125,13 +139,14 @@
         <div class="slider__wrap">
             <div class="slider__img">
                 <div class="slider__inner">
-                    <div class="slider" role="group" aria-label="1/5"><img src="${pageContext.request.contextPath}/img/l준영.png" alt="이미지1"></div>
+                    <div class="slider" role="group" aria-label="1/5"><img src="${pageContext.request.contextPath}/img/main_page1.png" alt="이미지1"></div>
                     <div class="slider" role="group" aria-label="2/5"><img src="${pageContext.request.contextPath}/img/main_page2.png" alt="이미지2"></div>
                     <div class="slider" role="group" aria-label="3/5"><img src="${pageContext.request.contextPath}/img/sec012.jpg" alt="이미지3"></div>
                     <div class="slider" role="group" aria-label="4/5"><img src="../assets/img/effect_bg09-min.jpg" alt="이미지4"></div>
                     <div class="slider" role="group" aria-label="5/5"><img src="../assets/img/effect_bg10-min.jpg" alt="이미지5"></div>
                 </div>
             </div>
+            
             <div class="slider__btn">
                 <a href="#" class="prev" role="button" aria-label="왼쪽 이미지">prev</a>
                 <a href="#" class="next" role="button" aria-label="오른쪽 이미지">next</a>
@@ -154,6 +169,7 @@
 	<div class="container body-container">
 	    <div class="inner-page mx-auto">
 			<img src="${pageContext.request.contextPath}/img/intro.png" alt="My Image" >
+			<a href="https://kr.freepik.com/free-photo/happy-asian-man-touching-chin-and-looking-at-camera_4010203.htm#query=%ED%95%9C%EA%B5%AD%EC%9D%B8&position=1&from_view=keyword&track=sph">작가 katemangostar</a> 출처 Freepik
 	    </div>
 	</div>
 

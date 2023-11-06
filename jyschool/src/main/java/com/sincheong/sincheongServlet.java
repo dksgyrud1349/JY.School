@@ -72,10 +72,6 @@ public class sincheongServlet extends MyServlet {
 			// 강좌 삭제
 			deleteLectureForm(req, resp);
 			
-		} else if(uri.indexOf("delete_ok.do") != -1) {
-			// 강좌 삭제
-			deleteLectureSubmit(req, resp);
-			
 		} else if(uri.indexOf("sincheong.do") != -1) {
 			// 수강신청
 			sincheongForm(req, resp);
@@ -175,6 +171,9 @@ public class sincheongServlet extends MyServlet {
 		LectureDAO dao2 = new LectureDAO();
 		String cp = req.getContextPath();
 		String page = req.getParameter("page");
+		HttpSession session = req.getSession();
+		SessionInfo info = (SessionInfo)session.getAttribute("member");
+		
 
 		try {
 
@@ -182,14 +181,37 @@ public class sincheongServlet extends MyServlet {
 			List<LectureDTO> teacherList = dao2.teacherList();
 
 			LectureDTO dto = dao.pickLecture(classNum);
+			List<sincheongDTO> list2 = dao.insertedenrolment(classNum);
+			
+			String name = "";
+			String text = "";
+			String text2 = "";
+			
+			for(sincheongDTO t : list2) {
+				if(info.getUserId().equals(t.getUserId())){
+					name = t.getUserId();
+				}
+			}
+			
 			if (dto == null) {
 				resp.sendRedirect(cp + "/sugang/list.do?page=" + page);
 				return;
 			}
-
+			
+			if(dto.getImageFilename1() == null) {
+				text = "이미지가 존재하지 않습니다.";
+			}
+			if(dto.getImageFilename2() == null) {
+				text2 = "이미지가 존재하지 않습니다.";
+			}
+			
+			req.setAttribute("name", name);
 			req.setAttribute("dto", dto);
 			req.setAttribute("page", page);
+			req.setAttribute("info", info);
 			req.setAttribute("teacherList", teacherList);
+			req.setAttribute("text", text);
+			req.setAttribute("text2", text2);
 
 			forward(req, resp, "/WEB-INF/views/sugang/sincheong.jsp");
 			return;
@@ -208,6 +230,7 @@ public class sincheongServlet extends MyServlet {
 		String page = req.getParameter("page");
 
 		req.setAttribute("page", page);
+		req.setAttribute("mode", "insert");
 		forward(req, resp, "/WEB-INF/views/sugang/insertLecture.jsp");
 	}
 
@@ -257,7 +280,7 @@ public class sincheongServlet extends MyServlet {
 	            	String saveFilename = map2.get("saveFilename");
 	            	dto.setImageFilename2(saveFilename);
 	            }
-	            
+
 	            dao.insertLecture(dto);
 	            
 	         } else {
@@ -321,6 +344,7 @@ public class sincheongServlet extends MyServlet {
 	   protected void updateLectureForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		   LectureDAO dao = new LectureDAO();
 		   String cp = req.getContextPath();
+		   sincheongDAO sugang = new sincheongDAO();
 		 
 		   String page = req.getParameter("page");
 		   long classNum = Long.parseLong(req.getParameter("classNum"));
@@ -341,7 +365,10 @@ public class sincheongServlet extends MyServlet {
 			   if(dao.findByTeacher(info.getUserId()) != null) {
 				   // 게시물을 작성한 강사님 id 가져옴
 				   LectureDTO dto = dao.findById(classNum);
+
+				   LectureDTO file = sugang.pickLecture(classNum);
 				   
+				   req.setAttribute("file", file);
 				   req.setAttribute("dto", dto);
 				   req.setAttribute("classNum", classNum);
 				   req.setAttribute("page", page);
@@ -377,6 +404,23 @@ public class sincheongServlet extends MyServlet {
 			dto.setImageFilename1(req.getParameter("imageFilename1"));
 			dto.setImageFilename2(req.getParameter("imageFilename2"));
 			
+			Part p1 = req.getPart("selectFile1");
+            Part p2 = req.getPart("selectFile2");
+            
+            Map<String, String> map1 = doFileUpload(p1, pathname);
+            Map<String, String> map2 = doFileUpload(p2, pathname);
+	            
+            if(map1 != null) {
+            	String saveFilename = map1.get("saveFilename");
+            	dto.setImageFilename1(saveFilename);
+            }
+            
+            if(map2 != null) {
+            	String saveFilename = map2.get("saveFilename");
+            	dto.setImageFilename2(saveFilename);
+            }
+			
+			
 			dao.updateLecture(dto);
 			
 			
@@ -408,41 +452,27 @@ public class sincheongServlet extends MyServlet {
 				   req.setAttribute("page", page);
 				   req.setAttribute("teacherList", teacherList);
 			   
+				   dao.deleteLecture(classNum);
+				   
 			   } else {
-				   resp.sendRedirect(cp + "/sugang/list.do?page=" + page);
+				   resp.sendRedirect(cp + "/sugang/list_ok.do?page="+page+"&classNum="+classNum);
+				   return;
+				  
 			   }
 			   
-			   forward(req, resp, "/WEB-INF/views/sugang/sincheong.jsp?classNum="+classNum);
-	           return;
-	           
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		   resp.sendRedirect(cp + "/sugang/list.do?page="+page);
-	   }
-	   
-	   protected void deleteLectureSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		   LectureDAO dao = new LectureDAO();
-		   String cp = req.getContextPath();
-		   String page = req.getParameter("page");
-		   
-		   try {
-			
-			   long classNum = Long.parseLong(req.getParameter("classNum"));
+			   // forward(req, resp, "/WEB-INF/views/sugang/sincheong.jsp?classNum="+classNum);
 
-			   dao.deleteLecture(classNum);
-			   
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		   
 		   resp.sendRedirect(cp + "/sugang/list.do?page="+page);
 	   }
-	   
+
 	   protected void sincheongForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		   sincheongDAO dao2 = new sincheongDAO();
 		   LectureDAO dao = new LectureDAO();
 		   String cp = req.getContextPath();
+		   sincheongDTO dto2 = new sincheongDTO();
 		   // long classNum2 = Long.parseLong(req.getParameter("classNum2"));	// 강좌번호
 		   String rtnCode = "";
 		   
@@ -450,21 +480,24 @@ public class sincheongServlet extends MyServlet {
 		   SessionInfo info = (SessionInfo)session.getAttribute("member");
 		   
 		   try {
-			   String page      = req.getParameter("page");
-			   String classNum2 = req.getParameter("classNum2");
+			   String page     = req.getParameter("page");
+			   String classNum = req.getParameter("classNum");
 			   // 강사와 관리자가 아니면
 			   
-			   if(dao.findByTeacher2(info.getUserId()) == null && !"admin".equals(info.getUserId())) {
-				   sincheongDTO dto2 = new sincheongDTO();
-
+			   if(dao.findByTeacher2(info.getUserId()) == null) {
 				   dto2.setUserId(info.getUserId());
-				   dto2.setClassNum2(Long.parseLong(classNum2));
+				   dto2.setClassNum2(Long.parseLong(classNum));
+				   req.setAttribute("info", info);
+				   req.setAttribute("dao", dao);
+				   req.setAttribute("dto2", dto2);
 				   
 				   dao2.insertLecture(dto2);
+				   
 				   rtnCode = "S";
 			   } else {
 				   resp.sendRedirect(cp + "/sugang/list.do?page="+page);
 				   return;
+				   
 			   } 
 			} catch (Exception e) {
 				rtnCode = "F";
