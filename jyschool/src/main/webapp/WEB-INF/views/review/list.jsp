@@ -39,7 +39,7 @@ function searchList() {
 <main>
 	<div class="container body-container">
 	    <div class="body-title">
-			<h2><i class="fa-regular fa-square"></i> 게시판 </h2>
+			<h2><i class="fa-regular fa-square"></i> 수강후기 </h2>
 	    </div>
 	    
 	    <div class="body-main mx-auto">
@@ -53,11 +53,10 @@ function searchList() {
 			<table class="table table-border table-list">
 				<thead>
 					<tr>
-						<th class="num">번호</th>
 						<th class="subject">제목</th>
 						<th class="name">작성자</th>
-						<th class="date">작성일</th>
-						<th class="hit">조회수</th>
+						<th class="content">내용</th>
+					
 					</tr>
 				</thead>
 				

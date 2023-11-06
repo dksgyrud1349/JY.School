@@ -92,7 +92,7 @@ function sendOk() {
 							<button type="reset" class="btn">다시입력</button>
 							<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/review/list.do';">등록취소</button>
 						<c:if test="${mode=='update'}">
-							<input type="hidden" name="num" value = "${dto.num}">
+							<input type="hidden" name="num" value = "${dto.classnum}">
 							<input type="hidden" name="page" value = "${page}">
 						</c:if>
 							
