@@ -27,6 +27,8 @@
 .members-message { margin: 0 auto; padding: 20px 5px; }
 .members-message p { color: #023b6d; }
 
+.body-title{color : #592EFC}
+
 .text-center { text-align: center; }
 .font{font-family: JalnanGothic;}
 </style>
@@ -58,10 +60,10 @@ function sendLogin() {
 <body>
 
 	
-<main style="background-color: ">
+<main >
 	<div class="container body-container">
-		<div class="body-title" >
-			<h2><i class="fa-solid fa-l" ></i> JunYeong Members </h2>
+		<div class="body-title" style="color: #592EFC">
+			<h2 style="color: #592EFC"><i class="fa-solid fa-l" style="color: #592EFC"></i> JunYeong Members </h2>
 		</div>
 		
 		<div class="body-main">

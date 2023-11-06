@@ -21,7 +21,7 @@
 function deleteBoard(){
 	if(confirm('게시글을 삭제 하시겠습니까? ')){
 		let query = 'num=${dto.num}&${query}';
-		let url = '${pageContext.request.contextPath}/bbs/delete.do?'+query;
+		let url = '${pageContext.request.contextPath}/review/delete.do?'+query;
 		location.href = url;
 	}
 }
@@ -70,7 +70,7 @@ function deleteBoard(){
 						<td colspan="2">
 							이전글 : 
 					<c:if test="${not empty prevDto}">
-						<a href="${pageContext.request.contextPath}/bbs/article.do?${query}&num=${prevDto.num}">${prevDto.subject}</a>
+						<a href="${pageContext.request.contextPath}/review/article.do?${query}&num=${prevDto.num}">${prevDto.subject}</a>
 					</c:if>
 						</td>
 					</tr>
@@ -78,7 +78,7 @@ function deleteBoard(){
 						<td colspan="2">
 							다음글 : 
 					<c:if test="${not empty nextDto}">
-						<a href="${pageContext.request.contextPath}/bbs/article.do?${query}&num=${nextDto.num}">${nextDto.subject}</a>
+						<a href="${pageContext.request.contextPath}/review/article.do?${query}&num=${nextDto.num}">${nextDto.subject}</a>
 					</c:if>
 						</td>
 					</tr>
@@ -88,11 +88,11 @@ function deleteBoard(){
 			<table class="table">
 				<tr>
 					<td width="50%">
-						<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/bbs/update.do?num=${dto.num}&page=${page}';">수정</button>
+						<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/review/update.do?num=${dto.num}&page=${page}';">수정</button>
 						<button type="button" class="btn" onclick="deleteBoard();">삭제</button>
 					</td>
 					<td align="right">
-						<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/bbs/list.do?${query}';">리스트</button>
+						<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/review/list.do?${query}';">리스트</button>
 					</td>
 				</tr>
 			</table>

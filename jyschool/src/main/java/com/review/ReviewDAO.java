@@ -7,25 +7,25 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.bbs.BoardDTO;
+
 import com.util.DBConn;
 import com.util.DBUtil;
 
 public class ReviewDAO {
 	private Connection conn = DBConn.getConnection();
 
-	public void insertBoard(BoardDTO dto) throws SQLException {
+	public void insertReview(ReviewDTO dto) throws SQLException {
 		PreparedStatement pstmt = null;
 		String sql;
 		
 		try {
-			sql = "INSERT INTO review(classNum, userId, subject, content )"
+			sql = "INSERT INTO review(classNum, content, userId, subject )"
 					+ "VALUES (?, ?, ?, ? )";
 			pstmt = conn.prepareStatement(sql);
 			
-			pstmt.setString(1, dto.getUserId());
-			pstmt.setString(2, dto.getSubject());
-			pstmt.setString(3, dto.getContent());
+			pstmt.setString(1, dto.getContent());
+			pstmt.setString(2, dto.getUserId());
+			pstmt.setString(3, dto.getSubject());
 			
 			pstmt.executeUpdate();
 			
@@ -70,10 +70,11 @@ public class ReviewDAO {
 		StringBuilder sb = new StringBuilder();
 		
 		try {
-			sb.append(" select classNum, r1.userid, subject, content ");
-			sb.append(" from review r1");
-			sb.append(" join member1 m1 ON b1.userId=m1.userId");
-			sb.append(" order by classNum desc");
+			sb.append(" SELECT classNum, userId, subject, content ");
+			sb.append(" FROM review r1");
+			sb.append(" JOIN member m1 ON b1.userId=m1.userId");
+			sb.append(" WHERE r1.userId = ? ");
+			sb.append(" ORDER BY classNum DESC");
 			sb.append(" OFFSET ? ROWS FETCH FIRST ? ROWS ONLY ");
 			
 			pstmt = conn.prepareStatement(sb.toString());
@@ -89,6 +90,7 @@ public class ReviewDAO {
 				dto.setClassNum(rs.getLong("classNum"));
 				dto.setUserId(rs.getString("userId"));
 				dto.setSubject(rs.getString("subject"));
+				dto.setContent(rs.getString("content"));
 			}
 			
 		} catch (SQLException e) {
@@ -135,7 +137,18 @@ public class ReviewDAO {
 		
 		return dto;
 	}
-	
+	public void updateReview(ReviewDTO dto) throws SQLException {
+		PreparedStatement pstmt = null;
+		String sql;
+		
+		try {
+			sql = "UPDATE review SET ";
+		} catch (Exception e) {
+			
+		}
+		
+		
+	}
 	
 }
 

@@ -30,7 +30,7 @@ $(document).ready(function(){
 			&nbsp;
 		</div>
 		<div class="header-center">
-			<h1 class="logo"><a href="${pageContext.request.contextPath}/"><img src="http://localhost:9090/jyschool/img/l준영.png"  width="250" height="auto" alt="My Image" ></a></h1>
+			<h1 class="logo"><a href="${pageContext.request.contextPath}/"><img src="${pageContext.request.contextPath}/img/l준영.png"  width="250" height="auto" alt="My Image" ></a></h1>
 		</div>
 		<div class="header-right" >
             <c:if test="${empty sessionScope.member}">
@@ -56,7 +56,7 @@ $(document).ready(function(){
     <li><a href="#">후기</a></li>
   </ul>
 </div>
-	<nav style="background-color: #592EFC">
+	<nav style="background-color: #592EFC; z-index: 9999;">
 		<ul class="main-menu" style="background-color: #592EFC">
 			<li><a href="${pageContext.request.contextPath}/">홈</a></li>
 			
