@@ -62,8 +62,8 @@ function sendLogin() {
 	
 <main >
 	<div class="container body-container">
-		<div class="body-title" style="color: #592EFC">
-			<h2 style="color: #592EFC"><i class="fa-solid fa-l" style="color: #592EFC"></i> JunYeong Members </h2>
+		<div class="body-title" style="color: #592EFC" >
+			<a href="${pageContext.request.contextPath}/" style="color: #592EFC; font-weight: bold;" ><i class="fa-solid fa-l" style="color: #592EFC"></i> JunYeong Members </a>
 		</div>
 		
 		<div class="body-main">

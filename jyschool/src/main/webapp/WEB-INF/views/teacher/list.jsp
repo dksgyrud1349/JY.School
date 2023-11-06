@@ -34,11 +34,11 @@
 
 .list-content {
 	list-style: none;
-	width: 100%;
+	width: 1000px;
 	margin-bottom: 5px;
 	display: grid;
 	grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-	gap: 10px;
+	gap: 70px;
 	justify-content: center;
 	text-align: center;
 }
@@ -66,6 +66,7 @@
 	height: 300px;
 	display: block;
 	transform: translate(0, -50%);
+	overflow: hidden
 }
 
 .caption {
@@ -123,7 +124,7 @@
 		<div class="container body-container">
 			<div class="body-title">
 				<h2>
-					<i class="far fa-image"></i> 강사진 소개
+					<i class="fa-regular fa-user"></i> 강사진 소개
 				</h2>
 			</div>
 
