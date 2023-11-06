@@ -36,18 +36,18 @@ function searchList() {
 
 <header>
 	<jsp:include page="/WEB-INF/views/layout/header.jsp"></jsp:include>
-</header>									<!-- 헤더 -->
+</header>
 	
 <main>
 	<div class="container body-container">
-	    <div class="body-title">							<!-- 질문과답변 -->
+	    <div class="body-title">
 			<h2><i class="fa-solid fa-person-circle-question"></i> 질문과 답변 </h2>
 	    </div>
 	    
 	    <div class="body-main mx-auto">
 			<table class="table">
 				<tr>
-					<td width="50%">	<!-- $ 값을 받는애 -->
+					<td width="50%">
 						${dataCount}개(${page}/${total_page} 페이지)
 					</td>
 					<td align="right">&nbsp;</td>
@@ -86,7 +86,7 @@ function searchList() {
 								</c:choose>								
 								
 							</td>
-							<td>${dto.userName}</td>
+							<td>${dto.userId}</td>
 							<td>${dto.reg_date}</td>
 							<td>${not empty dto.answerId?"답변완료":"답변대기"}</td>
 						</tr>
@@ -101,10 +101,10 @@ function searchList() {
 			<table class="table">
 				<tr>
 					<td width="100">
-						<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/qbbs/list.do';" title="새로고침"><i class="fa-solid fa-arrow-rotate-right"></i></button>
+						<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/q_bbs/list.do';" title="새로고침"><i class="fa-solid fa-arrow-rotate-right"></i></button>
 					</td>
 					<td align="center">
-						<form name="searchForm" action="${pageContext.request.contextPath}/qbbs/list.do" method="post">
+						<form name="searchForm" action="${pageContext.request.contextPath}/q_bbs/list.do" method="post">
 							<input type="text" name="kwd" value="${kwd}" class="form-control"
 									style="width: 200px;" 
 									placeholder="검색 키워드를 입력하세요">
@@ -112,7 +112,7 @@ function searchList() {
 						</form>
 					</td>
 					<td align="right" width="100">
-						<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/qbbs/write.do';">질문등록</button>
+						<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/q_bbs/write.do';">질문등록</button>
 					</td>
 				</tr>
 			</table>

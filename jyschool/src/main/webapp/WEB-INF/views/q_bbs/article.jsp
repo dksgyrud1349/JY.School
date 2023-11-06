@@ -59,7 +59,7 @@
 			
 			if(confirm(s + "을 삭제 하시 겠습니까 ? ")) {
 				let query = "writeNum=${dto.writeNum}&${query}&mode="+mode;
-				let url = "${pageContext.request.contextPath}/qbbs/delete.do?" + query;
+				let url = "${pageContext.request.contextPath}/q_bbs/delete.do?" + query;
 				location.href = url;
 			}
 		}
@@ -83,7 +83,7 @@
 					return false;
 				}
 				
-				f.action = "${pageContext.request.contextPath}/qbbs/answer.do";
+				f.action = "${pageContext.request.contextPath}/q_bbs/answer.do";
 				f.submit();
 			});
 		});
@@ -134,20 +134,20 @@
 							이름 : ${dto.userName}
 						</td>
 						<td align="right">
-							문의일자 : ${dto.reg_date}
+							문의일자 : ${dto.writeDate}
 						</td>
 					</tr>
 					
 					<tr>
 						<td colspan="2" valign="top" height="200">
-							${dto.content}
+							${dto.contents}
 						</td>
 					</tr>
 					
 				</tbody>
-			</table>
+			</table>			<!-- 테이블1)제목 : 질문과답변 / Qusetion 부분 -->
 				
-			<c:if test="${not empty dto.answer}">
+			<c:if test="${not empty dto.answer}">		<!-- 답변이 있다면 -->
 				<table class="table table-border table-article">
 					<tbody>
 						<tr style="border: none;">
@@ -156,15 +156,15 @@
 									<div class="left-item left-answer">A</div>
 									<div class="right-item right-answer">${dto.title}</div>
 								</div>
-							</td>							
+							</td>
 						</tr>
-					
+						
 						<tr>
 							<td width="50%">
 								담당자 : ${dto.answerName}				
 							</td>
 							<td align="right">
-								답변일자 :  ${dto.answer_date}
+								답변일자 :  ${dto.reg_date}
 							</td>
 						</tr>
 						
@@ -174,18 +174,18 @@
 							</td>
 						</tr>
 					</tbody>
-				</table>
+				</table>			<!-- 테이블2) Answer부분 -->
 			</c:if>
 				
 			<table class="table table-border table-article">
 				<tr>
 					<td colspan="2">
 						이전글 :
-						<c:if test="${not empty prevDto}">
+						<c:if test="${not empty prevDto}">	<!-- 이전글이 있다면 -->
 							<c:choose>
 								<c:when test="${prevDto.secret==1}">
 									<c:if test="${sessionScope.member.userId==prevDto.userId || sessionScope.member.userId=='admin'}">
-										<a href="${pageContext.request.contextPath}/qna/article.do?num=${prevDto.num}&${query}">${prevDto.title}</a>
+										<a href="${pageContext.request.contextPath}/q_bbs/article.do?writeNum=${prevDto.writeNum}&${query}">${prevDto.title}</a>
 									</c:if>
 									<c:if test="${sessionScope.member.userId!=prevDto.userId && sessionScope.member.userId!='admin'}">
 										비밀글 입니다.
@@ -193,7 +193,7 @@
 									<i class="bi bi-file-lock2"></i>
 								</c:when>
 								<c:otherwise>
-									<a href="${pageContext.request.contextPath}/qna/article.do?num=${prevDto.num}&${query}">${prevDto.title}</a>
+									<a href="${pageContext.request.contextPath}/q_bbs/article.do?writeNum=${prevDto.writeNum}&${query}">${prevDto.title}</a>
 								</c:otherwise>
 							</c:choose>
 						</c:if>
@@ -206,7 +206,7 @@
 							<c:choose>
 								<c:when test="${nextDto.secret==1}">
 									<c:if test="${sessionScope.member.userId==nextDto.userId || sessionScope.member.userId=='admin'}">
-										<a href="${pageContext.request.contextPath}/qna/article.do?num=${nextDto.num}&${query}">${nextDto.title}</a>
+										<a href="${pageContext.request.contextPath}/q_bbs/article.do?writeNum=${nextDto.writeNum}&${query}">${nextDto.title}</a>
 									</c:if>
 									<c:if test="${sessionScope.member.userId!=nextDto.userId && sessionScope.member.userId!='admin'}">
 										비밀글 입니다.
@@ -214,19 +214,19 @@
 									<i class="icofont-lock"></i>
 								</c:when>
 								<c:otherwise>
-									<a href="${pageContext.request.contextPath}/qna/article.do?num=${nextDto.num}&${query}">${nextDto.title}</a>
+									<a href="${pageContext.request.contextPath}/q_bbs/article.do?writeNum=${nextDto.writeNum}&${query}">${nextDto.title}</a>
 								</c:otherwise>
 							</c:choose>
 						</c:if>
 					</td>
 				</tr>
-			</table>
+			</table>				<!-- 테이블3) 이전글,다음글 -->
 			
 			<table class="table">
 				<tr>
 					<td width="50%">
 						<c:if test="${sessionScope.member.userId==dto.userId && empty dto.answer}">
-							<button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/qna/update.do?num=${dto.num}&page=${page}';">질문수정</button>
+							<button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/q_bbs/update.do?writeNum=${dto.writeNum}&page=${page}';">질문수정</button>
 						</c:if>
 						<c:if test="${sessionScope.member.userId==dto.userId || sessionScope.member.userId=='admin'}">
 							<button type="button" class="btn" onclick="deleteOk('question');">질문삭제</button>
@@ -239,13 +239,13 @@
 						</c:if>
 					</td>
 					<td align="right">
-						<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/qna/list.do?${query}';">리스트</button>
+						<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/q_bbs/list.do?${query}';">리스트</button>
 					</td>
 				</tr>
-			</table>
+			</table>		<!-- 4)테이블: 맨아래 삭제수정버튼 4개 -->
 
 			<div class="reply" style="display: none;">	<!-- 답변달았으면 안보인데. display:none. -->
-				<form name="answerForm" method="post">
+				<form name="answerForm" method="post">	<!-- 답변수정 누를시.. -->
 					<div class='form-header'>
 						<span class="bold">질문에 대한 답변</span>
 					</div>
@@ -258,7 +258,7 @@
 						</tr>
 						<tr>
 						   <td align='right'>
-						   		<input type="hidden" name="num" value="${dto.num}">	
+						   		<input type="hidden" name="writeNum" value="${dto.writeNum}">	
 						   		<input type="hidden" name="page" value="${page}">					   
 						        <button type='button' class='btn btnSendAnswer'>답변 등록</button>
 						    </td>

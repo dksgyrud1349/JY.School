@@ -41,14 +41,14 @@ function sendOk() {
         return;
     }
 
-    str = f.content.value.trim();
+    str = f.contents.value.trim();
     if(!str) {
         alert("내용을 입력하세요. ");
-        f.content.focus();
+        f.contents.focus();
         return;
     }
 
-    f.action = "${pageContext.request.contextPath}/qbbs/${mode}_ok.do";
+    f.action = "${pageContext.request.contextPath}/q_bbs/${mode}_ok.do";
     f.submit();
 }
 </script>
@@ -98,7 +98,7 @@ function sendOk() {
 					<tr> 
 						<td valign="top">내&nbsp;&nbsp;&nbsp;&nbsp;용</td>
 						<td> 
-							<textarea name="content" class="form-control">${dto.content}</textarea>
+							<textarea name="contents" class="form-control">${dto.contents}</textarea>
 						</td>
 					</tr>
 				</table>
@@ -108,7 +108,7 @@ function sendOk() {
 						<td align="center">
 							<button type="button" class="btn" onclick="sendOk();">${mode=='update'?'수정완료':'등록하기'}</button>
 							<button type="reset" class="btn">다시입력</button>
-							<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/qbbs/list.do';">${mode=='update'?'수정취소':'등록취소'}</button>
+							<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/q_bbs/list.do';">${mode=='update'?'수정취소':'등록취소'}</button>
 							<c:if test="${mode=='update'}">
 								<input type="hidden" name="writeNum" value="${dto.writeNum}">
 								<input type="hidden" name="page" value="${page}">
