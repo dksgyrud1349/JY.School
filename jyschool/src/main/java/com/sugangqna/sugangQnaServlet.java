@@ -92,7 +92,7 @@ public class sugangQnaServlet extends MyServlet {
 			// 수강생
 			if (!info.getUserId().equals("admin")) {
 				sugangQnaDTO teacher = dao.isTeacher(info.getUserId());
-				if (teacher == null) {
+				if (teacher == null) {  // 수강생
 					String page = req.getParameter("page");
 					int current_page = 1;
 					if (page != null) {
@@ -152,7 +152,7 @@ public class sugangQnaServlet extends MyServlet {
 						offset = 0;
 					}
 
-					List<sugangQnaDTO> list = dao.listSugangLecture2(offset, size, info.getUserId());
+					List<sugangQnaDTO> list = dao.listSugangLecture2(offset, size, info.getUserId());  // className(강좌 이름)
 
 					// 페이징 처리
 					String listUrl = cp + "/sugangqna/list.do";

@@ -21,8 +21,11 @@ public class sugangQnaDAO {
 		String sql;
 
 		try {
+			/*
 			sql = "select count(*)\r\n" + "from enrolment en\r\n" + "JOIN lecture le ON en.classNum2 = le.classNum2\r\n"
 					+ "JOIN member m ON le.userid = m.userid";
+			*/
+			sql = "SELECT COUNT(*) FROM LECTURE";
 			pstmt = conn.prepareStatement(sql);
 
 			rs = pstmt.executeQuery();
@@ -133,15 +136,24 @@ public class sugangQnaDAO {
 		String sql;
 
 		try {
+			/*
 			sql = "select le.classname, TO_CHAR(startdate, 'YYYY-MM-DD') startdate, TO_CHAR(enddate, 'YYYY-MM-DD') enddate, m.username, le.classNum2, en.classnum, en.userid\r\n"
 					+ "from enrolment en\r\n" + "JOIN lecture le ON en.classNum2 = le.classNum2\r\n"
 					+ "JOIN member m ON le.userid = m.userid\r\n" + "ORDER BY le.classNum2 DESC";
-
+			*/
+			
+			sql = "select className\r\n"
+					+ "from lecture OFFSET ? ROWS FETCH FIRST ? ROWS ONLY";
+			
 			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, offset);
+			pstmt.setInt(2, size);
 
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
+				/*
 				sugangQnaDTO dto = new sugangQnaDTO();
 				dto.setClassName(rs.getString("classname")); // 강좌 이름
 				dto.setStartDate(rs.getString("startdate")); // 시작 날짜
@@ -150,6 +162,10 @@ public class sugangQnaDAO {
 				dto.setLectureNumber(rs.getLong("classNum2")); // 강좌 번호
 				dto.setClassNum(rs.getLong("classnum")); // 수강 번호
 				dto.setQ_userId(rs.getString("userid")); // 학생 아이디
+				*/
+				
+				sugangQnaDTO dto = new sugangQnaDTO();
+				dto.setClassName(rs.getString("className"));
 
 				listSugangLecture.add(dto);
 			}
@@ -171,21 +187,28 @@ public class sugangQnaDAO {
 		String sql;
 
 		try {
+			/*
 			sql = "select le.classname, TO_CHAR(startdate, 'YYYY-MM-DD') startdate, TO_CHAR(enddate, 'YYYY-MM-DD') enddate, m.username, le.classNum2, en.classnum, en.userid\r\n"
 					+ "from enrolment en\r\n"
 					+ "join lecture le on en.classNum2 = le.classNum2\r\n"
 					+ "join member m on le.userid = m.userid\r\n"
 					+ "where le.userid = ?\r\n"
-					+ "order by le.classnum2 desc";
+					+ "order by le.classnum2 desc OFFSET ? ROWS FETCH FIRST ? ROWS ONLY";
+			*/
+			sql = "select className\r\n"
+					+ "from lecture\r\n"
+					+ "where userId = ? OFFSET ? ROWS FETCH FIRST ? ROWS ONLY ";
 
 			pstmt = conn.prepareStatement(sql);
 			
 			pstmt.setString(1, teacher);
-
+			pstmt.setInt(2, offset);
+			pstmt.setInt(3, size);
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
 				sugangQnaDTO dto = new sugangQnaDTO();
+				/*
 				dto.setClassName(rs.getString("classname")); // 강좌 이름
 				dto.setStartDate(rs.getString("startdate")); // 시작 날짜
 				dto.setEndDate(rs.getString("enddate")); // 종료 날짜
@@ -193,7 +216,8 @@ public class sugangQnaDAO {
 				dto.setLectureNumber(rs.getLong("classNum2")); // 강좌 번호
 				dto.setClassNum(rs.getLong("classnum")); // 수강 번호
 				dto.setQ_userId(rs.getString("userid")); // 학생 아이디
-
+				*/
+				dto.setClassName(rs.getString("className"));
 				listSugangLecture.add(dto);
 			}
 
