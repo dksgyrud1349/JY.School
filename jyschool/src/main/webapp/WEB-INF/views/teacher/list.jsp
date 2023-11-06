@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>spring</title>
+<title>준영스쿨 코딩 공식 사이트 | 코딩은 역시 준영스쿨</title>
 <jsp:include page="/WEB-INF/views/layout/staticHeader.jsp" />
 <style type="text/css">
 .body-main {
@@ -71,7 +71,7 @@
 .caption {
 	width: inherit;
 	height: inherit;
-	background-color: rgba(0, 0, 0, 0.3);
+	background-color: rgba(0, 0, 0, 0.7);
 	position: absolute;
 	top: 0;
 	left: 0;
@@ -148,7 +148,6 @@
 				</div>
 
 			</div>
-		</div>
 	</main>
 
 	<footer>

@@ -8,7 +8,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>spring</title>
+<title>준영스쿨 코딩 공식 사이트 | 코딩은 역시 준영스쿨</title>
 <style type="text/css">
     /* slider */
     .slider__wrap {
@@ -126,7 +126,7 @@
             <div class="slider__img">
                 <div class="slider__inner">
                     <div class="slider" role="group" aria-label="1/5"><img src="${pageContext.request.contextPath}/img/l준영.png" alt="이미지1"></div>
-                    <div class="slider" role="group" aria-label="2/5"><img src="${pageContext.request.contextPath}/img/l준영.png" alt="이미지2"></div>
+                    <div class="slider" role="group" aria-label="2/5"><img src="${pageContext.request.contextPath}/img/main_page2.png" alt="이미지2"></div>
                     <div class="slider" role="group" aria-label="3/5"><img src="${pageContext.request.contextPath}/img/sec012.jpg" alt="이미지3"></div>
                     <div class="slider" role="group" aria-label="4/5"><img src="../assets/img/effect_bg09-min.jpg" alt="이미지4"></div>
                     <div class="slider" role="group" aria-label="5/5"><img src="../assets/img/effect_bg10-min.jpg" alt="이미지5"></div>
