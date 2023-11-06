@@ -109,9 +109,6 @@
 						<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/sugang/list.do';" title="이전으로">강좌목록 <i class="fa-solid fa-arrow-rotate-right"></i></button>
 					</td>
 					
-					<td width="100">
-						<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/beforeqna/list.do?classNum2=${dto.classNum2}';" title="QNA">QNA</button>
-					</td>
 					
 						<td width="100" style="float: right; margin-right: -85px;">
 								<c:if test="${sessionScope.member.userId==dto.userId}">
