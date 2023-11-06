@@ -133,7 +133,7 @@
 					<c:forEach var="dto" items="${list}">
 						<li class="item ">
 							<img
-								src="${pageContext.request.contextPath}/uploads/photo/${dto.tecImg}">
+								src="${pageContext.request.contextPath}/uploads/photo/${dto.tecImg}" style="overflow:hidden;">
 								
 							<div class="caption">
 								<p>${dto.tecRecord }</p>

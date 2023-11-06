@@ -56,7 +56,7 @@ $(document).ready(function(){
     <li><a href="#">후기</a></li>
   </ul>
 </div>
-	<nav style="background-color: #592EFC">
+	<nav style="background-color: #592EFC; z-index: 9999;">
 		<ul class="main-menu" style="background-color: #592EFC">
 			<li><a href="${pageContext.request.contextPath}/">홈</a></li>
 			

@@ -20,11 +20,9 @@
 </header>
 	
 <main>
-
-
-	<div class="container body-container">
-	    <div class="inner-page mx-auto">
-			<img src="${pageContext.request.contextPath}/img/sec012.jpg" alt="My Image" width="1160px" height="auto">
+	<div class="container body-container" style="background-size: cover;">
+	    <div class="inner-page mx-auto" style="padding-top: 0">
+			<img src="${pageContext.request.contextPath}/img/sec012.jpg" alt="My Image" width="100%" height="auto">
 	    </div>
 	</div>
 	<div class="container body-container">

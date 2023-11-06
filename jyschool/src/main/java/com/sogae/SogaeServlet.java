@@ -16,7 +16,6 @@ public class SogaeServlet extends MyServlet {
 	@Override
 	protected void execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		req.setCharacterEncoding("utf-8");
-
 		String uri = req.getRequestURI();
 		if (uri.indexOf("sogae.do") != -1) {
 			hoesasogae(req, resp);
