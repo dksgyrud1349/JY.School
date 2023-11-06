@@ -19,13 +19,14 @@ public class ReviewDAO {
 		String sql;
 		
 		try {
-			sql = "INSERT INTO review(classNum, content, userId, subject )"
-					+ "VALUES (?, ?, ?, ? )";
+			sql = "INSERT INTO review(classNum, content, userId, subject, reg_date)"
+					+ "VALUES (?, ?, ?, ?, SYSDATE )";
 			pstmt = conn.prepareStatement(sql);
 			
 			pstmt.setString(1, dto.getContent());
 			pstmt.setString(2, dto.getUserId());
 			pstmt.setString(3, dto.getSubject());
+			pstmt.setLong(4, dto.getClassNum());
 			
 			pstmt.executeUpdate();
 			
@@ -62,46 +63,52 @@ public class ReviewDAO {
 		return result;
 	}
 	
-	// 게시글 리스트
-	public List<ReviewDTO> listReview(int offset, int size) {
-		List<ReviewDTO> list = new ArrayList<ReviewDTO>();
+	public int dataCount(String schType, String kwd) {
+
+		int result = 0;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		StringBuilder sb = new StringBuilder();
+		String sql;
 		
 		try {
-			sb.append(" SELECT classNum, userId, subject, content ");
-			sb.append(" FROM review r1");
-			sb.append(" JOIN member m1 ON b1.userId=m1.userId");
-			sb.append(" WHERE r1.userId = ? ");
-			sb.append(" ORDER BY classNum DESC");
-			sb.append(" OFFSET ? ROWS FETCH FIRST ? ROWS ONLY ");
-			
-			pstmt = conn.prepareStatement(sb.toString());
-			
-			pstmt.setInt(1, offset);
-			pstmt.setInt(2, size);
-			
-			rs = pstmt.executeQuery();
-			
-			while(rs.next()) {
-				ReviewDTO dto = new ReviewDTO();
-				
-				dto.setClassNum(rs.getLong("classNum"));
-				dto.setUserId(rs.getString("userId"));
-				dto.setSubject(rs.getString("subject"));
-				dto.setContent(rs.getString("content"));
+			sql= "SELECT COUNT(*) FROM review";
+			if(schType.equals("all")) {
+				sql += " WHERE INSTR(subject, ?) >= 1 OR INSTR(content, ?) >= 1";
+			} else if(schType.equals("reg_date")) { 
+				kwd = kwd.replaceAll("(\\-|\\/|\\.)","");
+				sql += " WHERE TO_CHAR(reg_date, 'YYYYMMDD') = ?";
+			} else { 
+				sql += " WHERE INSTR(" + schType + " , ?) >= 1";
 			}
 			
-		} catch (SQLException e) {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, kwd);
+			if(schType.equals("all")) {
+				pstmt.setString(2,  kwd);
+			}
+			
+			
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				result = rs.getInt(1);
+			}
+			
+		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			DBUtil.close(rs);
 			DBUtil.close(pstmt);
 		}
 		
-		return list;
+		
+		return result;
 	}
+	
+	
+	
+	// 게시글 리스트
+	
 	
 	// 게시글 가져오기
 	public ReviewDTO findById(long classnum) {
@@ -137,18 +144,7 @@ public class ReviewDAO {
 		
 		return dto;
 	}
-	public void updateReview(ReviewDTO dto) throws SQLException {
-		PreparedStatement pstmt = null;
-		String sql;
-		
-		try {
-			sql = "UPDATE review SET ";
-		} catch (Exception e) {
-			
-		}
-		
-		
-	}
+
 	
 }
 

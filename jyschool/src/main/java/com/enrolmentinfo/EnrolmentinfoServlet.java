@@ -34,7 +34,7 @@ public class EnrolmentinfoServlet extends MyServlet  {
 		if(uri.indexOf("list.do") != -1) {
 			list(req, resp);
 		} else if(uri.indexOf("list.do") != -1) {
-			article(req, resp);
+		
 		}
 		
 		
@@ -123,8 +123,6 @@ public class EnrolmentinfoServlet extends MyServlet  {
 		//JSP로 포워딩
 		forward(req, resp, "/WEB-INF/views/enrolmentinfo/list.jsp");
 	}
-	protected void article(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		
-	}
+	
 }
 	

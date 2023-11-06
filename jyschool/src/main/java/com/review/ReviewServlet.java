@@ -48,74 +48,7 @@ public class ReviewServlet extends MyServlet {
 	}
 	
 	protected void list(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		// 게시글 리스트
-		ReviewDAO dao = new ReviewDAO();
-		MyUtil util = new MyUtil();
-		String cp = req.getContextPath();
 		
-		try {
-			String page = req.getParameter("page");
-			int current_page = 1;
-			if (page != null) {
-				current_page = Integer.parseInt(page);
-			}
-			String schType = req.getParameter("schType");
-			String kwd = req.getParameter("kwd");
-			if(schType == null) {
-				schType = "all";
-				kwd = "";
-			}
-		
-			// GET 방식이면 디코딩
-			if(req.getMethod().equalsIgnoreCase("GET")) {
-				kwd = URLDecoder.decode(kwd, "utf-8");
-			}
-			
-			int dataCount = 0;
-			
-			int size = 10;
-			int total_page = util.pageCount(dataCount, size);
-			if (current_page > total_page) {
-				current_page = total_page;
-			}
-			
-			int offset = (current_page - 1) * size;
-			if(offset < 0) offset = 0;
-			
-			List<ReviewDTO> list = null;
-			if (kwd.length() == 0) {
-				list = dao.listReview(offset, size);
-			}
-			String query = "";
-			
-			// 페이징
-			String listUrl = cp + "/review/list.do"; // 글리스트주소
-			String articleUrl = cp + "/review/article.do?page="+current_page; // 글보기 주소
-			if(query.length() != 0) {
-				listUrl += "?" + query;
-				articleUrl += "&" + query;
-			}
-			
-			String paging = util.paging(current_page,  total_page,  listUrl);
-			// 
-			
-			// 포워딩할 jsp에 전달할 속성(attribute)
-			req.setAttribute("list", list);
-			req.setAttribute("page", current_page);
-			req.setAttribute("dataCount", dataCount);
-			req.setAttribute("size", size);
-			req.setAttribute("total_page", total_page);
-			req.setAttribute("articleUrl", articleUrl);
-			req.setAttribute("paging", paging);
-			req.setAttribute("schType", schType);
-			req.setAttribute("kwd", kwd);
-			
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		forward(req, resp, "/WEB-INF/views/review/list.jsp");
 	}
 	
 	protected void writeForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -133,14 +66,15 @@ public class ReviewServlet extends MyServlet {
 			ReviewDTO dto = new ReviewDTO();
 			
 			dto.setSubject(req.getParameter("subject"));
-			
+			dto.setUserId(req.getParameter("userId"));
 			dto.setContent(req.getParameter("content"));
 			
-			
+			dao.insertReview(dto);
 		} catch (Exception e) {
 			
 		}
-		
+		String cp = req.getContextPath();
+		resp.sendRedirect(cp + "/review/list.do");
 	}
 	
 	protected void article(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -159,4 +93,5 @@ public class ReviewServlet extends MyServlet {
 		// 삭제
 	}
 	
-}
+	}
+
