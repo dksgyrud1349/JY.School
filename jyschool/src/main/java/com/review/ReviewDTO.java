@@ -5,8 +5,9 @@ public class ReviewDTO {
 	private String userId;	
 	private String subject;
 	private String content;
+	private String reg_date;
 	
-	
+	private String userName;
 	private int boardLikeCount;
 
 	public long getClassNum() {
@@ -41,6 +42,22 @@ public class ReviewDTO {
 		this.content = content;
 	}
 
+	public String getReg_date() {
+		return reg_date;
+	}
+
+	public void setReg_date(String reg_date) {
+		this.reg_date = reg_date;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
 	public int getBoardLikeCount() {
 		return boardLikeCount;
 	}
@@ -49,7 +66,4 @@ public class ReviewDTO {
 		this.boardLikeCount = boardLikeCount;
 	}
 
-	
-	
-	
 }

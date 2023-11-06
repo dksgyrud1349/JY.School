@@ -70,6 +70,7 @@ function searchList() {
 				<tbody>
 					<c:forEach var="dto" items="${list}" varStatus="status">
 						<tr>
+						
 							<td>${dto.classNum2 }</td>
 							<td>${dto.className }</td>
 							<td>${dto.startDate }</td>
