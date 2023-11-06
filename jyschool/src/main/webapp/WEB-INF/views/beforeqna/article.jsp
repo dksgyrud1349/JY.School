@@ -45,11 +45,11 @@
 	font-weight: 600;
 	color: #fff;
 }
-.left-question { background: #0d6efd; }
-.right-question { background: #0d6efd; }
+.left-question { background: #CC9966; }
+.right-question { background: #CC9966; }
 
-.left-answer { background: #198754; }
-.right-answer { background: #198754; }
+.left-answer { background: #9966FF; }
+.right-answer { background: #9966FF; }
 </style>
 
 <c:if test="${sessionScope.member.userId==dto.userId || sessionScope.member.userId=='admin'}">
@@ -115,7 +115,7 @@
 <main>
 	<div class="container body-container">
 	    <div class="body-title">
-			<h2><i class="fa-solid fa-person-circle-question"></i> 질문과 답변 </h2>
+			<h2><i class="fa-solid fa-person-circle-question"></i> QNA </h2>
 	    </div>
 	    
 	    <div class="body-main mx-auto">
@@ -182,7 +182,7 @@
 						</tr>
 						
 						<tr>
-							<td colspan="2" valign="top" height="150">
+							<td colspan="2" valign="top" height="150" style="color : blue">
 								${dto.acontent}
 							</td>
 						</tr>
