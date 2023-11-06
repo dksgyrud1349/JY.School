@@ -275,7 +275,12 @@ public class sugangQnaServlet extends MyServlet {
 		// 글쓰기 폼
 		long classNum = Long.parseLong(req.getParameter("classNum"));
 		
+		HttpSession session = req.getSession();
+		SessionInfo info = (SessionInfo)session.getAttribute("member");
+		String name = info.getUserName();
+		
 		req.setAttribute("classNum", classNum);
+		req.setAttribute("name", name);
 		req.setAttribute("mode", "write");
 
 		forward(req, resp, "/WEB-INF/views/sugangqna/write.jsp");
@@ -381,7 +386,9 @@ public class sugangQnaServlet extends MyServlet {
 				resp.sendRedirect(cp + "/sugangqna/list_ok.do?classNum=" + classNum);
 				return;
 			}
-
+			
+			
+			
 			req.setAttribute("classNum", classNum);
 			req.setAttribute("q_num", q_num);
 			req.setAttribute("dto", dto); // q_num, q_title, q_userId, q_date, q_content, m.username
@@ -424,7 +431,10 @@ public class sugangQnaServlet extends MyServlet {
 				resp.sendRedirect(cp + "/sugangqna/list_ok.do?classNum=" + classNum);
 				return;
 			}
-
+			
+			String name = dto.getQ_userName();
+			
+			req.setAttribute("name", name);
 			req.setAttribute("classNum", classNum);
 			req.setAttribute("q_num", q_num);
 			req.setAttribute("dto", dto); // q_num, q_title, q_userId, q_date, q_content, m.username

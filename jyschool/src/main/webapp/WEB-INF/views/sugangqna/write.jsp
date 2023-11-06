@@ -93,7 +93,7 @@ function sendqna() {
 					<tr> 
 						<td>작성자</td>
 						<td> 
-							<p>${dto.q_userName}</p>
+							<p>${name}</p>
 						</td>
 					</tr>			
 					<tr> 
