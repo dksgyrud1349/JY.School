@@ -64,7 +64,6 @@ function searchList() {
 						<th class="answer">답변여부</th>
 					</tr>
 				</thead>
-				
 				<tbody>
 					<c:forEach var="dto" items="${list}" varStatus="status">
 						<tr>

@@ -222,7 +222,7 @@ public class sugangQnaServlet extends MyServlet {
 		String cp = req.getContextPath();
 
 		try {
-			long classNum = Long.parseLong(req.getParameter("classNum"));
+			long classNum = Long.parseLong(req.getParameter("classNum"));  // 20231000
 
 			String page = req.getParameter("page");
 

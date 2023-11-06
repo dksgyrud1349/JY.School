@@ -109,7 +109,10 @@ public class sugangQnaDAO {
 		String sql;
 
 		try {
-			sql = "select count(*)\r\n" + "from qna\r\n" + "where classnum=?";
+			sql = "select count(*)\r\n"
+					+ "from qna q\r\n"
+					+ "join enrolment en on q.classnum = en.classnum\r\n"
+					+ "where classnum2 = ?";
 			pstmt = conn.prepareStatement(sql);
 
 			pstmt.setLong(1, classNum);
@@ -142,7 +145,7 @@ public class sugangQnaDAO {
 					+ "JOIN member m ON le.userid = m.userid\r\n" + "ORDER BY le.classNum2 DESC";
 			*/
 			
-			sql = "select className\r\n"
+			sql = "select className, classNum2\r\n"
 					+ "from lecture OFFSET ? ROWS FETCH FIRST ? ROWS ONLY";
 			
 			pstmt = conn.prepareStatement(sql);
@@ -166,6 +169,7 @@ public class sugangQnaDAO {
 				
 				sugangQnaDTO dto = new sugangQnaDTO();
 				dto.setClassName(rs.getString("className"));
+				dto.setClassNum(rs.getLong("classNum2"));
 
 				listSugangLecture.add(dto);
 			}
@@ -195,7 +199,7 @@ public class sugangQnaDAO {
 					+ "where le.userid = ?\r\n"
 					+ "order by le.classnum2 desc OFFSET ? ROWS FETCH FIRST ? ROWS ONLY";
 			*/
-			sql = "select className\r\n"
+			sql = "select className, classNum2\r\n"
 					+ "from lecture\r\n"
 					+ "where userId = ? OFFSET ? ROWS FETCH FIRST ? ROWS ONLY ";
 
@@ -218,6 +222,7 @@ public class sugangQnaDAO {
 				dto.setQ_userId(rs.getString("userid")); // 학생 아이디
 				*/
 				dto.setClassName(rs.getString("className"));
+				dto.setClassNum(rs.getLong("classNum2"));
 				listSugangLecture.add(dto);
 			}
 
@@ -445,6 +450,7 @@ public class sugangQnaDAO {
 		String sql;
 
 		try {
+			/*
 			sql = "select q_num, q_content, TO_CHAR(q_date, 'YYYY-MM-DD') q_date, en.classNum, q_title, q_userId, result_state, le.classname, me.username\r\n"
 					+ "from qna q\r\n"
 					+ "join enrolment en on q.classNum = en.classNum\r\n"
@@ -452,7 +458,19 @@ public class sugangQnaDAO {
 					+ "join member me on q_userId = me.userId\r\n"
 					+ "WHERE en.classnum = ? "
 					+ " ORDER BY q_num desc OFFSET ? ROWS FETCH FIRST ? ROWS ONLY ";
-
+			
+			sql = "select q_num, q_content, TO_CHAR(q_date, 'YYYY-MM-DD') q_date, en.classNum, q_title, q_userId, result_state\r\n"
+					+ "from qna q\r\n"
+					+ "join enrolment en on q.classnum = en.classnum\r\n"
+					+ "where en.classnum = ? "
+					+ " OFFSET ? ROWS FETCH FIRST ? ROWS ONLY ";
+			*/
+			
+			sql = "select q_num, q_content, TO_CHAR(q_date, 'YYYY-MM-DD') q_date, en.classNum, q_title, q_userId, result_state, m.username\r\n"
+					+ "from qna q\r\n"
+					+ "join enrolment en on q.classnum = en.classnum\r\n"
+					+ "join member m on q.q_userid = m.userid\r\n"
+					+ "where en.classnum2 = ? OFFSET ? ROWS FETCH FIRST ? ROWS ONLY";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setLong(1, classNum);
 			pstmt.setInt(2, offset);
@@ -470,7 +488,6 @@ public class sugangQnaDAO {
 				dto.setQ_title(rs.getString("q_title"));
 				dto.setQ_userId(rs.getString("q_userId"));
 				dto.setResult_state(rs.getString("result_state"));
-				dto.setClassName(rs.getString("classname"));
 				dto.setQ_userName(rs.getString("username"));
 
 				list.add(dto);
@@ -492,7 +509,7 @@ public class sugangQnaDAO {
 		String sql;
 		try {
 			sql = "select classNum, le.className\r\n" + "from enrolment en\r\n"
-					+ "JOIN LECTURE le ON en.classNum2 = le.classNum2\r\n" + "WHERE en.classNum = ?";
+					+ "JOIN LECTURE le ON en.classNum2 = le.classNum2\r\n" + "WHERE en.classNum2 = ?";
 			pstmt = conn.prepareStatement(sql);
 
 			pstmt.setLong(1, classNum);
