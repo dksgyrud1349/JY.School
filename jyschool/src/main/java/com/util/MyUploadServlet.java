@@ -25,10 +25,9 @@ import javax.servlet.http.Part;
 )
 public abstract class MyUploadServlet extends HttpServlet {
 	private static final long serialVersionUID = 2L;
-	
+
 	protected static final String VIEW_PREFIX = "/WEB-INF/views/";
-
-
+	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		execute(req, resp);
@@ -46,6 +45,7 @@ public abstract class MyUploadServlet extends HttpServlet {
 		RequestDispatcher rd = req.getRequestDispatcher(path);
 		rd.forward(req, resp);
 	}
+	
 	protected void viewPage(HttpServletRequest req, HttpServletResponse resp, String uri) throws ServletException, IOException {
 		// 리다이렉트 또는 포워딩
 		if(uri.startsWith("redirect:")) {

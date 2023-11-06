@@ -163,12 +163,12 @@ nav ul, nav li {
     font-size: 24px;
     min-width: 300px;
     font-family:"Malgun Gothic", "맑은 고딕", NanumGothic, 나눔고딕, 돋움, sans-serif;
-    color: #592EFC;
+    color: #023b6d;
     font-weight: 700;
     padding-bottom: 10px;
     display: inline-block;
     margin: 0 0 -7px 0;
-    border-bottom: 3px solid #592EFC;
+    border-bottom: 3px solid #002e5b;
 }
 
 .body-main {

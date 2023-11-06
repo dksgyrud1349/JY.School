@@ -86,19 +86,7 @@ function searchList() {
 					<td width="100">
 						<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/enrolmentinfo/list.do';" title="새로고침"><i class="fa-solid fa-arrow-rotate-right"></i></button>
 					</td>
-					<td align="center">
-						<form name="searchForm" action="${pageContext.request.contextPath}/enrolmentinfo/list.do" method="post">
-							<select name="schType" class="form-select">
-								<option value="all"      ${schType=="all"?"selected":"" }>제목+내용</option>
-								<option value="userName" ${schType=="userName"?"selected":"" }>작성자</option>
-								<option value="reg_date"  ${schType=="reg_date"?"selected":"" }>등록일</option>
-								<option value="subject"  ${schType=="subject"?"selected":"" }>제목</option>
-								<option value="content"  ${schType=="content"?"selected":"" }>내용</option>
-							</select>
-							<input type="text" name="kwd" value="${kwd}" class="form-control">
-							<button type="button" class="btn" onclick="searchList();">검색</button>
-						</form>
-					</td>
+					
 					<td align="right" width="100">
 					</td>
 				</tr>

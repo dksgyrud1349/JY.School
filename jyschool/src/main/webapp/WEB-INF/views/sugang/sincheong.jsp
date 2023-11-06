@@ -108,6 +108,8 @@
 					<td width="100">
 						<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/sugang/list.do';" title="이전으로">강좌목록 <i class="fa-solid fa-arrow-rotate-right"></i></button>
 					</td>
+					
+					
 						<td width="100" style="float: right; margin-right: -85px;">
 								<c:if test="${sessionScope.member.userId==dto.userId}">
 									<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/sugang/update.do?classNum=${dto.classNum}&page=${page}';" title="수정">수정하기</button>

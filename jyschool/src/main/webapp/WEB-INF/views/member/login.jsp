@@ -6,18 +6,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>준영스쿨 코딩 공식 사이트 | 코딩은 역시 준영스쿨</title>
+<title>spring</title>
 
 <jsp:include page="/WEB-INF/views/layout/staticHeader.jsp"/>
 
 <style type="text/css">
-@font-face {
-    font-family: 'JalnanGothic';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_231029@1.1/JalnanGothic.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-}
-
 .members-form { max-width: 360px; margin: 0 auto; background: #fefeff; padding: 30px 25px; box-shadow: 0 0 15px 0 rgb(2 59 109 / 10%); }
 .members-form .row { margin-bottom: 1.5rem; }
 .members-form label { display: block; font-weight: 500; margin-bottom: 0.5rem; font-family: Verdana, sans-serif; }
@@ -28,7 +21,7 @@
 .members-message p { color: #023b6d; }
 
 .text-center { text-align: center; }
-.font{font-family: JalnanGothic;}
+
 </style>
 
 <script type="text/javascript">
@@ -57,19 +50,22 @@ function sendLogin() {
 </head>
 <body>
 
+<header>
+    <jsp:include page="/WEB-INF/views/layout/header.jsp"></jsp:include>
+</header>
 	
-<main style="background-color: ">
+<main>
 	<div class="container body-container">
-		<div class="body-title" >
-			<h2><i class="fa-solid fa-l" ></i> JunYeong Members </h2>
+		<div class="body-title">
+			<h2><i class="fa-solid fa-lock"></i> Members Login </h2>
 		</div>
 		
 		<div class="body-main">
 			<div style="margin: 0 -15px 50px -15px"></div>
 			<form name="loginForm" method="post">
 				<div class="members-form">
-					<div class="row text-center font">
-						<h2>지금 준영스쿨과 함께<br>세계 언어를 마스터하세요!</h2>
+					<div class="row text-center">
+						<i class="fa-solid fa-lock" style="font-size: 37px; color: #023b6d;"></i>
 					</div>
 					<div class="row">
 						<label for="login-userId">Your ID</label>
@@ -88,15 +84,7 @@ function sendLogin() {
 						<a href="${pageContext.request.contextPath}/">아이디 찾기</a> <span>|</span>
 						<a href="${pageContext.request.contextPath}/">패스워드 찾기</a>
 					</p>
-					<div class="row text-center">
-						<img src="${pageContext.request.contextPath}/img/kngf-icon.png" alt="My Image" width="320px" height="auto" >
-					</div>
-					
 				</div>
-				<br>
-				<div class="row text-center">
-						<img src="${pageContext.request.contextPath}/img/card.png" alt="My Image" width="400px" height="auto" >
-					</div>
 			</form>
 			<div class="members-message">
 				<p class="text-center">
