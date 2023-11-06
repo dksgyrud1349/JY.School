@@ -141,9 +141,7 @@
                 <div class="slider__inner">
                     <div class="slider" role="group" aria-label="1/5"><img src="${pageContext.request.contextPath}/img/main_page1.png" alt="이미지1"></div>
                     <div class="slider" role="group" aria-label="2/5"><img src="${pageContext.request.contextPath}/img/main_page2.png" alt="이미지2"></div>
-                    <div class="slider" role="group" aria-label="3/5"><img src="${pageContext.request.contextPath}/img/sec012.jpg" alt="이미지3"></div>
-                    <div class="slider" role="group" aria-label="4/5"><img src="../assets/img/effect_bg09-min.jpg" alt="이미지4"></div>
-                    <div class="slider" role="group" aria-label="5/5"><img src="../assets/img/effect_bg10-min.jpg" alt="이미지5"></div>
+                    <div class="slider" role="group" aria-label="3/5"><img src="${pageContext.request.contextPath}/img/main_page3.png" alt="이미지3"></div>
                 </div>
             </div>
             
