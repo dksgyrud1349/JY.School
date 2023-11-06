@@ -51,6 +51,7 @@ public class ReviewServlet extends MyServlet {
 		// 게시글 리스트
 		ReviewDAO dao = new ReviewDAO();
 		MyUtil util = new MyUtil();
+		String cp = req.getContextPath();
 		
 		try {
 			String page = req.getParameter("page");
@@ -58,26 +59,19 @@ public class ReviewServlet extends MyServlet {
 			if (page != null) {
 				current_page = Integer.parseInt(page);
 			}
-			
-			// 검색
 			String schType = req.getParameter("schType");
 			String kwd = req.getParameter("kwd");
-			if (schType == null) {
+			if(schType == null) {
 				schType = "all";
 				kwd = "";
 			}
-			
-			if (req.getMethod().equalsIgnoreCase("GET")) {
+		
+			// GET 방식이면 디코딩
+			if(req.getMethod().equalsIgnoreCase("GET")) {
 				kwd = URLDecoder.decode(kwd, "utf-8");
 			}
-			/*
-			// 전체 데이터 개수
-			int dataCount;
-			if (kwd.length() == 0) {
-				dataCount = dao.dataCount();
-			} else {
-			//	dataCount = dao.dataCount(schType, kwd);
-			}
+			
+			int dataCount = 0;
 			
 			int size = 10;
 			int total_page = util.pageCount(dataCount, size);
@@ -92,25 +86,61 @@ public class ReviewServlet extends MyServlet {
 			if (kwd.length() == 0) {
 				list = dao.listReview(offset, size);
 			}
-			*/
+			String query = "";
+			
+			// 페이징
+			String listUrl = cp + "/review/list.do"; // 글리스트주소
+			String articleUrl = cp + "/review/article.do?page="+current_page; // 글보기 주소
+			if(query.length() != 0) {
+				listUrl += "?" + query;
+				articleUrl += "&" + query;
+			}
+			
+			String paging = util.paging(current_page,  total_page,  listUrl);
+			// 
+			
+			// 포워딩할 jsp에 전달할 속성(attribute)
+			req.setAttribute("list", list);
+			req.setAttribute("page", current_page);
+			req.setAttribute("dataCount", dataCount);
+			req.setAttribute("size", size);
+			req.setAttribute("total_page", total_page);
+			req.setAttribute("articleUrl", articleUrl);
+			req.setAttribute("paging", paging);
+			req.setAttribute("schType", schType);
+			req.setAttribute("kwd", kwd);
 			
 			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		forward(req, resp, "/WEB-INF/views/review/list.jsp");
+	}
+	
+	protected void writeForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// 글쓰기 폼
+		req.setAttribute("mode", "write");
+		
+		forward(req, resp, "/WEB-INF/views/review/write.jsp");
+	}
+	
+	protected void writeSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// 글저장 
+		ReviewDAO dao = new ReviewDAO();
+		
+		try {
+			ReviewDTO dto = new ReviewDTO();
 			
+			dto.setSubject(req.getParameter("subject"));
+			
+			dto.setContent(req.getParameter("content"));
 			
 			
 		} catch (Exception e) {
 			
 		}
 		
-		
-	}
-	
-	protected void writeForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		// 글쓰기 폼
-	}
-	
-	protected void writeSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		// 글저장 
 	}
 	
 	protected void article(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
