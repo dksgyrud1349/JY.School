@@ -49,12 +49,12 @@ public class BuyinfoDAO {
 		String sql;
 		
 		try {
-			sql = " SELECT l1.classNum2, className, startDate, endDate, allpay, payDate, p1.price, "
+			sql = " SELECT l1.classNum2, className, allpay, p1.price, "
 					+ "	TO_CHAR(startDate, 'YYYY-MM-DD') startDate, "
 					+ " TO_CHAR(endDate, 'YYYY-MM-DD') endDate, "
 					+ " TO_CHAR(payDate, 'YYYY-MM-DD') payDate "
 					+ " FROM lecture l1 "
-					+ " JOIN enrolment e1 on l1.classnum2 = l1.classNum2 "
+					+ " JOIN enrolment e1 on l1.classnum2 = e1.classNum2 "
 					+ " JOIN pay p1 ON e1.classnum = p1.classnum "
 					+ " where e1.userid = ? "
 					+ " ORDER BY e1.classNum DESC"

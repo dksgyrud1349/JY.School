@@ -66,7 +66,6 @@ function searchList() {
 						<th class="allpay">결제금액</th>
 					</tr>
 				</thead>
-				
 				<tbody>
 					<c:forEach var="dto" items="${list}" varStatus="status">
 						<tr>
