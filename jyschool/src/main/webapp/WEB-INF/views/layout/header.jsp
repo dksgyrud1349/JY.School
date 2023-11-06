@@ -72,7 +72,7 @@ $(document).ready(function(){
 			
 			<li><a href="#">커뮤니티</a>
 				<ul class="sub-menu">
-					<li><a href='<c:url value="/freedom/guest.do" />' aria-label="submenu">질문게시판</a></li>
+					<li><a href='<c:url value="/freedom/main.do" />' aria-label="submenu">질문게시판</a></li>
 					<li><a href='<c:url value="/reference/list.do" />' aria-label="submenu">자료실</a></li>
 					<li><a href="#" aria-label="submenu">수강후기</a></li>
 				</ul>
