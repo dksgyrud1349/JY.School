@@ -12,25 +12,70 @@
 
 <style type="text/css">
 .body-main {
-	max-width: 700px;
+	max-width: 800px;
+	padding-top: 15px;
 }
 
-.table-list thead > tr:first-child{ background: #f8f8f8; }
-.table-list th, .table-list td { text-align: center; }
-.table-list .left { text-align: left; padding-left: 5px; }
+.table-form td { padding: 7px 0; }
+.table-form p { line-height: 200%; }
+.table-form tr:first-child { border-top: 2px solid #212529; }
+.table-form tr > td:first-child { width: 110px; text-align: center; background: #f8f8f8; }
+.table-form tr > td:nth-child(2) { padding-left: 10px; }
 
-.table-list .num { width: 60px; color: #787878; }
-.table-list .subject { color: #787878; }
-.table-list .name { width: 100px; color: #787878; }
-.table-list .date { width: 100px; color: #787878; }
-.table-list .hit { width: 70px; color: #787878; }
+.table-form input[type=text], .table-form input[type=file], .table-form textarea {
+	width: 96%; }
 </style>
-<script type="text/javascript">
-function searchList() {
-	const f = document.searchForm;
-	f.submit();
-}
 
+<script type="text/javascript">
+function sendLecture() {
+    const f = document.lectureForm;
+	let str;
+	
+    str = f.classNum.value.trim();
+    if(!str) {
+        alert("강좌 번호를 입력하세요.");
+        f.classNum.focus();
+        return;
+    }
+
+    str = f.className.value.trim();
+    if(!str) {
+        alert("강좌 제목을 입력하세요. ");
+        f.className.focus();
+        return;
+    }
+    
+    str = f.classComment.value.trim();
+    if(!str) {
+        alert("강좌 설명을 입력하세요. ");
+        f.classComment.focus();
+        return;
+    }
+    
+    str = f.classComment.value.trim();
+    if(!str) {
+        alert("강좌 설명을 입력하세요. ");
+        f.classComment.focus();
+        return;
+    }
+    
+    str = f.classDegree.value.trim();
+    if(!str) {
+        alert("강좌 등급을 입력하세요. ");
+        f.classDegree.focus();
+        return;
+    }
+    
+    str = f.price.value.trim();
+    if(!str) {
+        alert("강좌 가격을 입력하세요. ");
+        f.price.focus();
+        return;
+    }
+
+    f.action = "${pageContext.request.contextPath}/sugang/${mode}_ok.do";
+    f.submit();
+}
 </script>
 </head>
 <body>
@@ -42,79 +87,84 @@ function searchList() {
 <main>
 	<div class="container body-container">
 	    <div class="body-title">
-			<h2><i class="fas fa-chalkboard-teacher"></i> 강좌목록 </h2>
+			<h2><i class="fas fa-chalkboard-teacher"></i> 강좌 등록 </h2>
 	    </div>
 	    
 	    <div class="body-main mx-auto">
-			<table class="table">
-				<tr>
-					<td width="50%">
-						${dataCount}(${page}/${total_page} 페이지)
-					</td>
-					<td align="right">&nbsp;</td>
-				</tr>
-			</table>
-			
-			<table class="table table-border table-list">
-				<thead>
-					<tr>
-						<th class="num">번호</th>
-						<th class="subject">강의제목</th>
-						<th class="name">강사이름</th>
-						<th class="rank">난이도</th>
-						<th class="date">등록일</th>
-						<th class="price">가격</th>
-					</tr>
-				</thead>
+			<form name="lectureForm" enctype="multipart/form-data" method="post">
+				<table class="table table-border table-form">
 				
-				<tbody>
-					<c:forEach var="dto" items="${list}" varStatus="status">
-						<tr>
-							<td>${dataCount - (page - 1) * size - status.index}</td>
-							<td class="left">
-								<c:forEach var="n" begin="1" end="${dataCount}">&nbsp;&nbsp;</c:forEach>
-								<input type="hidden" name="classNum" value="${dto.classNum}">
-								<a href="${pageContext.request.contextPath}/sugang/list_ok.do?page=${page}&classNum=${dto.classNum}">${dto.className}</a>
-							</td>
-							<td>${dto.username}</td>
-							<td>${dto.classDegree}</td>
-							<td>${dto.c_reg_date}</td>
-							<td>${dto.price }</td>
-						</tr>
-					</c:forEach>
-				</tbody>
-			</table>
-			
-			<div class="page-navigation">
-				${dataCount == 0 ? "등록된 강좌가 없습니다." : paging}
-			</div>
-			
-			<table class="table">
-				<tr>
-					<td width="100">
-						<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/sugang/list.do';" title="새로고침"><i class="fa-solid fa-arrow-rotate-right"></i></button>
-					</td>
-					<td align="center">
-						<form name="searchForm" action="${pageContext.request.contextPath}/sugang/list.do" method="post">
-							<select name="schType" class="form-select">
-								<option value="all"      ${schType=="all"?"selected":"" }>제목+내용</option>
-								<option value="userName" ${schType=="username"?"selected":"" }>강사</option>
-								<option value="c_reg_date"  ${schType=="c_reg_date"?"selected":"" }>등록일</option>
-								<option value="className"  ${schType=="className"?"selected":"" }>강좌이름</option>
-							</select>
-							<input type="text" name="kwd" value="${kwd}" class="form-control">
-							<button type="button" class="btn" onclick="searchList();">검색</button>
-						</form>
-					</td>
-					<c:forEach var="tdto" items="${teacherList}">
-						<c:if test="${sessionScope.member.userId==tdto.userId}">
-							<td align="right" width="100">
-								<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/sugang/insert.do';">강좌업로드</button>
-							</td>
+					<tr> 
+						<td>강좌 번호</td>
+						<td> 
+							<input type="text" name="classNum" maxlength="100" class="form-control" value="${dto.classNum}">
+						</td>
+					</tr>
+					
+					<tr> 
+						<td>강좌 제목</td>
+						<td> 
+							<input type="text" name="className" maxlength="100" class="form-control" value="${dto.className}">
+						</td>
+					</tr>
+					
+					<tr> 
+						<td>강사</td>
+						<td> 
+							<p>${sessionScope.member.userName}</p>
+							<input type="hidden" name="userId" value="${sessionScope.member.userId}">
+						</td>
+					</tr>
+					
+					<tr> 
+						<td valign="top">강좌 설명</td>
+						<td>
+							<textarea name="classComment" class="form-control">${dto.classComment}</textarea>
+						</td>
+					</tr>
+					
+					<tr> 
+						<td>강좌 등급</td>
+						<td> 
+							<input type="text" name="classDegree" maxlength="100" class="form-control" value="${dto.classDegree}">
+						</td>
+					</tr>
+					
+					<tr> 
+						<td>가격</td>
+						<td> 
+							<input type="text" name="price" maxlength="100" class="form-control" value="${dto.price}">
+						</td>
+					</tr>
+					
+					<tr> 
+						<td>강좌메인사진</td>
+						<td> 
+							<input type="file" name="selectFile1" accept="image/*" multiple class="form-control">${file.imageFilename1}
+						</td>
+					</tr>
+					
+					<tr> 
+						<td>강좌설명사진</td>
+						<td> 
+							<input type="file" name="selectFile2" accept="image/*" multiple class="form-control">${file.imageFilename2}
+						</td>
+					</tr>
+				</table>
+					
+				<table class="table">
+					<tr> 
+						<td align="center">
+							<button type="button" class="btn" onclick="sendLecture();">${mode=='update' ? '수정완료' : '등록완료'}</button>
+							<button type="reset" class="btn">다시입력</button>
+							<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/sugang/list.do';">${mode=='update'?'수정취소':'등록취소'}</button>
+						<c:if test="${mode =='update'}">
+							<input type="hidden" name="page" value="${page}">
 						</c:if>
-					</c:forEach>
-				</tr>
-			</table>	
+						</td>
+					</tr>
+				</table>
+			</form>
 	    </div>
 	</div>
 </main>
