@@ -99,7 +99,7 @@ function deleteGuest(num) {
 				<div class="guest-form">
 					<div class="form-header">
 						<span class="bold">후기 작성</span><span> - 후기 한번 야무지게 작성해 보세요~</span>
-						<span class="bold">수강 후에 등록 가능해요~</span><span></span>
+						<span class="bold">수강 종료후에 등록 가능해요~</span><span></span>
 						
 					</div>
 					<div class="form-body">

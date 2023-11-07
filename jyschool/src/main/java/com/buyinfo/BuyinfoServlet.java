@@ -15,6 +15,7 @@ import com.util.MyUtil;
 
 @WebServlet("/buyinfo/*")
 public class BuyinfoServlet extends MyServlet {
+	
 	private static final long serialVersionUID = 1L;
 
 	@Override

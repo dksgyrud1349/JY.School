@@ -9,7 +9,7 @@ public class BuyinfoDTO {
 	private String endDate;
 	private String payDate;
 	private long price;   
-	private long allpay;
+	private long allpay; 
 	
 	public long getClassNum2() {
 		return classNum2;

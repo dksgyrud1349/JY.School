@@ -9,7 +9,7 @@ import java.util.List;
 import com.util.DBConn;
 import com.util.DBUtil;
 
-public class BuyinfoDAO {
+public class BuyinfoDAO { 
 	private Connection conn = DBConn.getConnection();
 	
 	// 전체 데이터 개수
