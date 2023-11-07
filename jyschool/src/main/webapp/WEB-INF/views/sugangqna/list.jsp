@@ -72,7 +72,7 @@ function searchList() {
 							<td class="left">
 								<a href="${pageContext.request.contextPath}/sugangqna/list_ok.do?classNum=${dto.classNum}">${dto.className}</a>
 							</td>
-							<td>${sessionScope.member.userName}</td>
+							<td>${dto.teacherName}</td>
 							<td>${dto.startDate}</td>
 							<td>${dto.endDate}</td>
 						</tr>

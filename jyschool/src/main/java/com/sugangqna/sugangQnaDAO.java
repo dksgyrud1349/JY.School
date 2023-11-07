@@ -145,9 +145,20 @@ public class sugangQnaDAO {
 					+ "JOIN member m ON le.userid = m.userid\r\n" + "ORDER BY le.classNum2 DESC";
 			*/
 			
-			sql = "select className, classNum2\r\n"
+			/*
+			sql = "select className, classNum2, userId\r\n"
 					+ "from lecture OFFSET ? ROWS FETCH FIRST ? ROWS ONLY";
+			*/
 			
+			/*
+			sql = "select className, classNum2, m.username\r\n"
+					+ "from lecture le\r\n"
+					+ "join member m on le.userId = m.userId\r\n"
+					+ "where le.userId = ? OFFSET ? ROWS FETCH FIRST ? ROWS ONLY";
+			*/
+			sql = "select className, classNum2, m.username\r\n"
+					+ "from lecture le\r\n"
+					+ "join member m on le.userId = m.userId offset ? rows fetch first ? rows only";
 			pstmt = conn.prepareStatement(sql);
 			
 			pstmt.setInt(1, offset);
@@ -170,6 +181,7 @@ public class sugangQnaDAO {
 				sugangQnaDTO dto = new sugangQnaDTO();
 				dto.setClassName(rs.getString("className"));
 				dto.setClassNum(rs.getLong("classNum2"));
+				dto.setTeacherName(rs.getString("username"));
 
 				listSugangLecture.add(dto);
 			}
@@ -199,9 +211,17 @@ public class sugangQnaDAO {
 					+ "where le.userid = ?\r\n"
 					+ "order by le.classnum2 desc OFFSET ? ROWS FETCH FIRST ? ROWS ONLY";
 			*/
-			sql = "select className, classNum2\r\n"
+			
+			/*
+			sql = "select className, classNum2, userId\r\n"
 					+ "from lecture\r\n"
 					+ "where userId = ? OFFSET ? ROWS FETCH FIRST ? ROWS ONLY ";
+			*/
+			
+			sql = "select className, classNum2, m.username\r\n"
+					+ "from lecture le\r\n"
+					+ "join member m on le.userId = m.userId\r\n"
+					+ "where le.userId = ? OFFSET ? ROWS FETCH FIRST ? ROWS ONLY";
 
 			pstmt = conn.prepareStatement(sql);
 			
@@ -223,6 +243,7 @@ public class sugangQnaDAO {
 				*/
 				dto.setClassName(rs.getString("className"));
 				dto.setClassNum(rs.getLong("classNum2"));
+				dto.setTeacherName(rs.getString("username"));
 				listSugangLecture.add(dto);
 			}
 
