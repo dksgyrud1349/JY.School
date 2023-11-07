@@ -76,7 +76,7 @@ public class ReviewServlet extends MyServlet {
 			String strUrl = cp + "/review/main.do";
 			String paging = util.paging(current_page, total_page, strUrl);
 			
-			// 포워딩할 jsp에 전달할 속성(attribute)
+			// 포워딩할 jsp에 전달할 속성(attribute).
 			req.setAttribute("list", list);
 			req.setAttribute("page", current_page);
 			req.setAttribute("total_page", total_page);
@@ -106,10 +106,10 @@ public class ReviewServlet extends MyServlet {
 			
 	      try {
 	         ReviewDTO dto = new ReviewDTO();
-	         
-	         // 로그인 정보 (아이디) 
+	        
 	         dto.setUserId(info.getUserId());
 	         dto.setContent(req.getParameter("content"));
+	         dto.setSubject(req.getParameter("subject"));
 
 	         dao.insertGuest(dto);
 	      } catch (Exception e) {

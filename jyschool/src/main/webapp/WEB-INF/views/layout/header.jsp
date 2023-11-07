@@ -53,7 +53,7 @@ $(document).ready(function(){
   <ul>
     <li><a href="${pageContext.request.contextPath}/enrolmentinfo/list.do">수강목록</a></li>
     <li><a href="${pageContext.request.contextPath}/notice/list.do">공지사항</a></li>
-    <li><a href="#">후기</a></li>
+    <li><a href="${pageContext.request.contextPath}/review/main.do">후기</a></li>
   </ul>
 </div>
 	<nav style="background-color: #592EFC; z-index: 9999;">

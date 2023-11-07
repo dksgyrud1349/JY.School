@@ -18,13 +18,18 @@ public class ReviewDAO {
 		String sql;
 		
 		try {
-			sql = "INSERT INTO Review(classNum, content, userId, subject, reg_date) VALUES(?, ?, ?, ?, SYSDATE) ";
+			sql = "INSERT INTO review(classNum, content, userId, subject, reg_date) VALUES(?, ?, ?, ?, SYSDATE) ";
 			pstmt = conn.prepareStatement(sql);
 			
-			pstmt.setString(1, dto.getUserId());
+			pstmt.setLong(1, dto.getClassNum());
 			pstmt.setString(2, dto.getContent());
-			pstmt.setString(3, dto.getSubject());
+			pstmt.setString(3, dto.getUserId());
 			
+			 if (dto.getSubject() == null) {
+		            pstmt.setString(4, "Unknown"); 
+		        } else {
+		            pstmt.setString(4, dto.getSubject());
+		        }
 			pstmt.executeUpdate();
 			
 		} catch (SQLException e) {

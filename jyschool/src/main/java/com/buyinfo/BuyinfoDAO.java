@@ -20,7 +20,11 @@ public class BuyinfoDAO {
 		String sql;
 		
 		try {
-			sql = "SELECT COUNT(*) FROM enrolment WHERE userId=? ";
+			sql = "SELECT COUNT(*)  "
+				+ " FROM lecture l1 "
+				+ " JOIN enrolment e1 on l1.classnum2 = e1.classNum2 "
+				+ " JOIN pay p1 ON e1.classnum = p1.classnum "
+				+ " where e1.userid = ? ";
 					
 			pstmt = conn.prepareStatement(sql);
 			

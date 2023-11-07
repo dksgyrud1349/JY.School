@@ -18,6 +18,8 @@
 .table-list thead > tr:first-child{ background: #f8f8f8; }
 .table-list th, .table-list td { text-align: center; }
 .table-list .left { text-align: left; padding-left: 5px; }
+.guest-form button { padding: 8px 25px; }
+
 
 .table-list .num { width: 60px; color: #787878; }
 .table-list .subject { color: #787878; }
@@ -26,6 +28,14 @@
 .table-list .hit { width: 70px; color: #787878; }
 </style>
 <script type="text/javascript">
+
+function sendenrolmentinfo() {
+	const uid = "${sessionScope.member.userId}";
+	if(! uid) {
+		location.href = "${pageContext.request.contextPath}/member/login.do";
+		return;
+	}
+	
 function searchList() {
 	const f = document.searchForm;
 	f.submit();
@@ -61,6 +71,7 @@ function searchList() {
 						<th class="startDate">강의시작일자</th>
 						<th class="endDate">강의만료일자</th>
 						<th class="classNum2">강좌번호</th>
+						<th> 수강 후기 </th>
 					</tr>
 				</thead>
 				
@@ -72,6 +83,7 @@ function searchList() {
 							<td>${dto.startDate}</td>
 							<td>${dto.endDate}</td>
 							<td>${dto.classNum2 }</td>
+							<td> <button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/review/main.do';" title="후기등록">후기등록</button> </td>
 						</tr>
 					</c:forEach>
 				</tbody>
