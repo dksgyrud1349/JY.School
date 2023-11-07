@@ -51,8 +51,8 @@ $(document).ready(function(){
 	</div>
 <div class="quickmenu">
   <ul>
-    <li><a href="#">등급별혜택</a></li>
-    <li><a href="#">1:1문의</a></li>
+    <li><a href="${pageContext.request.contextPath}/enrolmentinfo/list.do">수강목록</a></li>
+    <li><a href="${pageContext.request.contextPath}/notice/list.do">공지사항</a></li>
     <li><a href="#">후기</a></li>
   </ul>
 </div>

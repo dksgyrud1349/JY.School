@@ -50,12 +50,12 @@
         color: #fff;
         padding: 5px 10px;
     }
-    .slider:nth-child(1)::before {content: '이미지1';}
-    .slider:nth-child(2)::before {content: '이미지2';}
-    .slider:nth-child(3)::before {content: '이미지3';}
-    .slider:nth-child(4)::before {content: '이미지4';}
-    .slider:nth-child(5)::before {content: '이미지5';}
-    .slider:nth-child(6)::before {content: '이미지1';}
+    .slider:nth-child(1)::before {}
+    .slider:nth-child(2)::before {}
+    .slider:nth-child(3)::before {}
+    .slider:nth-child(4)::before {}
+    .slider:nth-child(5)::before {}
+    .slider:nth-child(6)::before {}
 
     @media (max-width: 800px) {
         .slider__img {
@@ -146,8 +146,8 @@
             </div>
             
             <div class="slider__btn">
-                <a href="#" class="prev" role="button" aria-label="왼쪽 이미지">prev</a>
-                <a href="#" class="next" role="button" aria-label="오른쪽 이미지">next</a>
+                <a href="#" class="prev" role="button" aria-label="왼쪽 이미지"><</a>
+                <a href="#" class="next" role="button" aria-label="오른쪽 이미지">></a>
             </div>
             <div class="slider__dot">
                 <!-- <a href="#" class="dot active">이미지1</a>
@@ -161,12 +161,12 @@
 
 	<div class="container body-container">
 	    <div class="inner-page mx-auto">
-			<img src="${pageContext.request.contextPath}/img/sec012.jpg" alt="My Image" width="1160px" height="auto">
+			<img src="${pageContext.request.contextPath}/img/intro.png" alt="My Image" width="1160px" height="auto">
 	    </div>
 	</div>
 	<div class="container body-container">
 	    <div class="inner-page mx-auto">
-			<img src="${pageContext.request.contextPath}/img/intro.png" alt="My Image" >
+			<img src="${pageContext.request.contextPath}/img/main_page_last.png" alt="My Image" width="1160px" height="auto">
 			<a href="https://kr.freepik.com/free-photo/happy-asian-man-touching-chin-and-looking-at-camera_4010203.htm#query=%ED%95%9C%EA%B5%AD%EC%9D%B8&position=1&from_view=keyword&track=sph">작가 katemangostar</a> 출처 Freepik
 	    </div>
 	</div>
